@@ -1,64 +1,39 @@
-package com.software.kefa.repository.modelo;
+package com.software.kefa.service.modelosto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-
-
-@Entity
-@Table(name = "usuario")
-public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
-    @SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario", allocationSize = 1)
-    @Column(name = "usua_id")
-    private Integer id;
-
-    @Column(name = "usua_nickname")
+public class UsuarioRegistroTO {
     private String nickname;
-
-    @Column(name = "usua_nombre")
     private String nombre;
-
-    @Column(name = "usua_apellido")
     private String apellido;
-
-    @Column(name = "usua_cedula")
     private String cedula;
-
-    @Column(name = "usua_genero")
     private String genero;
-
-    @Column(name = "usua_telefono")
     private String telefono;
-
-    @Column(name = "usua_correo_electronico")
     private String correoElectronico;
-
-    @Column(name = "usua_contrasenia")
     private String constrasenia;
-
-    @Column(name = "usua_pregunta_uno")
     private String preguntaUno;
-
-    @Column(name = "usua_pregunta_dos")
     private String preguntaDos;
-
-    @Column(name = "usua_pregunta_tres")
     private String preguntaTres;
-
-    @Column(name = "usua_rol")
     private String rol;
 
-    @OneToOne
-    @JoinColumn(name = "usua_id_cliente")
-    private Cliente cliente;
+    public UsuarioRegistroTO (){
+        
+    }
+
+    public UsuarioRegistroTO(String nickname, String nombre, String apellido, String cedula, String genero,
+            String telefono, String correoElectronico, String constrasenia, String preguntaUno, String preguntaDos,
+            String preguntaTres, String rol) {
+        this.nickname = nickname;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.cedula = cedula;
+        this.genero = genero;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.constrasenia = constrasenia;
+        this.preguntaUno = preguntaUno;
+        this.preguntaDos = preguntaDos;
+        this.preguntaTres = preguntaTres;
+        this.rol = rol;
+    }
 
     public String getNickname() {
         return nickname;
@@ -108,6 +83,14 @@ public class Usuario {
         this.telefono = telefono;
     }
 
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
+
     public String getConstrasenia() {
         return constrasenia;
     }
@@ -148,28 +131,6 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
-
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
-    }
+    
 
 }
