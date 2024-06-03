@@ -1,172 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Actualizar Datos</title>
+    <title>Actualizar Perfil</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        h1 {
-            color: #009975;
-            text-align: center;
-            font-family: 'Arial Black', sans-serif;
-            margin-bottom: 20px;
-        }
-
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 600px;
-            box-sizing: border-box;
-        }
-
-        table {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        label {
-            font-weight: bold;
-            color: #333;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        input[type="text"]:focus {
-            border-color: #53B0AE;
-            outline: none;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #50c878;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #009975;
-        }
-
-        /* Color Palette */
-        .turquesa-light {
-            color: #30d5c8;
-        }
-
-        .turquesa-medium {
-            color: #53B0AE;
-        }
-
-        .turquesa-dark {
-            color: #40E0D0;
-        }
-
-        .esmeralda-light {
-            color: #50c878;
-        }
-
-        .esmeralda-medium {
-            color: #009975;
-        }
-
-        .esmeralda-dark {
-            color: #45be76;
-        }
-
-        .menta {
-            color: #ADF0D3;
-        }
-
-        .aguamarina {
-            color: #7FFFD4;
-        }
-
-        .verde-mar {
-            color: #98FB98;
-        }
-
-        .white {
-            color: #fff;
-        }
-
-        .black {
-            color: #000;
-        }
-
-        .gray-medium {
-            color: #6c757d;
-        }
-
-        .gray-dark {
-            color: #343a40;
-        }
     </style>
 </head>
-
 <body>
-    <h1>Actualizar Datos</h1>
-    <form th:action="@{/kefa/modificar}" th:object="${usuarioRegistroTO}" th:method="PUT">
-        <table>
-            <tr>
-                <td><label>Nombre:</label></td>
-                <td><input type="text" th:field="${usuarioRegistroTO.nombre}"></td>
+    <h1>Actualización de Información</h1>
+    <form>
+		<table>
+			<tr>
+                <td><label>Usuario:</label></td>
+                <td><input type="text" th:field="${usuarioRegistroTO.nickname}"></td>
             </tr>
             <tr>
-                <td><label>Apellido:</label></td>
-                <td><input type="text" th:field="${usuarioRegistroTO.apellido}"></td>
+                <td><label>Contraseña:</label></td>
+                <td><input type="password" th:field="${usuarioRegistroTO.constrasenia}"></td>
             </tr>
-            <tr>
-                <td><label>Cedula:</label></td>
-                <td><input type="text" th:field="${usuarioRegistroTO.cedula}"></td>
-            </tr>
-            <tr>
-                <td><label>Género:</label></td>
-                <td><input type="text" th:field="${usuarioRegistroTO.genero}"></td>
-            </tr>
-            <tr>
-                <td><label>Telefono:</label></td>
-                <td><input type="text" th:field="${usuarioRegistroTO.telefono}"></td>
-            </tr>
-            <tr>
-                <td><label>Correo electrónico:</label></td>
-                <td><input type="text" th:field="${usuarioRegistroTO.correoElectronico}"></td>
-            </tr>
-        </table>
-        <button type="submit">Actualizar</button>
-    </form>
-</body>
+		</table>
+		<button type="submit">ACCION</input>
 
+	</form>
+
+
+</body>
 </html>

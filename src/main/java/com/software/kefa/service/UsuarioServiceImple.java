@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.software.kefa.excepcion.UsuarioExisteExcepcion;
-import com.software.kefa.repository.UsuarioRepositoryImpl;
+import com.software.kefa.repository.IRolRepository;
+import com.software.kefa.repository.IUsuarioRepository;
+import com.software.kefa.repository.modelo.Rol;
+import com.software.kefa.repository.modelo.Ubicacion;
 import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.modelosto.UsuarioRegistroTO;
 
@@ -16,7 +19,10 @@ import jakarta.transaction.Transactional.TxType;
 @Service
 public class UsuarioServiceImple implements IUsuarioService {
     @Autowired
-    private UsuarioRepositoryImpl repositoryImpl;
+    private IUsuarioRepository repositoryImpl;
+
+    @Autowired
+    private IRolRepository rolRepositoryImpl;
 
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
@@ -26,13 +32,17 @@ public class UsuarioServiceImple implements IUsuarioService {
         String cedula = usuarioTO.getCedula();
         String nickname = usuarioTO.getNickname();
 
-        Usuario usuario = new Usuario();
+        Usuario usuario = null;
+        Ubicacion ubicacion = new Ubicacion();
 
-        if (this.existeUsuario(cedula, nickname)) {
+        if (usuario == null) {
+            usuario = new Usuario();
+        } else if (this.existeUsuario(cedula, nickname)) {
             throw new UsuarioExisteExcepcion("El usuario ya existe");
         }
 
         if (confirmar.equals(recofirmar) ) {
+
             usuario.setApellido(usuarioTO.getApellido());
             usuario.setCedula(usuarioTO.getCedula());
             usuario.setConstrasenia(usuarioTO.getConstrasenia());
@@ -43,11 +53,29 @@ public class UsuarioServiceImple implements IUsuarioService {
             usuario.setPreguntaDos(usuarioTO.getPreguntaDos());
             usuario.setPreguntaTres(usuarioTO.getPreguntaTres());
             usuario.setPreguntaUno(usuarioTO.getPreguntaUno());
-            usuario.setRol("Empleado");
             usuario.setTelefono(usuarioTO.getTelefono());
+
+            // Asignar datos para la entidad Ubicacion
+            ubicacion.setCiudad(usuarioTO.getCiudad());
+            ubicacion.setCodigoPostal(usuarioTO.getCodigoPostal());
+            ubicacion.setDireccion(usuarioTO.getDireccion());
+            ubicacion.setProvincia(usuarioTO.getProvincia());
+
+            // Asignar rol basado en la selección del usuario
+            Rol rol = new Rol();
+            if (rol != null) {
+                rol.setNombre(usuarioTO.getRol());
+            }else if (rol == null) {
+                throw new IllegalArgumentException("Rol no válido");
+            }
+
+            usuario.setUbicacion(ubicacion);
+            usuario.setRol(rol);
+            ubicacion.setUsuario(usuario);
+
             this.repositoryImpl.insertar(usuario);
         } else{
-            System.out.println("Error no fue insertado el objeto o ya existe");
+            System.out.println("Error: las contraseñas no coinciden");
         }     
     }
 
@@ -65,9 +93,14 @@ public class UsuarioServiceImple implements IUsuarioService {
     @Override
     public boolean existeUsuario(String cedula, String nickname) {
         Usuario usuario = new Usuario();
-        usuario= this.repositoryImpl.seleccionarPorCedula(cedula);
-        usuario=this.repositoryImpl.seleccionarPorNickname(nickname);
-        return usuario.getCedula() != cedula && usuario.getNickname() != nickname;
+        usuario = this.repositoryImpl.seleccionarPorCedula(cedula);
+        usuario = this.repositoryImpl.seleccionarPorNickname(nickname);
+        return !usuario.getCedula().equals(cedula) && !usuario.getNickname().equals(nickname);
+    }
+
+    @Override
+    public Usuario buscarPorNickname(String nickname) {
+        return this.repositoryImpl.seleccionarPorNickname(nickname);
     }
 
 }

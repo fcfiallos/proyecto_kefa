@@ -3,6 +3,7 @@ package com.software.kefa.repository;
 import org.springframework.stereotype.Repository;
 
 import com.software.kefa.repository.modelo.Usuario;
+import com.software.kefa.repository.modelo.modelosdto.UsuarioPerfilDTO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -42,6 +43,18 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
         TypedQuery<Usuario> query = this.entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nickname= :nickname", Usuario.class);
         query.setParameter("nickname", nickname);
         return query.getSingleResult();
+    }
+
+    @Override
+    public Usuario seleccionarPorContrasenia(String contrasenia) {
+        TypedQuery<Usuario> query = this.entityManager.createQuery("SELECT u FROM Usuario u WHERE u.contrasenia= :contrasenia", Usuario.class);
+        query.setParameter("contrasenia", contrasenia);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public UsuarioPerfilDTO seleccionarInformacion(String nickname) {
+       return null;
     }
 
 }

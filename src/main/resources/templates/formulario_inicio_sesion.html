@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Iniciar Sesion</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://www.transparenttextures.com/patterns/marble.png'), linear-gradient(to right, #f0f0f0, #dcdcdc, #a9a9a9, #808080, #2f4f4f);
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+        }
+
+        .overlay {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            width: 60%;
+        }
+
+        .logo {
+            display: block;
+            margin: 20px auto;
+            width: 100px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #009975;
+            font-family: 'Arial Black', sans-serif;
+            margin-top: 30px;
+        }
+
+        /* Form styles */
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 16px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #30d5c8;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: calc(100% - 24px);
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            border-color: #30d5c8;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            width: calc(50% - 12px);
+            padding: 15px;
+            background-color: #50c878;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            color: white;
+            font-family: 'Arial Black', sans-serif;
+            cursor: pointer;
+            margin: 8px 6px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #009975;
+        }
+
+        button[type="button"] {
+            width: calc(50% - 12px);
+            padding: 15px;
+            background-color: #30d5c8;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            color: white;
+            font-family: 'Arial Black', sans-serif;
+            cursor: pointer;
+            margin: 8px 6px;
+        }
+
+        button[type="button"]:hover {
+            background-color: #40E0D0;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            .overlay {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .overlay {
+                width: 100%;
+            }
+
+            th,
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            td {
+                margin-bottom: 16px;
+            }
+
+            button[type="submit"],
+            button[type="button"] {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+        <h1>Iniciar Sesion</h1>
+        <img src="logo_transparente.png" alt="Logo" class="logo">
+        <form th:action="@{/kefa/iniciarSesion}" th:object="${usuarioRegistroTO}" th:method="POST">
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            <table>
+                <tr>
+                    <td><label>Usuario:</label></td>
+                    <td><input type="text" th:field="${usuarioRegistroTO.nickname}"></td>
+                </tr>
+                <tr>
+                    <td><label>Contraseña:</label></td>
+                    <td><input type="password" th:field="${usuarioRegistroTO.constrasenia}"></td>
+                </tr>
+            </table>
+            <div>
+                <button type="submit">Ingresar</button>
+                <button type="button" onclick="window.location.href='/kefa/formulario_registro'">Registrarse</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Perfil</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+    </style>
+</head>
+<body>
+    <table>
+		<thead>
+			<tr>
+				<th>Atributo</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="entidad:${EntidadPlural}">
+				<td th:text="${entidad.atributo}"></td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>

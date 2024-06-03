@@ -1,0 +1,24 @@
+package com.software.kefa.repository;
+
+import org.springframework.stereotype.Repository;
+
+import com.software.kefa.repository.modelo.Ubicacion;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
+
+@Repository
+@Transactional
+public class UbicacionRepositoryImpl implements IUbicacionRepository{
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    @Transactional(value = TxType.MANDATORY)
+    public void insertar(Ubicacion ubicacion) {
+        this.entityManager.persist(ubicacion);
+    }
+
+}

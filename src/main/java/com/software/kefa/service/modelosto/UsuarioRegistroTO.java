@@ -1,5 +1,7 @@
 package com.software.kefa.service.modelosto;
 
+import jakarta.persistence.Column;
+
 public class UsuarioRegistroTO {
     private String nickname;
     private String nombre;
@@ -13,14 +15,20 @@ public class UsuarioRegistroTO {
     private String preguntaUno;
     private String preguntaDos;
     private String preguntaTres;
+    private String rol;
+    private String codigoPostal;
+    private String ciudad;
+    private String provincia;
+    private String direccion;
 
     public UsuarioRegistroTO (){
         
     }
 
     public UsuarioRegistroTO(String nickname, String nombre, String apellido, String cedula, String genero,
-            String telefono, String correoElectronico, String constrasenia, String preguntaUno, String preguntaDos,
-            String preguntaTres, String constraseniaRepetir) {
+            String telefono, String correoElectronico, String constrasenia, String constraseniaRepetir,
+            String preguntaUno, String preguntaDos, String preguntaTres, String rol, String codigoPostal, String ciudad,
+            String provincia, String direccion) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -29,11 +37,18 @@ public class UsuarioRegistroTO {
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.constrasenia = constrasenia;
+        this.constraseniaRepetir = constraseniaRepetir;
         this.preguntaUno = preguntaUno;
         this.preguntaDos = preguntaDos;
         this.preguntaTres = preguntaTres;
-        this.constraseniaRepetir=constraseniaRepetir;
+        this.rol = rol;
+        this.codigoPostal = codigoPostal;
+        this.ciudad = ciudad;
+        this.provincia = provincia;
+        this.direccion = direccion;
     }
+
+
 
     public String getNickname() {
         return nickname;
@@ -131,4 +146,44 @@ public class UsuarioRegistroTO {
         this.constraseniaRepetir = constraseniaRepetir;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    
 }

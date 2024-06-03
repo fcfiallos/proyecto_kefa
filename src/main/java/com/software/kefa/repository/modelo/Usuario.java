@@ -3,10 +3,12 @@ package com.software.kefa.repository.modelo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -21,7 +23,7 @@ public class Usuario {
     @Column(name = "usua_id")
     private Integer id;
 
-    @Column(name = "usua_nickname")
+    @Column(name = "usua_nickname", unique = true)
     private String nickname;
 
     @Column(name = "usua_nombre")
@@ -30,7 +32,7 @@ public class Usuario {
     @Column(name = "usua_apellido")
     private String apellido;
 
-    @Column(name = "usua_cedula")
+    @Column(name = "usua_cedula", unique = true)
     private String cedula;
 
     @Column(name = "usua_genero")
@@ -39,7 +41,7 @@ public class Usuario {
     @Column(name = "usua_telefono")
     private String telefono;
 
-    @Column(name = "usua_correo_electronico")
+    @Column(name = "usua_correo_electronico", unique = true)
     private String correoElectronico;
 
     @Column(name = "usua_contrasenia")
@@ -54,13 +56,14 @@ public class Usuario {
     @Column(name = "usua_pregunta_tres")
     private String preguntaTres;
 
-    @Column(name = "usua_rol")
-    private String rol;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "rol_id")
+    private Rol rol;
 
-    @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "usua_id_cliente")
-    private Cliente cliente;
+    @OneToOne (mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Ubicacion ubicacion;
 
+    //Setter and getter
     public String getNickname() {
         return nickname;
     }
@@ -141,28 +144,12 @@ public class Usuario {
         this.preguntaTres = preguntaTres;
     }
 
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public String getCorreoElectronico() {
@@ -173,4 +160,20 @@ public class Usuario {
         this.correoElectronico = correoElectronico;
     }
 
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Ubicacion getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+    
 }

@@ -9,6 +9,7 @@ public interface IUsuarioService {
     public void guardar(UsuarioRegistroTO usuarioTO);
     public void actualizar (Usuario usuario);
     public boolean existeUsuario (String cedula, String nickname);
+    public Usuario buscarPorNickname (String nickname);
     public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi);
 
 }
