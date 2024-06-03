@@ -8,7 +8,7 @@ import com.software.kefa.service.modelosto.UsuarioRegistroTO;
 public interface IUsuarioService {
     public void guardar(UsuarioRegistroTO usuarioTO);
     public void actualizar (Usuario usuario);
-    public Usuario buscar (String cedula);
+    public boolean existeUsuario (String cedula, String nickname);
     public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi);
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.software.kefa.excepcion.UsuarioExisteExcepcion;
 import com.software.kefa.repository.UsuarioRepositoryImpl;
 import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.modelosto.UsuarioRegistroTO;
@@ -22,8 +23,14 @@ public class UsuarioServiceImple implements IUsuarioService {
     public void guardar(UsuarioRegistroTO usuarioTO) {
         String confirmar = usuarioTO.getConstrasenia();
         String recofirmar = usuarioTO.getConstraseniaRepetir();
+        String cedula = usuarioTO.getCedula();
+        String nickname = usuarioTO.getNickname();
 
         Usuario usuario = new Usuario();
+
+        if (this.existeUsuario(cedula, nickname)) {
+            throw new UsuarioExisteExcepcion("El usuario ya existe");
+        }
 
         if (confirmar.equals(recofirmar) ) {
             usuario.setApellido(usuarioTO.getApellido());
@@ -51,14 +58,16 @@ public class UsuarioServiceImple implements IUsuarioService {
     }
 
     @Override
-    @Transactional(value = TxType.REQUIRES_NEW)
-    public Usuario buscar(String cedula) {
-        return this.repositoryImpl.seleccionar(cedula);
+    public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi) {
+        usuarioEfi.parallelStream().forEach(usuarioTO -> this.guardar((UsuarioRegistroTO) usuarioEfi));
     }
 
     @Override
-    public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi) {
-        usuarioEfi.parallelStream().forEach(usuarioTO -> this.guardar((UsuarioRegistroTO) usuarioEfi));
+    public boolean existeUsuario(String cedula, String nickname) {
+        Usuario usuario = new Usuario();
+        usuario= this.repositoryImpl.seleccionarPorCedula(cedula);
+        usuario=this.repositoryImpl.seleccionarPorNickname(nickname);
+        return usuario.getCedula() != cedula && usuario.getNickname() != nickname;
     }
 
 }

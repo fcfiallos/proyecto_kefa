@@ -5,6 +5,6 @@ import com.software.kefa.repository.modelo.Usuario;
 public interface IUsuarioRepository {
     public void insertar(Usuario usuario);
     public void actualizar (Usuario usuario);
-    public Usuario seleccionar (String cedula);
-
+    public Usuario seleccionarPorCedula (String cedula);
+    public Usuario seleccionarPorNickname (String nickname);
 }

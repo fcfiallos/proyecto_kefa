@@ -31,9 +31,16 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
 
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
-    public Usuario seleccionar(String cedula) {
+    public Usuario seleccionarPorCedula(String cedula) {
         TypedQuery<Usuario> query = this.entityManager.createQuery("SELECT u FROM Usuario u WHERE u.cedula= :cedula", Usuario.class);
         query.setParameter("cedula", cedula);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public Usuario seleccionarPorNickname(String nickname) {
+        TypedQuery<Usuario> query = this.entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nickname= :nickname", Usuario.class);
+        query.setParameter("nickname", nickname);
         return query.getSingleResult();
     }
 
