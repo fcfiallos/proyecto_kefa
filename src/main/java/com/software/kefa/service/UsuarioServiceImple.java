@@ -13,49 +13,52 @@ import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
 
 @Service
-public class UsuarioServiceImple implements IUsuarioService{
+public class UsuarioServiceImple implements IUsuarioService {
     @Autowired
     private UsuarioRepositoryImpl repositoryImpl;
 
     @Override
-    @Transactional (value = TxType.REQUIRES_NEW)
+    @Transactional(value = TxType.REQUIRES_NEW)
     public void guardar(UsuarioRegistroTO usuarioTO) {
+        String confirmar = usuarioTO.getConstrasenia();
+        String recofirmar = usuarioTO.getConstraseniaRepetir();
+
         Usuario usuario = new Usuario();
 
-        usuario.setApellido(usuarioTO.getApellido());
-        usuario.setCedula(usuarioTO.getCedula());
-        usuario.setConstrasenia(usuarioTO.getConstrasenia());
-        usuario.setCorreoElectronico(usuarioTO.getCorreoElectronico());
-        usuario.setGenero(usuarioTO.getGenero());
-        usuario.setNickname(usuarioTO.getNickname());
-        usuario.setNombre(usuarioTO.getNombre());
-        usuario.setPreguntaDos(usuarioTO.getPreguntaDos());
-        usuario.setPreguntaTres(usuarioTO.getPreguntaTres());
-        usuario.setPreguntaUno(usuarioTO.getPreguntaUno());
-        usuario.setRol("Empleado");
-
-        this.repositoryImpl.insertar(usuario);
-        throw new UnsupportedOperationException("Unimplemented method 'guardar'");
+        if (confirmar.equals(recofirmar) ) {
+            usuario.setApellido(usuarioTO.getApellido());
+            usuario.setCedula(usuarioTO.getCedula());
+            usuario.setConstrasenia(usuarioTO.getConstrasenia());
+            usuario.setCorreoElectronico(usuarioTO.getCorreoElectronico());
+            usuario.setGenero(usuarioTO.getGenero());
+            usuario.setNickname(usuarioTO.getNickname());
+            usuario.setNombre(usuarioTO.getNombre());
+            usuario.setPreguntaDos(usuarioTO.getPreguntaDos());
+            usuario.setPreguntaTres(usuarioTO.getPreguntaTres());
+            usuario.setPreguntaUno(usuarioTO.getPreguntaUno());
+            usuario.setRol("Empleado");
+            usuario.setTelefono(usuarioTO.getTelefono());
+            this.repositoryImpl.insertar(usuario);
+        } else{
+            System.out.println("Error no fue insertado el objeto o ya existe");
+        }     
     }
 
     @Override
-    @Transactional (value = TxType.REQUIRES_NEW)
+    @Transactional(value = TxType.REQUIRES_NEW)
     public void actualizar(Usuario usuario) {
         this.repositoryImpl.actualizar(usuario);
-        throw new UnsupportedOperationException("Unimplemented method 'actualizar'");
     }
 
     @Override
-    @Transactional (value = TxType.REQUIRES_NEW)
+    @Transactional(value = TxType.REQUIRES_NEW)
     public Usuario buscar(String cedula) {
-        this.repositoryImpl.seleccionar(cedula);
-        throw new UnsupportedOperationException("Unimplemented method 'buscar'");
+        return this.repositoryImpl.seleccionar(cedula);
     }
 
     @Override
     public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi) {
         usuarioEfi.parallelStream().forEach(usuarioTO -> this.guardar((UsuarioRegistroTO) usuarioEfi));
-        throw new UnsupportedOperationException("Unimplemented method 'registroEficiente'");
     }
 
 }

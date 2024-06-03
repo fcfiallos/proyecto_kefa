@@ -17,27 +17,24 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional (value = TxType.REQUIRED)
     @Override
+    @Transactional (value = TxType.REQUIRED)
     public void insertar(Usuario usuario) {
         this.entityManager.persist(usuario);
-        throw new UnsupportedOperationException("Unimplemented method 'insertar'");
     }
-
-    @Transactional (value = TxType.MANDATORY)
+    
     @Override
+    @Transactional (value = TxType.MANDATORY)
     public void actualizar(Usuario usuario) {
         this.entityManager.merge(usuario);
-        throw new UnsupportedOperationException("Unimplemented method 'actualizar'");
     }
 
-    @Transactional(value = TxType.NOT_SUPPORTED)
     @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
     public Usuario seleccionar(String cedula) {
         TypedQuery<Usuario> query = this.entityManager.createQuery("SELECT u FROM Usuario u WHERE u.cedula= :cedula", Usuario.class);
         query.setParameter("cedula", cedula);
-        query.getSingleResult();
-        throw new UnsupportedOperationException("Unimplemented method 'seleccionar'");
+        return query.getSingleResult();
     }
 
 }

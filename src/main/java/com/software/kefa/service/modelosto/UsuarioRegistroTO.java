@@ -9,10 +9,10 @@ public class UsuarioRegistroTO {
     private String telefono;
     private String correoElectronico;
     private String constrasenia;
+    private String constraseniaRepetir;
     private String preguntaUno;
     private String preguntaDos;
     private String preguntaTres;
-    private String rol;
 
     public UsuarioRegistroTO (){
         
@@ -20,7 +20,7 @@ public class UsuarioRegistroTO {
 
     public UsuarioRegistroTO(String nickname, String nombre, String apellido, String cedula, String genero,
             String telefono, String correoElectronico, String constrasenia, String preguntaUno, String preguntaDos,
-            String preguntaTres, String rol) {
+            String preguntaTres, String constraseniaRepetir) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -32,7 +32,7 @@ public class UsuarioRegistroTO {
         this.preguntaUno = preguntaUno;
         this.preguntaDos = preguntaDos;
         this.preguntaTres = preguntaTres;
-        this.rol = rol;
+        this.constraseniaRepetir=constraseniaRepetir;
     }
 
     public String getNickname() {
@@ -123,14 +123,12 @@ public class UsuarioRegistroTO {
         this.preguntaTres = preguntaTres;
     }
 
-    public String getRol() {
-        return rol;
+    public String getConstraseniaRepetir() {
+        return constraseniaRepetir;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setConstraseniaRepetir(String constraseniaRepetir) {
+        this.constraseniaRepetir = constraseniaRepetir;
     }
-
-    
 
 }

@@ -1,5 +1,6 @@
 package com.software.kefa.repository.modelo;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Cliente {
     @Column(name = "clie_correo_electronico")
     private String correoElectronico;
 
-    @OneToOne(mappedBy = "cliente")
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private Usuario usuario;
 
 

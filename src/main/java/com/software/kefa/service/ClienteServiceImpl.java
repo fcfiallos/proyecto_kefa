@@ -31,35 +31,30 @@ public class ClienteServiceImpl implements IClienteService {
         cliente.setTelefono(registroTO.getTelefono());
 
         this.clienteRepository.insertar(cliente);
-        throw new UnsupportedOperationException("Unimplemented method 'guardar'");
     }
 
     @Override
     @Transactional (value = TxType.REQUIRES_NEW)
     public void actualizar(Cliente cliente) {
         this.clienteRepository.actualizar(cliente);
-        throw new UnsupportedOperationException("Unimplemented method 'actualizar'");
     }
 
     @Override
     @Transactional (value = TxType.REQUIRES_NEW)
     public Cliente buscar(String cedula) {
-        this.clienteRepository.seleccionar(cedula);
-        throw new UnsupportedOperationException("Unimplemented method 'buscar'");
+        return this.clienteRepository.seleccionar(cedula);
     }
 
     @Override
     @Transactional (value = TxType.REQUIRES_NEW)
     public List<ClienteDTO> reportar() {
-        this.clienteRepository.seleccionarTodo();
-        throw new UnsupportedOperationException("Unimplemented method 'reportar'");
+        return this.clienteRepository.seleccionarTodo(); 
     }
 
     @Override
     @Transactional (value = TxType.REQUIRES_NEW)
     public void guadarEfic(List<UsuarioRegistroTO> registroTO) {
         registroTO.parallelStream().forEach(usuarioTO -> this.guardar((UsuarioRegistroTO) registroTO));
-        throw new UnsupportedOperationException("Unimplemented method 'guadarEfic'");
     }
 
 
