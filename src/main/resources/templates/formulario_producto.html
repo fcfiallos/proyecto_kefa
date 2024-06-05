@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html lang="en">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Crear Cuenta Personal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Producto</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <style>
         /* General styles */
@@ -173,9 +173,9 @@
     </style>
 </head>
 <body>
-    <h1>Añadir nuevo producto</h1>
+    <h1>Crear Cuenta Personal</h1>
     <img src="logo_transparente.png" alt="Logo" class="logo" />
-    <form th:action="@{/kefa/registrar}" th:object="${usuarioRegistroTO}" th:method="POST">
+    <form th:action="@{/kefa/añadir}" th:object="${productoTO}" th:method="POST">
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <table>
             <tr>

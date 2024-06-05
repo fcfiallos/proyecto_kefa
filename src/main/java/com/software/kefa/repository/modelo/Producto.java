@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -34,8 +36,46 @@ public class Producto {
     @Column(name = "prod_cantidad")
     private Integer cantidad;
 
+    @Column(name = "prod_imagen")
+    private String imagen;
+
     @Column(name = "prod_estado")
     private String estado;
+
+    @ManyToOne
+    @JoinColumn(name = "prod_id_proveedor")
+    private Proveedor proveedor;
+    @ManyToOne
+    @JoinColumn(name = "usua_id_productos")
+    private Usuario usuario; 
+    @ManyToOne
+    @JoinColumn(name = "prod_id_cate_producto")
+    private CategoriaProducto categoriaProducto;
+
+    
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public Integer getId() {
         return id;
@@ -92,6 +132,15 @@ public class Producto {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public CategoriaProducto getCategoriaProducto() {
+        return categoriaProducto;
+    }
+
+    public void setCategoriaProducto(CategoriaProducto categoriaProducto) {
+        this.categoriaProducto = categoriaProducto;
+    }
+    
 
     
 
