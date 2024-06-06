@@ -6,21 +6,173 @@
     <title>Perfil</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://www.transparenttextures.com/patterns/marble.png'), linear-gradient(to right, #f0f0f0, #dcdcdc, #a9a9a9, #808080, #2f4f4f);
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+        }
+
+        .overlay {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #009975;
+            font-family: 'Arial Black', sans-serif;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #30d5c8;
+            color: white;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        td {
+            background-color: #f9f9f9;
+            color: #333333;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            color: white;
+            font-family: 'Arial Black', sans-serif;
+            cursor: pointer;
+            margin: 8px 4px;
+            width: calc(50% - 16px);
+        }
+
+        button:nth-of-type(1) {
+            background-color: #50c878;
+        }
+
+        button:nth-of-type(1):hover {
+            background-color: #009975;
+        }
+
+        button:nth-of-type(2) {
+            background-color: #30d5c8;
+        }
+
+        button:nth-of-type(2):hover {
+            background-color: #40E0D0;
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            .overlay {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .overlay {
+                width: 100%;
+            }
+
+            th, td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            td {
+                margin-bottom: 16px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
-    <table>
-		<thead>
-			<tr>
-				<th>Atributo</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="entidad:${EntidadPlural}">
-				<td th:text="${entidad.atributo}"></td>
-			</tr>
-		</tbody>
-	</table>
-
+    <div class="overlay">
+        <h1>Datos Personales</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th><h5>Atributo</h5></th>
+                    <th><h5>Valor</h5></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nombres:</td>
+                    <td th:text="${usuarioPerfilDTO.nombre}"></td>
+                </tr>
+                <tr>
+                    <td>Apellidos:</td>
+                    <td th:text="${usuarioPerfilDTO.apellido}"></td>
+                </tr>
+                <tr>
+                    <td>Cedula:</td>
+                    <td th:text="${usuarioPerfilDTO.cedula}"></td>
+                </tr>
+                <tr>
+                    <td>Correo Electrónico:</td>
+                    <td th:text="${usuarioPerfilDTO.correoElectronico}"></td>
+                </tr>
+                <tr>
+                    <td>Teléfono:</td>
+                    <td th:text="${usuarioPerfilDTO.telefono}"></td>
+                </tr>
+                <tr>
+                    <td>Género:</td>
+                    <td th:text="${usuarioPerfilDTO.genero}"></td>
+                </tr>
+                <tr>
+                    <td>Rol:</td>
+                    <td th:text="${usuarioPerfilDTO.rol}"></td>
+                </tr>
+                <tr>
+                    <td>Código Postal:</td>
+                    <td th:text="${usuarioPerfilDTO.codigoPostal}"></td>
+                </tr>
+                <tr>
+                    <td>Ciudad:</td>
+                    <td th:text="${usuarioPerfilDTO.ciudad}"></td>
+                </tr>
+                <tr>
+                    <td>Provincia:</td>
+                    <td th:text="${usuarioPerfilDTO.provincia}"></td>
+                </tr>
+                <tr>
+                    <td>Dirección:</td>
+                    <td th:text="${usuarioPerfilDTO.direccion}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" onclick="window.location.href='/kefa/actualizar_perfil/{nickname}'">Modificar</button>
+        <button type="button" onclick="window.location.href='/kefa/formulario_iniciar_sesion'">Regresar</button>
+    </div>
 </body>
 </html>

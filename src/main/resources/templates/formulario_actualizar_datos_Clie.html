@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -8,11 +9,13 @@
     <style>
     </style>
 </head>
+
 <body>
-    <h1>Actualización de Información</h1>
-    <form>
-		<table>
-			<tr>
+    <h1>Actualización de Datos Personales</h1>
+    <form th:action="@{/kefa/actualizar_perfil/{nickname}(nickname = ${usuarioRegistroTO.nickname})}"
+        th:object="${usuarioRegistroTO}" th:method="PUT">
+        <table>
+            <tr>
                 <td><label>Usuario:</label></td>
                 <td><input type="text" th:field="${usuarioRegistroTO.nickname}"></td>
             </tr>
@@ -20,11 +23,13 @@
                 <td><label>Contraseña:</label></td>
                 <td><input type="password" th:field="${usuarioRegistroTO.constrasenia}"></td>
             </tr>
-		</table>
-		<button type="submit">ACCION</input>
+        </table>
 
-	</form>
+    </form>
+    <button type="submit">Actualizar</input>
+        <button type="button" onclick="window.location.href='/kefa/formulario_perfil/{nickname}'">Regresar</button>
 
 
 </body>
+
 </html>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.excepcion.UsuarioExisteExcepcion;
 import com.software.kefa.repository.modelo.Usuario;
+import com.software.kefa.repository.modelo.modelosdto.UsuarioPerfilDTO;
 import com.software.kefa.service.IUsuarioService;
 import com.software.kefa.service.modelosto.UsuarioRegistroTO;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,11 +20,14 @@ public class ControllerUsuarioPerfil {
     @Autowired
     private IUsuarioService iUsuarioService;
 
-    @GetMapping("/formulario_perfil")
-    public String mostrarFormularioUsuaClie(Model model) {
-        model.addAttribute("usuarioRegistroTO", new UsuarioRegistroTO());
+    @GetMapping("/formulario_perfil/{nickname}")
+    public String mostrarFormularioUsuaClie(@PathVariable("nickname") String nickname,Model model) {
+        UsuarioPerfilDTO usuarioPerfilDTO = this.iUsuarioService.buscarInformacion(nickname);
+        model.addAttribute("usuarioPerfilDTO", usuarioPerfilDTO);
         return "vista_perfil_usuario";
     }
+
+
 
     @PutMapping("/actualizar_perfil/{nickname}")
     public String mostrarFormularioActulizar(@PathVariable String nickname, UsuarioRegistroTO registroTO, Model model) {
@@ -38,14 +42,14 @@ public class ControllerUsuarioPerfil {
                 usuaAux.setGenero(registroTO.getGenero());
                 usuaAux.setTelefono(registroTO.getTelefono());
                 this.iUsuarioService.actualizar(usuaAux);
-                return "redirect:/kefa/formulario_perfil";
+                return "formulario_actualizar_datos_Clie";
             } catch (UsuarioExisteExcepcion e) {
-                model.addAttribute("error", e.getMessage());
-                return "formulario_registro_ClieUsua";
+                model.addAttribute("error", "No se actualizo");
+                return "formulario_actualizar_datos_Clie";
             }
         }else {
             model.addAttribute("error", "Todos los campos son obligatorios");
-            return "formulario_registro_ClieUsua";
+            return "formulario_actualizar_datos_Clie";
         }
 
     }
