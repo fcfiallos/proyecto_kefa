@@ -37,12 +37,13 @@ public class UsuarioServiceImple implements IUsuarioService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    
     /**
      * Saves a new user in the system.
      *
-     * @param usuarioTO The user registration data.
-     * @throws UsuarioExisteExcepcion   If the user already exists.
-     * @throws IllegalArgumentException If the passwords do not match.
+     * @param usuarioTO the user registration data.
+     * @throws UsuarioExisteExcepcion if the user already exists.
+     * @throws IllegalArgumentException if the passwords do not match.
      */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)

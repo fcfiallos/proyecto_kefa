@@ -21,34 +21,27 @@ public class ControllerUsuarioPerfil {
     private IUsuarioService iUsuarioService;
 
     @GetMapping("/formulario_perfil/{nickname}")
-    public String mostrarFormularioUsuaClie(@PathVariable("nickname") String nickname,Model model) {
+    public String mostrarFormularioUsuaClie(@PathVariable("nickname") String nickname, Model model) {
         UsuarioPerfilDTO usuarioPerfilDTO = this.iUsuarioService.buscarInformacion(nickname);
         model.addAttribute("usuarioPerfilDTO", usuarioPerfilDTO);
         return "vista_perfil_usuario";
     }
 
-
-
     @PutMapping("/actualizar_perfil/{nickname}")
-    public String mostrarFormularioActulizar(@PathVariable String nickname, UsuarioRegistroTO registroTO, Model model) {
-        
+    public String mostrarFormularioActulizar(@PathVariable("nickname") String nickname, UsuarioRegistroTO registroTO, Model model) {
+
         Usuario usuaAux = this.iUsuarioService.buscarPorNickname(nickname);
 
         if (usuaAux.getNickname().equals(nickname)) {
-            try {
-                usuaAux.setApellido(registroTO.getApellido());
-                usuaAux.setNombre(registroTO.getNombre());
-                usuaAux.setCorreoElectronico(registroTO.getCorreoElectronico());
-                usuaAux.setGenero(registroTO.getGenero());
-                usuaAux.setTelefono(registroTO.getTelefono());
-                this.iUsuarioService.actualizar(usuaAux);
-                return "formulario_actualizar_datos_Clie";
-            } catch (UsuarioExisteExcepcion e) {
-                model.addAttribute("error", "No se actualizo");
-                return "formulario_actualizar_datos_Clie";
-            }
-        }else {
-            model.addAttribute("error", "Todos los campos son obligatorios");
+            usuaAux.setApellido(registroTO.getApellido());
+            usuaAux.setNombre(registroTO.getNombre());
+            usuaAux.setCorreoElectronico(registroTO.getCorreoElectronico());
+            usuaAux.setGenero(registroTO.getGenero());
+            usuaAux.setTelefono(registroTO.getTelefono());
+            this.iUsuarioService.actualizar(usuaAux);
+            return "formulario_actualizar_datos_Clie";
+        } else {
+            model.addAttribute("error", "No se ejecutó la actualización de los datos del cliente.");
             return "formulario_actualizar_datos_Clie";
         }
 
