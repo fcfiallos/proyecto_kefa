@@ -1,7 +1,5 @@
 package com.software.kefa.service.modelosto;
 
-import jakarta.persistence.Column;
-
 public class UsuarioRegistroTO {
     private String nickname;
     private String nombre;
