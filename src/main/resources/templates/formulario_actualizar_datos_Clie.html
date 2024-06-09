@@ -12,24 +12,33 @@
 
 <body>
     <h1>Actualización de Datos Personales</h1>
-    <form th:action="@{/kefa/actualizar_perfil/{nickname}(nickname = ${usuarioRegistroTO.nickname})}"
-        th:object="${usuarioRegistroTO}" th:method="PUT">
+    <form th:action="@{/kefa/actualizar_perfil/{nickname}(nickname=${usuarioRegistroTO.nickname})}" th:object="${usuarioRegistroTO}" method="post">
+        <input type="hidden" name="_method" value="put"/>
         <table>
             <tr>
-                <td><label>Usuario:</label></td>
-                <td><input type="text" th:field="${usuarioRegistroTO.nickname}"></td>
+                <td><label>Nombre:</label></td>
+                <td><input type="text" th:field="*{nombre}"></td>
             </tr>
             <tr>
-                <td><label>Contraseña:</label></td>
-                <td><input type="password" th:field="${usuarioRegistroTO.constrasenia}"></td>
+                <td><label>Apellido:</label></td>
+                <td><input type="text" th:field="*{apellido}"></td>
+            </tr>
+            <tr>
+                <td><label>Correo Electrónico:</label></td>
+                <td><input type="text" th:field="*{correoElectronico}"></td>
+            </tr>
+            <tr>
+                <td><label>Teléfono:</label></td>
+                <td><input type="text" th:field="*{telefono}"></td>
+            </tr>
+            <tr>
+                <td><label>Género:</label></td>
+                <td><input type="text" th:field="*{genero}"></td>
             </tr>
         </table>
-
-    </form>
-    <button type="submit">Actualizar</input>
+        <button type="submit">Actualizar</button>
         <button type="button" onclick="window.location.href='/kefa/formulario_perfil/{nickname}'">Regresar</button>
-
-
+    </form>
 </body>
 
 </html>

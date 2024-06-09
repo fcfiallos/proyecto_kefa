@@ -1,38 +1,49 @@
 package com.software.kefa.service;
 
 import java.util.List;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
- 
+
 import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IProveedorRepository;
 import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.repository.modelo.Proveedor;
 import com.software.kefa.repository.modelo.modelosdto.ProductoDTO;
 import com.software.kefa.service.modelosto.ProductoTO;
- 
+
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
+
+/**
+ * This class implements the {@link IProductoService} interface and provides the
+ * implementation
+ * for the service methods related to products.
+ */
 @Service
-public class ProductoServiceImpl implements IProductoService{
- 
+public class ProductoServiceImpl implements IProductoService {
+
     @Autowired
     private IProductoRepository productoRepository;
- 
+
     @Autowired
     private IProveedorRepository proveedorRepository;
- 
-    //@Autowired
-    //private IUsuarioRepository usuarioRepository;
- 
+
+    // @Autowired
+    // private IUsuarioRepository usuarioRepository;
+
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public List<ProductoDTO> buscarTodo() {
         // TODO Auto-generated method stub
         return this.productoRepository.seleccionarTodo();
     }
- 
+
+    /**
+     * Saves a new product.
+     *
+     * @param producto The product to be saved.
+     */
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public void guardar(ProductoTO producto) {
@@ -42,20 +53,22 @@ public class ProductoServiceImpl implements IProductoService{
         pro.setCantidad(producto.getCantidad());
         pro.setCodigo(producto.getCodigo());
         pro.setDescripcion(producto.getDescripcion());
-        pro.setEstado(producto.getEstado());
-        pro.setImagen(producto.getImagen());
+        // en el orden toca manipular cuando este agotado envia ese cambio de estado
+        pro.setEstado("Disponible");
+
+        pro.setImagen(producto.getImagenByte());
         pro.setNombre(producto.getNombre());
         pro.setPrecio(producto.getPrecio());
         pro.setProveedor(prov);
- 
+
         this.productoRepository.insertar(pro);
     }
- 
+
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public void actualizar(Producto producto) {
         // TODO Auto-generated method stub
         this.productoRepository.actualizar(producto);
     }
- 
+
 }

@@ -37,7 +37,7 @@ public class Producto {
     private Integer cantidad;
  
     @Column(name = "prod_imagen")
-    private String imagen;
+    private byte[] imagen;
  
     @Column(name = "prod_estado")
     private String estado;
@@ -50,16 +50,11 @@ public class Producto {
     @JoinColumn(name = "prod_id_usuario")
     private Usuario usuario; 
 
-    
+    @ManyToOne
+    @JoinColumn(name = "prod_id_cate_producto")
+    private CategoriaProducto categoriaProducto;
  
     
-    public String getImagen() {
-        return imagen;
-    }
- 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
  
     public Proveedor getProveedor() {
         return proveedor;
@@ -132,7 +127,21 @@ public class Producto {
     public void setEstado(String estado) {
         this.estado = estado;
     }
- 
-    
+
+    public CategoriaProducto getCategoriaProducto() {
+        return categoriaProducto;
+    }
+
+    public void setCategoriaProducto(CategoriaProducto categoriaProducto) {
+        this.categoriaProducto = categoriaProducto;
+    }
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagenBytes) {
+        this.imagen = imagenBytes;
+    }
 
 }

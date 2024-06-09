@@ -6,11 +6,14 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Iniciar Sesion</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="dist/output.css" rel="stylesheet">
     <style>
         /* General styles */
         body {
             font-family: Arial, sans-serif;
-            background: url('https://www.transparenttextures.com/patterns/marble.png'), linear-gradient(to right, #f0f0f0, #dcdcdc, #a9a9a9, #808080, #2f4f4f);
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR4mZsd-DY_WsZcVfTxFDMgOVzizS3t02NqA&s');
             color: #333333;
             margin: 0;
             padding: 0;
@@ -18,7 +21,7 @@
         }
 
         .overlay {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(185, 243, 240, 0.8);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -26,24 +29,24 @@
             width: 60%;
         }
 
-        .logo {
+        /*.logo {
             display: block;
             margin: 20px auto;
             width: 100px;
-        }
+        }*/
 
         h1 {
             text-align: center;
-            color: #009975;
-            font-family: 'Arial Black', sans-serif;
-            margin-top: 30px;
+            color: #098b6d;
+            font-family: 'Arial Black', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin-top: 50px;
         }
 
         /* Form styles */
         form {
             background-color: #ffffff;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -54,7 +57,7 @@
 
         th,
         td {
-            padding: 16px;
+            padding: 25px;
             text-align: left;
         }
 
@@ -85,7 +88,7 @@
             outline: none;
         }
 
-        button[type="submit"] {
+        /*button[type="submit"] {
             width: calc(50% - 12px);
             padding: 15px;
             background-color: #50c878;
@@ -117,10 +120,10 @@
 
         button[type="button"]:hover {
             background-color: #40E0D0;
-        }
+        }*/
 
         .error-message {
-            color: red;
+            color: rgb(255, 10, 10);
             font-weight: bold;
             margin-bottom: 22px;
             text-align: center;
@@ -167,19 +170,24 @@
             <table>
                 <tr>
                     <td><label>Usuario:</label></td>
-                    <td><input type="text" th:field="${usuarioRegistroTO.nickname}"></td>
+                    <td><input type="text" id="website-admin"
+                        class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="elonmusk" th:field="${usuarioRegistroTO.nickname}"></td>
                 </tr>
                 <tr>
                     <td><label>Contraseña:</label></td>
-                    <td><input type="password" th:field="${usuarioRegistroTO.constrasenia}"></td>
+                    <td><input type="password" id="password"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="•••••••••" th:field="${usuarioRegistroTO.constrasenia}"></td>
                 </tr>
             </table>
-            <div>
-                <button type="submit">Ingresar</button>
-                <button type="button" onclick="window.location.href='/kefa/formulario_registro'">Registrarse</button>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-outline-info">Ingresar</button>
+                <button type="button" onclick="window.location.href='/kefa/formulario_registro'" class="btn btn-outline-info">Registrarse</button>
             </div>
         </form>
     </div>
+    <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 </body>
 
 </html>

@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.software.kefa.excepcion.UsuarioExisteExcepcion;
 import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.repository.modelo.modelosdto.UsuarioPerfilDTO;
 import com.software.kefa.service.IUsuarioService;
@@ -30,28 +29,20 @@ public class ControllerUsuarioPerfil {
 
 
     @PutMapping("/actualizar_perfil/{nickname}")
-    public String mostrarFormularioActulizar(@PathVariable String nickname, UsuarioRegistroTO registroTO, Model model) {
-        
+    public String mostrarFormularioActulizar(@PathVariable("nickname") String nickname, UsuarioRegistroTO usuarioRegistroTO, Model model) {
         Usuario usuaAux = this.iUsuarioService.buscarPorNickname(nickname);
-
-        if (usuaAux.getNickname().equals(nickname)) {
-            try {
-                usuaAux.setApellido(registroTO.getApellido());
-                usuaAux.setNombre(registroTO.getNombre());
-                usuaAux.setCorreoElectronico(registroTO.getCorreoElectronico());
-                usuaAux.setGenero(registroTO.getGenero());
-                usuaAux.setTelefono(registroTO.getTelefono());
-                this.iUsuarioService.actualizar(usuaAux);
-                return "formulario_actualizar_datos_Clie";
-            } catch (UsuarioExisteExcepcion e) {
-                model.addAttribute("error", "No se actualizo");
-                return "formulario_actualizar_datos_Clie";
-            }
-        }else {
-            model.addAttribute("error", "Todos los campos son obligatorios");
+        if (usuaAux != null && usuaAux.getNickname().equals(nickname)) {
+            usuaAux.setApellido(usuarioRegistroTO.getApellido());
+            usuaAux.setNombre(usuarioRegistroTO.getNombre());
+            usuaAux.setCorreoElectronico(usuarioRegistroTO.getCorreoElectronico());
+            usuaAux.setGenero(usuarioRegistroTO.getGenero());
+            usuaAux.setTelefono(usuarioRegistroTO.getTelefono());
+            this.iUsuarioService.actualizar(usuaAux);
+            return "formulario_actualizar_datos_Clie";
+        } else {
+            model.addAttribute("error", "No se actualizaron los datos del usuario");
             return "formulario_actualizar_datos_Clie";
         }
-
     }
 
 }

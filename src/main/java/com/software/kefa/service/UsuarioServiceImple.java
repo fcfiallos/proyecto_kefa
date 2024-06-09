@@ -1,6 +1,7 @@
 package com.software.kefa.service;
 
 import java.util.List;
+import java.util.function.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -85,7 +86,7 @@ public class UsuarioServiceImple implements IUsuarioService {
         ubicacion.setUsuario(usuario);
 
         Rol rol = new Rol();
-        rol.setNombre(usuarioTO.getRol());
+        rol.setNombre("Cliente");
         usuario.setRol(rol);
 
         usuario.setUbicacion(ubicacion);
@@ -112,12 +113,12 @@ public class UsuarioServiceImple implements IUsuarioService {
     @Override
     public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi) {
 
-        if (usuarioEfi != null) {
+        /*if (usuarioEfi != null) {
             usuarioEfi.parallelStream().forEach(this::guardar);
         } else {
             System.out.println("no se puedo registrar usuario");
         }
-
+*/
     }
 
     /**

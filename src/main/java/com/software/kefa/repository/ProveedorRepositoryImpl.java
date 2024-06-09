@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.software.kefa.repository.modelo.Proveedor;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -36,7 +37,7 @@ public class ProveedorRepositoryImpl implements IProveedorRepository{
             TypedQuery<Proveedor> query = this.entityManager.createQuery("SELECT u FROM Proveedor p WHERE p.nombre= :nombre", Proveedor.class);
         query.setParameter("nombre", nombre);
         return query.getSingleResult();
-        } catch (Exception e) {
+        } catch (NoResultException e) {
             return null;
         }
     }
