@@ -1,18 +1,28 @@
 package com.software.kefa.repository.modelo.modelosdto;
 
+import java.math.BigDecimal;
+
 public class ProductoDTO {
     private String nombre;
     private String descripcion;
     private String codigo;
     private String estado;
     private String nombreProveedor;
+    private Integer cantidad;
+    private BigDecimal precio;
+
+    public ProductoDTO() {
+    }
  
-    public ProductoDTO(String nombre, String descripcion, String codigo, String estado, String nombreProveedor) {
+    public ProductoDTO(String nombre, String descripcion, String codigo, String estado, String nombreProveedor,
+            Integer cantidad, BigDecimal precio) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.codigo = codigo;
         this.estado = estado;
         this.nombreProveedor = nombreProveedor;
+        this.cantidad = cantidad;
+        this.precio = precio;
     }
  
     public String getNombre() {
@@ -54,5 +64,22 @@ public class ProductoDTO {
     public void setNombreProveedor(String nombreProveedor) {
         this.nombreProveedor = nombreProveedor;
     }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+    
  
 }

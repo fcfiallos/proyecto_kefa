@@ -34,7 +34,7 @@ public class ProveedorRepositoryImpl implements IProveedorRepository{
     public Proveedor seleccionarPorNombre(String nombre) {
         // TODO Auto-generated method stub
         try {
-            TypedQuery<Proveedor> query = this.entityManager.createQuery("SELECT u FROM Proveedor p WHERE p.nombre= :nombre", Proveedor.class);
+            TypedQuery<Proveedor> query = this.entityManager.createQuery("SELECT p FROM Proveedor p WHERE p.nombre= :nombre", Proveedor.class);
         query.setParameter("nombre", nombre);
         return query.getSingleResult();
         } catch (NoResultException e) {

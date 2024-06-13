@@ -1,7 +1,8 @@
 package com.software.kefa.repository.modelo;
 
 import java.math.BigDecimal;
- 
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +12,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
- 
+
+
+/**
+ * Representa un producto en el sistema.
+ */
 @Entity
 @Table(name = "producto")
 public class Producto {
@@ -30,19 +35,19 @@ public class Producto {
     @Column(name = "prod_descripcion")
     private String descripcion;
  
-    @Column(name = "prod_codigo")
+    @Column(name = "prod_codigo",unique = true)
     private String codigo;
  
     @Column(name = "prod_cantidad")
     private Integer cantidad;
  
     @Column(name = "prod_imagen")
-    private byte[] imagen;
+    private String imagen;
  
     @Column(name = "prod_estado")
     private String estado;
  
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "prod_id_proveedor")
     private Proveedor proveedor;
 
@@ -136,12 +141,12 @@ public class Producto {
         this.categoriaProducto = categoriaProducto;
     }
 
-    public byte[] getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagenBytes) {
-        this.imagen = imagenBytes;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
 }

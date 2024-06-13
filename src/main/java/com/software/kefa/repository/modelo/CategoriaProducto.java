@@ -19,10 +19,15 @@ public class CategoriaProducto {
     @SequenceGenerator(name = "seq_cate_producto", sequenceName = "seq_cate_producto", allocationSize = 1)
     @Column (name = "cate_prod_id")
     private Integer id;
+
     @Column (name = "cate_prod_tipo")
     private String tipo;
+
     @Column (name = "cate_prod_descripcion")
     private String descripcion;
+ 
+    @Column (name = "cate_prod_imagen")
+    private String imagen;
  
     @OneToMany(mappedBy = "categoriaProducto")
     private List<Producto> productos;
@@ -50,6 +55,12 @@ public class CategoriaProducto {
     }
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
+    }
+    public String getImagen() {
+        return imagen;
+    }
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
  
 }

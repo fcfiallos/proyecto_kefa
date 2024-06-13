@@ -12,7 +12,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR4mZsd-DY_WsZcVfTxFDMgOVzizS3t02NqA&s');
+            background: url('https://th.bing.com/th/id/OIG1.zMGj9kwrEdMRJn5jfweY?w=1024&h=1024&rs=1&pid=ImgDetMain');
             color: #333333;
             margin: 0;
             padding: 0;
@@ -192,20 +192,31 @@
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label></td>
                 <td><input type="text" id="first_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="John" required th:field="${usuarioRegistroTO.nombre}"></td>
+                        placeholder="John Mario" required th:field="${usuarioRegistroTO.nombre}"></td>
             </tr>
             <tr>
                 <td><label>Apellido:</label></td>
                 <td><input type="text" id="first_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Castillo" required th:field="${usuarioRegistroTO.apellido}"></td>
+                        placeholder="Castillo Fernandez" required th:field="${usuarioRegistroTO.apellido}"></td>
             </tr>
             <tr>
                 <td><label>Cedula:</label></td>
-                <td><input type="text" id="first_name"
+                <td>
+                    <input type="text" id="cedula"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="1753341311" required th:field="${usuarioRegistroTO.cedula}"></td>
+                        placeholder="1753341311" required th:field="${usuarioRegistroTO.cedula}">
+                </td>
             </tr>
+            <script>
+                document.querySelector('form').addEventListener('submit', function (event) {
+                    var cedula = document.getElementById('cedula').value;
+                    if (cedula.length > 10) {
+                        event.preventDefault();
+                        alert('La cédula no debe exceder los 10 caracteres');
+                    }
+                });
+            </script>
             <tr>
                 <td><label>Género:</label></td>
                 <td>
@@ -222,10 +233,9 @@
             <tr>
                 <td><label>Teléfono:</label></td>
                 <td><!--<input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0995986132" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required th:field="${usuarioRegistroTO.telefono}">-->
-                    <input type="text" id="phone-input" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="0995996132" required
-                        th:field="${usuarioRegistroTO.telefono}">
+                    <input type="text" id="first_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="0996006155" required th:field="${usuarioRegistroTO.telefono}">
                 </td>
             </tr>
             <tr>
@@ -282,10 +292,9 @@
             </tr>
             <tr>
                 <td><label>Código Postal:</label></td>
-                <td><input type="text" id="zip-input" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="12345 or 12345-6789" pattern="^\d{5}(-\d{4})?$" required
-                        th:field="${usuarioRegistroTO.codigoPostal}"></td>
+                <td><input type="text" id="first_name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="170145" required th:field="${usuarioRegistroTO.codigoPostal}"></td>
             </tr>
             <tr>
                 <td><label>Usuario:</label></td>
@@ -322,17 +331,6 @@
                 <td><input type="text" id="first_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Presiento" required th:field="${usuarioRegistroTO.preguntaTres}"></td>
-            </tr>
-            <tr>
-                <td><label>Rol:</label></td>
-                <td class="select-wrapper">
-                    <select th:field="${usuarioRegistroTO.rol}">
-                        <option value="----------">Null</option>
-                        <option value="Empleado">Empleado</option>
-                        <option value="Cliente">Cliente</option>
-                        <option value="Administrador">Administrador</option>
-                    </select>
-                </td>
             </tr>
         </table>
         <div class="d-grid gap-2 col-6 mx-auto">

@@ -13,7 +13,6 @@ public class UsuarioRegistroTO {
     private String preguntaUno;
     private String preguntaDos;
     private String preguntaTres;
-    private String rol;
     private String codigoPostal;
     private String ciudad;
     private String provincia;
@@ -25,7 +24,7 @@ public class UsuarioRegistroTO {
 
     public UsuarioRegistroTO(String nickname, String nombre, String apellido, String cedula, String genero,
             String telefono, String correoElectronico, String constrasenia, String constraseniaRepetir,
-            String preguntaUno, String preguntaDos, String preguntaTres, String rol, String codigoPostal, String ciudad,
+            String preguntaUno, String preguntaDos, String preguntaTres, String codigoPostal, String ciudad,
             String provincia, String direccion) {
         this.nickname = nickname;
         this.nombre = nombre;
@@ -39,7 +38,6 @@ public class UsuarioRegistroTO {
         this.preguntaUno = preguntaUno;
         this.preguntaDos = preguntaDos;
         this.preguntaTres = preguntaTres;
-        this.rol = rol;
         this.codigoPostal = codigoPostal;
         this.ciudad = ciudad;
         this.provincia = provincia;
@@ -142,14 +140,6 @@ public class UsuarioRegistroTO {
 
     public void setConstraseniaRepetir(String constraseniaRepetir) {
         this.constraseniaRepetir = constraseniaRepetir;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
     }
 
     public String getCodigoPostal() {

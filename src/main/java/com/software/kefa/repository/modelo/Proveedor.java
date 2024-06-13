@@ -2,7 +2,8 @@ package com.software.kefa.repository.modelo;
 
 import java.time.LocalDateTime;
 import java.util.List;
- 
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,26 +20,23 @@ public class Proveedor {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_proveedor")
     @SequenceGenerator(name = "seq_proveedor", sequenceName = "seq_proveedor", allocationSize = 1)
     @Column(name = "prov_id")
- 
-    private String id;
+    private Integer id;
+
     @Column(name = "prov_nombre")
     private String nombre;
+
     @Column(name = "prov_pais")
     private String pais;
+
     @Column(name = "prov_tipo")
     private String tipo;
+
     @Column(name = "prov_fecha")
     private LocalDateTime fechaRegistro;
-    @OneToMany(mappedBy = "proveedor")
+    
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL)
     private List<Producto> productos;
- 
-    public String getId() {
-        return id;
-    }
- 
-    public void setId(String id) {
-        this.id = id;
-    }
+
  
     public String getNombre() {
         return nombre;
@@ -78,6 +76,14 @@ public class Proveedor {
  
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
  
 }

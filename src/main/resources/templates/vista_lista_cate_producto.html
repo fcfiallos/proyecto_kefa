@@ -3,8 +3,11 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Perfil</title>
+    <title>Categoría del Producto</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="dist/output.css" rel="stylesheet">
     <style>
         /* General styles */
         body {
@@ -56,7 +59,7 @@
             border-bottom: 1px solid #ddd;
         }
 
-        button {
+        /*button {
             padding: 15px;
             border: none;
             border-radius: 4px;
@@ -116,63 +119,28 @@
 </head>
 <body>
     <div class="overlay">
-        <h1>Datos Personales</h1>
+        <h1>Lista de Categorías de los Productos</h1>
         <table>
             <thead>
                 <tr>
-                    <th><h5>Atributo</h5></th>
-                    <th><h5>Valor</h5></th>
+                    <tr>
+                        <th>Tipo de categoría del Producto</th>
+                        <th>Descripción</th>
+                        <th>Imagen</th>
+                    </tr>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Nombres:</td>
-                    <td th:text="${usuarioPerfilDTO.nombre}"></td>
-                </tr>
-                <tr>
-                    <td>Apellidos:</td>
-                    <td th:text="${usuarioPerfilDTO.apellido}"></td>
-                </tr>
-                <tr>
-                    <td>Cedula:</td>
-                    <td th:text="${usuarioPerfilDTO.cedula}"></td>
-                </tr>
-                <tr>
-                    <td>Correo Electrónico:</td>
-                    <td th:text="${usuarioPerfilDTO.correoElectronico}"></td>
-                </tr>
-                <tr>
-                    <td>Teléfono:</td>
-                    <td th:text="${usuarioPerfilDTO.telefono}"></td>
-                </tr>
-                <tr>
-                    <td>Género:</td>
-                    <td th:text="${usuarioPerfilDTO.genero}"></td>
-                </tr>
-                <tr>
-                    <td>Rol:</td>
-                    <td th:text="${usuarioPerfilDTO.rol}"></td>
-                </tr>
-                <tr>
-                    <td>Código Postal:</td>
-                    <td th:text="${usuarioPerfilDTO.codigoPostal}"></td>
-                </tr>
-                <tr>
-                    <td>Ciudad:</td>
-                    <td th:text="${usuarioPerfilDTO.ciudad}"></td>
-                </tr>
-                <tr>
-                    <td>Provincia:</td>
-                    <td th:text="${usuarioPerfilDTO.provincia}"></td>
-                </tr>
-                <tr>
-                    <td>Dirección:</td>
-                    <td th:text="${usuarioPerfilDTO.direccion}"></td>
+                <tr th:each="categoriaProducto:${categoriaProductos}">
+                    <td th:text="${categoriaProducto.tipo}"></td>
+                    <td th:text="${categoriaProducto.descripcion}"></td>
+                    <td th:text="${categoriaProducto.imagen}"></td>
                 </tr>
             </tbody>
         </table>
-        <button type="button" onclick="window.location.href='/kefa/actualizar_perfil/{nickname}'">Modificar</button>
-        <button type="button" onclick="window.location.href='/kefa/formulario_iniciar_sesion'">Regresar</button>
+        <div class="d-grid gap-2 d-md-block">
+           <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/formulario_categoria_producto'">Añadir</button> 
+        </div>
     </div>
 </body>
 </html>

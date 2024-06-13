@@ -9,4 +9,5 @@ public interface IProductoRepository {
     public List<ProductoDTO> seleccionarTodo();
     public void insertar(Producto producto);
     public void actualizar(Producto producto);
+    public Producto seleccionarPorCodigo(String codigo);
 }

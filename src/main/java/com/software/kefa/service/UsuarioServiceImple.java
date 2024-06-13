@@ -1,14 +1,12 @@
 package com.software.kefa.service;
 
 import java.util.List;
-import java.util.function.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.software.kefa.excepcion.UsuarioExisteExcepcion;
-import com.software.kefa.repository.IRolRepository;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.Rol;
 import com.software.kefa.repository.modelo.Ubicacion;
@@ -31,9 +29,6 @@ import jakarta.transaction.Transactional.TxType;
 public class UsuarioServiceImple implements IUsuarioService {
     @Autowired
     private IUsuarioRepository repositoryImpl;
-
-    @Autowired
-    private IRolRepository rolRepositoryImpl;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -65,17 +60,23 @@ public class UsuarioServiceImple implements IUsuarioService {
         usuario.setApellido(usuarioTO.getApellido());
         usuario.setCedula(usuarioTO.getCedula());
 
+        //Encriptacion de Contraseña usuario
         String passwordEncriptada = passwordEncoder.encode(usuarioTO.getConstrasenia());
         usuario.setConstrasenia(passwordEncriptada);
         
-        //usuario.setConstrasenia(usuarioTO.getConstrasenia()); 
         usuario.setCorreoElectronico(usuarioTO.getCorreoElectronico());
         usuario.setGenero(usuarioTO.getGenero());
         usuario.setNickname(usuarioTO.getNickname());
         usuario.setNombre(usuarioTO.getNombre());
-        usuario.setPreguntaDos(usuarioTO.getPreguntaDos());
-        usuario.setPreguntaTres(usuarioTO.getPreguntaTres());
-        usuario.setPreguntaUno(usuarioTO.getPreguntaUno());
+
+        //Encriptacion de Preguntas de Seguridad
+        String encriptadaPreDos = passwordEncoder.encode(usuarioTO.getPreguntaDos());
+        usuario.setPreguntaDos(encriptadaPreDos);
+        String encriptadaPreTres = passwordEncoder.encode(usuarioTO.getPreguntaTres());
+        usuario.setPreguntaTres(encriptadaPreTres);
+        String encriptadaPreUno = passwordEncoder.encode(usuarioTO.getPreguntaUno());
+        usuario.setPreguntaUno(encriptadaPreUno);
+
         usuario.setTelefono(usuarioTO.getTelefono());
 
         Ubicacion ubicacion = new Ubicacion();

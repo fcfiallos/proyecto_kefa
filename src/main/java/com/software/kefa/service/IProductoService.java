@@ -7,7 +7,9 @@ import com.software.kefa.repository.modelo.modelosdto.ProductoDTO;
 import com.software.kefa.service.modelosto.ProductoTO;
  
 public interface IProductoService {
-public List<ProductoDTO> buscarTodo();
+    public List<ProductoDTO> buscarTodo();
     public void guardar(ProductoTO producto);
     public void actualizar(Producto producto);
+    public boolean existeProductoCodigo (String codigo);
+    public boolean existeProveedorNombre(String nombre);
 }
