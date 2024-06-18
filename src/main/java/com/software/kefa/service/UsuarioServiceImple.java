@@ -114,12 +114,12 @@ public class UsuarioServiceImple implements IUsuarioService {
     @Override
     public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi) {
 
-        /*if (usuarioEfi != null) {
+        if (usuarioEfi != null) {
             usuarioEfi.parallelStream().forEach(this::guardar);
         } else {
             System.out.println("no se puedo registrar usuario");
         }
-*/
+
     }
 
     /**

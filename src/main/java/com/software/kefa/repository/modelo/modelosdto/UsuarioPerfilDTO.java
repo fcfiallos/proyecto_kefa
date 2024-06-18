@@ -7,29 +7,29 @@ public class UsuarioPerfilDTO {
     private String correoElectronico;
     private String telefono;
     private String genero;
-    private String rol;
     private String codigoPostal;
     private String ciudad;
     private String provincia;
     private String direccion;
+    private String nickname;
 
     public UsuarioPerfilDTO() {
 
     }
 
     public UsuarioPerfilDTO(String nombre, String apellido, String cedula, String correoElectronico, String telefono,
-            String genero, String rol, String codigoPostal, String ciudad, String provincia, String direccion) {
+            String genero, String codigoPostal, String ciudad, String provincia, String direccion, String nickname) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.cedula = cedula;
         this.correoElectronico = correoElectronico;
         this.telefono = telefono;
         this.genero = genero;
-        this.rol = rol;
         this.codigoPostal = codigoPostal;
         this.ciudad = ciudad;
         this.provincia = provincia;
         this.direccion = direccion;
+        this.nickname = nickname;
     }
 
 
@@ -81,14 +81,6 @@ public class UsuarioPerfilDTO {
         this.genero = genero;
     }
 
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
     public String getCodigoPostal() {
         return codigoPostal;
     }
@@ -121,6 +113,12 @@ public class UsuarioPerfilDTO {
         this.direccion = direccion;
     }
 
-    
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
 }

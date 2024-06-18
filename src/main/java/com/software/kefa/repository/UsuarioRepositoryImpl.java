@@ -69,7 +69,7 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
     @Override
     public UsuarioPerfilDTO seleccionarInformacion(String nickname) {
         TypedQuery<UsuarioPerfilDTO> myQuery = this.entityManager.createQuery(
-                "SELECT NEW com.software.kefa.repository.modelo.modelosdto.UsuarioPerfilDTO (u.nombre, u.apellido, u.cedula, u.correoElectronico, u.telefono, u.genero, u.rol.nombre, u.ubicacion.codigoPostal, u.ubicacion.ciudad, u.ubicacion.provincia, u.ubicacion.direccion) FROM Usuario u WHERE u.nickname = :nickname",
+                "SELECT NEW com.software.kefa.repository.modelo.modelosdto.UsuarioPerfilDTO (u.nombre, u.apellido, u.cedula, u.correoElectronico, u.telefono, u.genero, u.ubicacion.codigoPostal, u.ubicacion.ciudad, u.ubicacion.provincia, u.ubicacion.direccion, u.nickname) FROM Usuario u WHERE u.nickname = :nickname",
                 UsuarioPerfilDTO.class);
         myQuery.setParameter("nickname", nickname);
         return myQuery.getSingleResult();

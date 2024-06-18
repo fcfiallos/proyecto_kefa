@@ -22,12 +22,9 @@ public class ProductoRepositoryImpl implements IProductoRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<ProductoDTO> seleccionarTodo() {
+    public List<Producto> seleccionarTodo() {
         // TODO Auto-generated method stub
-        TypedQuery<ProductoDTO> myQ = this.entityManager.createQuery(
-                "SELECT NEW com.software.kefa.repository.modelo.modelosdto.ProductoDTO (p.nombre, p.descripcion, p.codigo, p.estado,p.proveedor.nombre, p.cantidad, p.precio) FROM Producto p",
-                ProductoDTO.class);
-        return myQ.getResultList();
+        return this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
     }
 
     @Override
@@ -47,9 +44,10 @@ public class ProductoRepositoryImpl implements IProductoRepository {
     public Producto seleccionarPorCodigo(String codigo) {
         // TODO Auto-generated method stub
         try {
-            TypedQuery<Producto> query = this.entityManager.createQuery("SELECT p FROM Producto p WHERE p.codigo= :codigo", Producto.class);
-        query.setParameter("codigo", codigo);
-        return query.getSingleResult();
+            TypedQuery<Producto> query = this.entityManager
+                    .createQuery("SELECT p FROM Producto p WHERE p.codigo= :codigo", Producto.class);
+            query.setParameter("codigo", codigo);
+            return query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         }

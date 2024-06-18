@@ -37,7 +37,7 @@ public class ProductoServiceImpl implements IProductoService {
 
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
-    public List<ProductoDTO> buscarTodo() {
+    public List<Producto> buscarTodo() {
         // TODO Auto-generated method stub
         return this.productoRepository.seleccionarTodo();
     }
@@ -115,6 +115,12 @@ public class ProductoServiceImpl implements IProductoService {
         // TODO Auto-generated method stub
         Proveedor prov = this.proveedorRepository.seleccionarPorNombre(nombre);
         return prov != null;
+    }
+
+    @Override
+    public Producto buscarPorCodigo(String codigo) {
+        // TODO Auto-generated method stub
+        return this.productoRepository.seleccionarPorCodigo(codigo);
     }
 
 }
