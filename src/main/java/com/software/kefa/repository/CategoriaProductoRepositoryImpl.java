@@ -20,21 +20,21 @@ public class CategoriaProductoRepositoryImpl implements ICategoriaProductoReposi
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
     public List<CategoriaProducto> seleccionarTodo() {
-        // TODO Auto-generated method stub
+        
         return this.entityManager.createQuery("SELECT c FROM CategoriaProducto c", CategoriaProducto.class).getResultList();
     }
 
     @Override
     @Transactional(value = TxType.MANDATORY)
     public void insertar(CategoriaProducto producto) {
-        // TODO Auto-generated method stub
+        
         this.entityManager.persist(producto);
     }
 
     @Override
     
     public void actualizar(CategoriaProducto producto) {
-        // TODO Auto-generated method stub
+        
         this.entityManager.merge(producto);
     }
 

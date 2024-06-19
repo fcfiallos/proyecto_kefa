@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.software.kefa.repository.modelo.Ubicacion;
 import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.repository.modelo.modelosdto.UsuarioPerfilDTO;
 import com.software.kefa.service.IUsuarioService;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping("/kefa")
@@ -38,7 +37,6 @@ public class ControllerUsuarioPerfil {
     public String mostrarFormularioActulizar(@PathVariable("nickname") String nickname, Usuario usuario, Model model) {
         Usuario usuaAux = this.iUsuarioService.buscarPorNickname(nickname);
         if (usuaAux != null && usuaAux.getNickname().equals(nickname)) {
-            Ubicacion ubicacion = new Ubicacion();
             usuaAux.setApellido(usuario.getApellido());
             usuaAux.setNombre(usuario.getNombre());
             usuaAux.setCorreoElectronico(usuario.getCorreoElectronico());

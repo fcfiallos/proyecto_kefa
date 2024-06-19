@@ -26,6 +26,9 @@ public class Orden {
     @Column(name = "orde_id")
     private Integer id;
 
+    @Column(name = "orde_codigo")
+    private String codigo;
+
     @Column(name = "orde_fecha")
     private LocalDateTime fecha;
 
@@ -110,6 +113,14 @@ public class Orden {
 
     public void setCostoEnvio(BigDecimal costoEnvio) {
         this.costoEnvio = costoEnvio;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
 }

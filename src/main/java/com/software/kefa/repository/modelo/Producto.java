@@ -66,7 +66,7 @@ public class Producto {
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     private List<DetalleOrden> detalleOrden;
 
-    @ManyToMany(mappedBy = "producto")
+    @ManyToMany
     @JoinTable(name = "producto_promocion", joinColumns = @JoinColumn(name = "prod_id"), inverseJoinColumns = @JoinColumn(name = "prom_id"))
     private Set<Promocion> promocion;
 

@@ -12,7 +12,6 @@ import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IProveedorRepository;
 import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.repository.modelo.Proveedor;
-import com.software.kefa.repository.modelo.modelosdto.ProductoDTO;
 import com.software.kefa.service.modelosto.ProductoTO;
 
 import jakarta.transaction.Transactional;
@@ -38,7 +37,6 @@ public class ProductoServiceImpl implements IProductoService {
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public List<Producto> buscarTodo() {
-        // TODO Auto-generated method stub
         return this.productoRepository.seleccionarTodo();
     }
 
@@ -50,7 +48,6 @@ public class ProductoServiceImpl implements IProductoService {
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public void guardar(ProductoTO producto) {
-        // TODO Auto-generated method stub
         Producto pro = new Producto();
         Proveedor prov = new Proveedor();
 
@@ -87,7 +84,6 @@ public class ProductoServiceImpl implements IProductoService {
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public void actualizar(Producto producto) {
-        // TODO Auto-generated method stub
         this.productoRepository.actualizar(producto);
     }
 
@@ -99,7 +95,6 @@ public class ProductoServiceImpl implements IProductoService {
         */
     @Override
     public boolean existeProductoCodigo(String codigo) {
-        // TODO Auto-generated method stub
         Producto pro = this.productoRepository.seleccionarPorCodigo(codigo);
         return pro != null;
     }
@@ -112,14 +107,12 @@ public class ProductoServiceImpl implements IProductoService {
         */
     @Override
     public boolean existeProveedorNombre(String nombre) {
-        // TODO Auto-generated method stub
         Proveedor prov = this.proveedorRepository.seleccionarPorNombre(nombre);
         return prov != null;
     }
 
     @Override
     public Producto buscarPorCodigo(String codigo) {
-        // TODO Auto-generated method stub
         return this.productoRepository.seleccionarPorCodigo(codigo);
     }
 

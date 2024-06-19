@@ -1,8 +1,9 @@
 package com.software.kefa.controller;
 
-import java.util.function.Predicate;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.function.Predicate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.repository.modelo.Producto;
-import com.software.kefa.repository.modelo.Ubicacion;
-import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.IProductoService;
 import com.software.kefa.service.modelosto.ProductoTO;
 

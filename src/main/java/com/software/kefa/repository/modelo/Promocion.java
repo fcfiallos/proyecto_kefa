@@ -40,4 +40,62 @@ public class Promocion {
     @ManyToMany(mappedBy = "promocion")
     private Set<Producto> producto;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTipoPromocion() {
+        return tipoPromocion;
+    }
+
+    public void setTipoPromocion(String tipoPromocion) {
+        this.tipoPromocion = tipoPromocion;
+    }
+
+    public BigDecimal getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(BigDecimal descuento) {
+        this.descuento = descuento;
+    }
+
+    public LocalDateTime getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDateTime fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDateTime getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDateTime fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Set<Producto> getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Set<Producto> producto) {
+        this.producto = producto;
+    }
+
+    
+
 }

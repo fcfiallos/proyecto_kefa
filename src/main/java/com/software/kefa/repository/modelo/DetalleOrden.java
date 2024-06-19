@@ -37,7 +37,7 @@ public class DetalleOrden {
     private BigDecimal totalProducto;
 
     @ManyToOne
-    @JoinColumn(name = "deor_id_producto")
+    @JoinColumn(name = "deor_id_orden")
     private Orden orden;
 
     @ManyToOne

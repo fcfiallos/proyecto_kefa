@@ -25,14 +25,12 @@ public class ProveedorRepositoryImpl implements IProveedorRepository{
     @Override
     @Transactional(value = TxType.MANDATORY)
     public void actualizar(Proveedor proveedor) {
-        // TODO Auto-generated method stub
         this.entityManager.merge(proveedor);
     }
  
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
     public Proveedor seleccionarPorNombre(String nombre) {
-        // TODO Auto-generated method stub
         try {
             TypedQuery<Proveedor> query = this.entityManager.createQuery("SELECT p FROM Proveedor p WHERE p.nombre= :nombre", Proveedor.class);
         query.setParameter("nombre", nombre);
