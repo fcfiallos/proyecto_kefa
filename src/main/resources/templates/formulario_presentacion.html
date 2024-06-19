@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEFA - Tu Tienda de Tecnología</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            background: linear-gradient(90deg, #00e6e6, #33ffb1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header .logo img {
+            height: 50px;
+        }
+        header .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        header .buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        header .buttons button:hover {
+            transform: scale(1.05);
+        }
+        .btn-register {
+            background-color: rgba(0, 123, 255, 0.8);
+        }
+        .btn-register:hover {
+            background-color: rgba(0, 123, 255, 1);
+        }
+        .btn-login {
+            background-color: rgba(108, 117, 125, 0.8);
+        }
+        .btn-login:hover {
+            background-color: rgba(108, 117, 125, 1);
+        }
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px 10%;
+            background-color: #e9ecef;
+        }
+        .hero-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .hero-image img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            padding: 40px 10%;
+            text-align: center;
+            background-color: #ffffff;
+        }
+        .content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .content p {
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            font-size: 1.2rem;
+        }
+        .creators {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 40px 10%;
+            background-color: #f8f9fa;
+        }
+        .creator {
+            text-align: center;
+        }
+        .creator img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .creator h3 {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="tu-logo-aqui.png" alt="Logo KEFA">
+        </div>
+        <div class="buttons">
+            <button class="btn-register" onclick="window.location.href='/kefa/formulario_registro'">Registrarse</button>
+            <button class="btn-login" onclick="window.location.href='/kefa/formulario_iniciar_sesion'">Ingresar</button>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Bienvenido a KEFA</h1>
+            <p>Tu tienda en línea de productos tecnológicos de alta calidad.</p>
+        </div>
+        <div class="hero-image">
+            <img src="tu-imagen-empresa-aqui.jpg" alt="Imagen de la empresa">
+        </div>
+    </section>
+    <section class="content">
+        <h2>Nuestra Misión</h2>
+        <p>Proveer productos tecnológicos de alta calidad a nuestros clientes, mejorando su vida diaria a través de la innovación y la tecnología.</p>
+        <h2>Nuestra Visión</h2>
+        <p>Ser la empresa líder en ventas de productos tecnológicos en el mercado, reconocida por nuestra calidad, innovación y compromiso con la satisfacción del cliente.</p>
+    </section>
+    <section class="creators">
+        <div class="creator">
+            <img src="foto-creador1.jpg" alt="Creador 1">
+            <h3>Fatima Fiallos</h3>
+        </div>
+        <div class="creator">
+            <img src="foto-creador2.jpg" alt="Creador 2">
+            <h3>Kevin Hurtado</h3>
+        </div>
+    </section>
+</body>
+</html>

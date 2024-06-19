@@ -19,6 +19,12 @@ public class ControllerUsuarioLogin {
     @Autowired
     private IUsuarioService iUsuarioService;
 
+    @GetMapping("/presentacion")
+    public String mostrarPaginaDeLogin() {
+        // Retorna el nombre del archivo HTML sin la extensión
+        return "formulario_presentacion"; // Asume que tienes un archivo login.html en tu carpeta de recursos
+    }
+
     @GetMapping("/formulario_registro")
     public String mostrarFormularioUsuaClie(Model model) {
         model.addAttribute("usuarioRegistroTO", new UsuarioRegistroTO());

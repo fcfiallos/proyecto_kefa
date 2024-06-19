@@ -1,5 +1,7 @@
 package com.software.kefa.repository.modelo;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -62,6 +65,21 @@ public class Usuario {
 
     @OneToOne (mappedBy = "usuario", cascade = CascadeType.ALL)
     private Ubicacion ubicacion;
+
+    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Comentario> comentarios;
+    
+    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Devolucion> devoluciones;
+
+    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<PreguntaFrecuente> preguntasFrecuentes;
+
+    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Orden> ordenes;
+
+    @OneToOne (mappedBy = "usuario", cascade = CascadeType.ALL)
+    private CarritoCompra carritoCompra;
 
     //Setter and getter
     public String getNickname() {
@@ -174,6 +192,38 @@ public class Usuario {
 
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    public List<Devolucion> getDevoluciones() {
+        return devoluciones;
+    }
+
+    public void setDevoluciones(List<Devolucion> devoluciones) {
+        this.devoluciones = devoluciones;
+    }
+
+    public List<PreguntaFrecuente> getPreguntasFrecuentes() {
+        return preguntasFrecuentes;
+    }
+
+    public void setPreguntasFrecuentes(List<PreguntaFrecuente> preguntasFrecuentes) {
+        this.preguntasFrecuentes = preguntasFrecuentes;
+    }
+
+    public List<Orden> getOrdenes() {
+        return ordenes;
+    }
+
+    public void setOrdenes(List<Orden> ordenes) {
+        this.ordenes = ordenes;
     }
     
 }
