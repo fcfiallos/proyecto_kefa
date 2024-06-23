@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Perfil</title>
+    <title>Ayuda</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="dist/output.css" rel="stylesheet">
     <style>
         /* General styles */
@@ -43,8 +42,7 @@
             margin: 20px 0;
         }
 
-        th,
-        td {
+        th, td {
             padding: 12px;
             text-align: left;
         }
@@ -61,7 +59,7 @@
             border-bottom: 1px solid #ddd;
         }
 
-        button {
+        /*button {
             padding: 15px;
             border: none;
             border-radius: 4px;
@@ -101,8 +99,7 @@
                 width: 100%;
             }
 
-            th,
-            td {
+            th, td {
                 display: block;
                 width: 100%;
                 box-sizing: border-box;
@@ -120,67 +117,29 @@
         }
     </style>
 </head>
-
 <body>
     <div class="overlay">
-        <h1>Datos Personales</h1>
+        <h1>Preguntas Frecuentes</h1>
         <table>
             <thead>
                 <tr>
-                    <th>
-                        <h5>Atributo</h5>
-                    </th>
-                    <th>
-                        <h5>Valor</h5>
-                    </th>
+                    <tr>
+                        <th>Categoría:</th>
+                        <th>Pregunta:</th>
+                        <th>Respuesta:</th>
+                        <th>Fecha Creada:</th>
+                    </tr>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Nombres:</td>
-                    <td th:text="${usuario.nombre}"></td>
-                </tr>
-                <tr>
-                    <td>Apellidos:</td>
-                    <td th:text="${usuario.apellido}"></td>
-                </tr>
-                <tr>
-                    <td>Cedula:</td>
-                    <td th:text="${usuario.cedula}"></td>
-                </tr>
-                <tr>
-                    <td>Correo Electrónico:</td>
-                    <td th:text="${usuario.correoElectronico}"></td>
-                </tr>
-                <tr>
-                    <td>Teléfono:</td>
-                    <td th:text="${usuario.telefono}"></td>
-                </tr>
-                <tr>
-                    <td>Género:</td>
-                    <td th:text="${usuario.genero}"></td>
-                </tr>
-                <tr>
-                    <td>Código Postal:</td>
-                    <td th:text="${usuario.codigoPostal}"></td>
-                </tr>
-                <tr>
-                    <td>Ciudad:</td>
-                    <td th:text="${usuario.ciudad}"></td>
-                </tr>
-                <tr>
-                    <td>Provincia:</td>
-                    <td th:text="${usuario.provincia}"></td>
-                </tr>
-                <tr>
-                    <td>Dirección:</td>
-                    <td th:text="${usuario.direccion}"></td>
-                </tr>
-                <tr>
-                    <td>Actualizar:</td>
+                <tr th:each="preguntaFrecuente:${preguntasFrecuentes}">
+                    <td th:text="${preguntaFrecuente.categoria}"></td>
+                    <td th:text="${preguntaFrecuente.pregunta}"></td>
+                    <td th:text="${preguntaFrecuente.respuesta}"></td>
+                    <td th:text="${preguntaFrecuente.fecha_creacion}"></td>
                     <td>
                         <form
-                            th:action="@{/kefa/formulario_actualizar_perfil/{nickname}(nickname = ${usuario.nickname})}"
+                            th:action="@{/kefa/formulario_actualizar_sugerencia/{codigo}(codigo = ${preguntaFrecuente.id})}"
                             th:method="GET">
                             <input type="submit" class="btn btn-outline-secondary" value="Editar">
                         </form>
@@ -188,11 +147,12 @@
                 </tr>
             </tbody>
         </table>
-    <div>
-        <!--<button type="button" onclick="window.location.href='/kefa/actualizar_perfil/{nickname}'">Modificar</button>-->
-        <button type="button" onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+        <div class="d-grid gap-2 d-md-block">
+           <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/formulario_añadir_nueva_ayuda'">Añadir</button> 
+        </div>
+        <div class="d-grid gap-2 d-md-block">
+            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button> 
+         </div>
     </div>
-    <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 </body>
-
 </html>

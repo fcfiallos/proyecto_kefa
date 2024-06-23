@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ControllerUsuarioPerfilTest {
+public class ControllerUsuarioLoginTest {
     @Test
-    void testMostrarFormularioActulizar() {
+    void testIniciarSesion() {
 
     }
 
     @Test
-    void testMostrarFormularioUsuaClie() {
+    void testMostrarFormularioIniciarSecion() {
 
     }
 }

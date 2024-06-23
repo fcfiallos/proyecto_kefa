@@ -160,9 +160,8 @@
 
 <body>
     <h1>Añadir un Nueva Categoría del Producto</h1>
-
+    <div th:if="${error}" class="error-message" th:text="${error}"></div>
     <form th:action="@{/kefa/registrar_categoria_producto}" th:object="${categoriaProducto}" th:method="POST">
-        <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <table>
             <tr>
                 <td><label>Tipo de categoría del producto:</label></td>

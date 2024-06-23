@@ -160,10 +160,10 @@
 
 <body>
     <h1>Modificar Datos del Producto</h1>
-
+    <div th:if="${error}" class="error-message" th:text="${error}"></div>
     <form th:action="@{/kefa/actualizar_producto/{codigo}(codigo=${producto.codigo})}" th:object="${producto}"
         th:method="PUT">
-        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
         <table>
             <tr>
                 <td><label>Nombre del producto:</label></td>

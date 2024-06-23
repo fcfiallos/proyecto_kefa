@@ -165,7 +165,7 @@
             /* Centra horizontalmente */
             align-items: center;
             /* Centra verticalmente */
-            
+
             /* Altura del contenedor (opcional) */
         }
     </style>
@@ -175,11 +175,11 @@
     <div class="overlay">
         <h1>Iniciar Sesion</h1>
         <div class="contenedor-imagen">
-            <img src="../static/img/logo_transparente.png" th:src ="@{/img/logo_transparente.png}" alt="Logo" class="logo text-center" width="100px"
-                height="100px">
+            <img src="../static/img/LogoRobot.png" th:src="@{/img/logo_transparente.png}" alt="Logo"
+                class="logo text-center" width="100px" height="100px">
         </div>
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <form th:action="@{/kefa/iniciarSesion}" th:object="${usuarioRegistroTO}" th:method="POST">
-            <div th:if="${error}" class="error-message" th:text="${error}"></div>
             <table>
                 <tr>
                     <td><label>Usuario:</label></td>
@@ -196,9 +196,9 @@
             </table>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-outline-info">Ingresar</button>
-                    <button type="button" onclick="window.location.href='/kefa/presentacion'"
+                <button type="button" onclick="window.location.href='/kefa/presentacion'"
                     class="btn btn-outline-info">Recordar Contraseña</button>
-                    <button type="button" onclick="window.location.href='/kefa/presentacion'"
+                <button type="button" onclick="window.location.href='/kefa/presentacion'"
                     class="btn btn-outline-info">Regresar</button>
             </div>
         </form>

@@ -34,4 +34,10 @@ public class PreguntaFrecuenteRepositoryImpl implements IPreguntaFrecuenteReposi
         return this.entityManager.createQuery("SELECT p FROM PreguntaFrecuente p", PreguntaFrecuente.class).getResultList();
     }
 
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public PreguntaFrecuente seleccionarPorId(Integer id) {
+        return this.entityManager.find(PreguntaFrecuente.class, id);
+    }
+
 }

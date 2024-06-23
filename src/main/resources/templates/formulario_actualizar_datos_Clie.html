@@ -163,6 +163,7 @@
 
 <body>
     <h1>Actualización de Datos Personales</h1>
+    <div th:if="${error}" class="error-message" th:text="${error}"></div>
     <form th:action="@{/kefa/actualizar_perfil/{nickname}(nickname=${usuario.nickname})}" th:object="${usuario}"
         th:method="PUT">
         <table>

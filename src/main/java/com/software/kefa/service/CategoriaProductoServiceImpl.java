@@ -17,12 +17,6 @@ public class CategoriaProductoServiceImpl implements ICategoriaProductoService{
     private ICategoriaProductoRepository categoriaProductoRepository;
 
     @Override
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)   
-    public List<CategoriaProducto> buscarTodo() {
-        return this.categoriaProductoRepository.seleccionarTodo();
-    }
-
-    @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(CategoriaProducto categoriaProducto) {
         this.categoriaProductoRepository.insertar(categoriaProducto);
@@ -32,6 +26,12 @@ public class CategoriaProductoServiceImpl implements ICategoriaProductoService{
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void actualizar(CategoriaProducto categoriaProducto) {
         this.categoriaProductoRepository.actualizar(categoriaProducto);
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public List<CategoriaProducto> buscarTodo() {
+        return this.categoriaProductoRepository.seleccionarTodo();
     }
 
 }

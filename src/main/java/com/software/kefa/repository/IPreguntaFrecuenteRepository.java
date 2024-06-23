@@ -8,4 +8,5 @@ public interface IPreguntaFrecuenteRepository {
     public void insertar(PreguntaFrecuente preguntaFrecuente);
     public void actualizar(PreguntaFrecuente preguntaFrecuente);
     public List<PreguntaFrecuente> seleccionarTodo();
+    public PreguntaFrecuente seleccionarPorId(Integer id);
 }
