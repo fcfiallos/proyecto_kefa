@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.software.kefa.excepcion.UsuarioExisteExcepcion;
+import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IProveedorRepository;
 import com.software.kefa.repository.modelo.Producto;
@@ -53,7 +53,7 @@ public class ProductoServiceImpl implements IProductoService {
 
         if (this.existeProductoCodigo(producto.getCodigo())
                 || this.existeProveedorNombre(producto.getNombreProveedor())) {
-            throw new UsuarioExisteExcepcion("El proveedor o el código del producto ya existe");
+            throw new MensajeExisteExcepcion("El proveedor o el código del producto ya existe");
         }
 
         pro.setCantidad(producto.getCantidad());

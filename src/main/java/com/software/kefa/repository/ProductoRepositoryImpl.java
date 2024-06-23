@@ -21,16 +21,19 @@ public class ProductoRepositoryImpl implements IProductoRepository {
     private EntityManager entityManager;
 
     @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
     public List<Producto> seleccionarTodo() {
         return this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
     }
 
     @Override
+    @Transactional(value = TxType.MANDATORY)
     public void insertar(Producto producto) {
         this.entityManager.persist(producto);
     }
 
     @Override
+    @Transactional(value = TxType.MANDATORY)
     public void actualizar(Producto producto) {
         this.entityManager.merge(producto);
     }

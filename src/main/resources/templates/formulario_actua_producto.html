@@ -156,6 +156,16 @@
             }
         }
     </style>
+     <script>
+        function setCategoriaId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoriaId = urlParams.get('categoriaId');
+            if (categoriaId) {
+                document.getElementById('categoriaIdInput').value = categoriaId;
+            }
+        }
+        window.onload = setCategoriaId;
+    </script>
 </head>
 
 <body>
@@ -163,7 +173,7 @@
     <div th:if="${error}" class="error-message" th:text="${error}"></div>
     <form th:action="@{/kefa/actualizar_producto/{codigo}(codigo=${producto.codigo})}" th:object="${producto}"
         th:method="PUT">
-
+        <input type="hidden" name="categoriaId" th:value="${categoriaId}"/>
         <table>
             <tr>
                 <td><label>Nombre del producto:</label></td>

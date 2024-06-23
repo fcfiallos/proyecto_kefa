@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.software.kefa.repository.ICategoriaProductoRepository;
 import com.software.kefa.repository.modelo.CategoriaProducto;
+import com.software.kefa.repository.modelo.Producto;
 
 import jakarta.transaction.Transactional;
 
@@ -32,6 +33,18 @@ public class CategoriaProductoServiceImpl implements ICategoriaProductoService{
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public List<CategoriaProducto> buscarTodo() {
         return this.categoriaProductoRepository.seleccionarTodo();
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public CategoriaProducto buscarPorId(Integer id) {
+        return this.categoriaProductoRepository.seleccionarPorId(id);
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public List<Producto> buscarProductosPorCategoria(Integer categoriaId) {
+        return this.categoriaProductoRepository.seleccionarProductosPorCategoria(categoriaId);
     }
 
 }

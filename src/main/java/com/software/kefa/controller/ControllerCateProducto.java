@@ -8,10 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.repository.modelo.CategoriaProducto;
+import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.service.ICategoriaProductoService;
 
 @Controller
@@ -46,5 +48,14 @@ public class ControllerCateProducto {
             return "formulario_cate_producto";
         }
     }
+
+    /*@GetMapping("/categoria/{id}/productos")
+    public String vistaProductosPorCategoria(@PathVariable("id") Integer categoriaId, Model model) {
+        CategoriaProducto categoria = categoriaProductoService.buscarPorId(categoriaId);
+        List<Producto> productos = categoriaProductoService.buscarProductosPorCategoria(categoriaId);
+        model.addAttribute("categoriaProductos", categoria);
+        model.addAttribute("productos", productos);
+        return "vista_lista_producto";
+    }*/
 
 }

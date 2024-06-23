@@ -136,7 +136,9 @@
             </thead>
             <tbody>
                 <tr th:each="categoriaProducto:${categoriaProductos}">
-                    <td th:text="${categoriaProducto.tipo}"></td>
+                    <td>
+                        <a th:href="@{/kefa/categoria/{id}/productos(id=${categoriaProducto.id})}" th:text="${categoriaProducto.tipo}"></a>
+                    </td>
                     <td th:text="${categoriaProducto.descripcion}"></td>
                     <td>
                         <img th:src="@{${categoriaProducto.imagen}}" width="40px" height="40px">
