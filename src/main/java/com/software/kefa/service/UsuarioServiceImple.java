@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.software.kefa.excepcion.UsuarioExisteExcepcion;
+import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.Rol;
 import com.software.kefa.repository.modelo.Ubicacion;
@@ -37,7 +37,7 @@ public class UsuarioServiceImple implements IUsuarioService {
      * Saves a new user in the system.
      *
      * @param usuarioTO The user registration data.
-     * @throws UsuarioExisteExcepcion   If the user already exists.
+     * @throws MensajeExisteExcepcion   If the user already exists.
      * @throws IllegalArgumentException If the passwords do not match.
      */
     @Override
@@ -50,7 +50,7 @@ public class UsuarioServiceImple implements IUsuarioService {
 
         // Verificar si el usuario ya existe por cédula o nickname
         if (this.existeUsuarioCedula(cedula) || this.existeUsuarioNickname(nickname)) {
-            throw new UsuarioExisteExcepcion("El usuario ya existe");
+            throw new MensajeExisteExcepcion("El usuario ya existe");
         }
 
         if (!confirmar.equals(recofirmar)) {

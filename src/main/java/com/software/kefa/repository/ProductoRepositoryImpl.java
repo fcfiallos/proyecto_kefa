@@ -21,8 +21,14 @@ public class ProductoRepositoryImpl implements IProductoRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Producto> seleccionarTodo() {
-        return this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
+    public List<Producto> seleccionarPorCategoriaId(Integer categoriaID) {
+        try {
+            return this.entityManager.createQuery("SELECT p FROM Producto p WHERE p.categoriaProducto.id = :categoriaID",
+                Producto.class).setParameter("categoriaID", categoriaID).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+        
     }
 
     @Override

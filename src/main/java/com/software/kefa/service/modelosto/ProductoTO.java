@@ -10,12 +10,13 @@ public class ProductoTO {
     private String imagen;
     private String pais;
     private String tipo;
+    private Integer categoriaId;
 
     public ProductoTO() {
     }
 
     public ProductoTO(String nombre, String descripcion, String codigo, String nombreProveedor,
-            String precio, Integer cantidad, String imagen, String pais, String tipo) {
+            String precio, Integer cantidad, String imagen, String pais, String tipo, Integer categoriaId) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.codigo = codigo;
@@ -25,6 +26,7 @@ public class ProductoTO {
         this.imagen = imagen;
         this.pais = pais;
         this.tipo = tipo;
+        this.categoriaId = categoriaId;
     }
 
     public String getPrecio() {
@@ -97,6 +99,14 @@ public class ProductoTO {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Integer getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Integer categoriaId) {
+        this.categoriaId = categoriaId;
     }
     
 }

@@ -161,7 +161,7 @@
 <body>
     <h1>Modificar Datos del Producto</h1>
     <div th:if="${error}" class="error-message" th:text="${error}"></div>
-    <form th:action="@{/kefa/actualizar_producto/{codigo}(codigo=${producto.codigo})}" th:object="${producto}"
+    <form th:action="@{/kefa/categoria/{categoriaId}/lista_productos/actualizar_producto/{codigo}(categoriaId=${categoriaId},codigo=${producto.codigo})}" th:object="${producto}"
         th:method="PUT">
 
         <table>
@@ -213,10 +213,19 @@
         </table>
         <div class="d-grid gap-2 col-6 mx-auto">
             <button type="submit" class="btn btn-outline-secondary">Actualizar</button>
-            <button type="button" onclick="window.location.href='/kefa/lista_productos'"
-                class="btn btn-outline-secondary">Regresar</button>
+            <button type="button" class="btn btn-outline-info" id="addButton">Regresar</button>
         </div>
     </form>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const categoriaId = [[${ categoriaId }]]; // Obtiene el id de categoría del modelo
+            document.getElementById('addButton').onclick = function () {
+                window.location.href = `/kefa/categoria/${categoriaId}/lista_productos`;
+            };
+        });
+        /*]]>*/
+    </script>
     <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 </body>
 

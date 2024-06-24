@@ -9,6 +9,7 @@ import com.software.kefa.repository.ICategoriaProductoRepository;
 import com.software.kefa.repository.modelo.CategoriaProducto;
 
 import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @Service
 public class CategoriaProductoServiceImpl implements ICategoriaProductoService{
@@ -32,6 +33,15 @@ public class CategoriaProductoServiceImpl implements ICategoriaProductoService{
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public List<CategoriaProducto> buscarTodo() {
         return this.categoriaProductoRepository.seleccionarTodo();
+    }
+
+    @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
+    public CategoriaProducto buscarPorId(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("El ID no puede ser null");
+        }
+        return this.categoriaProductoRepository.seleccionarPorId(id);
     }
 
 }

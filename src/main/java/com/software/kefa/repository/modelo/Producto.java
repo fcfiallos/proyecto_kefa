@@ -70,13 +70,13 @@ public class Producto {
     @JoinTable(name = "producto_promocion", joinColumns = @JoinColumn(name = "prod_id"), inverseJoinColumns = @JoinColumn(name = "prom_id"))
     private Set<Promocion> promocion;
 
-    @ManyToOne
-    @JoinColumn(name = "prod_id_lista_deseos")
-    private ListaDeseos listaDeseos;
+    @ManyToMany
+    @JoinTable(name = "producto_lista_deseos", joinColumns = @JoinColumn(name = "prod_id"), inverseJoinColumns = @JoinColumn(name = "lide_id"))
+    private Set<ListaDeseos> listaDeseos;
 
-    @ManyToOne
-    @JoinColumn(name = "prod_id_carrito_compra")
-    private CarritoCompra carritoCompra;
+    @ManyToMany
+    @JoinTable(name = "producto_carrito_compra", joinColumns = @JoinColumn(name = "prod_id"), inverseJoinColumns = @JoinColumn(name = "cdco_id"))
+    private Set<CarritoCompra> carritoCompra;
 
     public Proveedor getProveedor() {
         return proveedor;
@@ -182,20 +182,19 @@ public class Producto {
         this.promocion = promocion;
     }
 
-    public ListaDeseos getListaDeseos() {
+    public Set<ListaDeseos> getListaDeseos() {
         return listaDeseos;
     }
 
-    public void setListaDeseos(ListaDeseos listaDeseos) {
+    public void setListaDeseos(Set<ListaDeseos> listaDeseos) {
         this.listaDeseos = listaDeseos;
     }
 
-    public CarritoCompra getCarritoCompra() {
+    public Set<CarritoCompra> getCarritoCompra() {
         return carritoCompra;
     }
 
-    public void setCarritoCompra(CarritoCompra carritoCompra) {
+    public void setCarritoCompra(Set<CarritoCompra> carritoCompra) {
         this.carritoCompra = carritoCompra;
     }
-
 }

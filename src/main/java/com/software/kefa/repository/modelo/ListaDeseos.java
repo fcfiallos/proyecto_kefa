@@ -1,14 +1,14 @@
 package com.software.kefa.repository.modelo;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -27,8 +27,8 @@ public class ListaDeseos {
     @Column(name = "lide_fecha_seleccionada")
     private LocalDateTime fechaSeleccionada;
 
-    @OneToMany(mappedBy = "listaDeseos")
-    private List<Producto> productos;
+    @ManyToMany(mappedBy = "listaDeseos")
+    private Set<Producto> productos;
 
     public Integer getId() {
         return id;
@@ -54,14 +54,12 @@ public class ListaDeseos {
         this.fechaSeleccionada = fechaSeleccionada;
     }
 
-    public List<Producto> getProductos() {
+    public Set<Producto> getProductos() {
         return productos;
     }
 
-    public void setProductos(List<Producto> productos) {
+    public void setProductos(Set<Producto> productos) {
         this.productos = productos;
     }
-
-    
 
 }

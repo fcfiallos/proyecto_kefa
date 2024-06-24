@@ -136,7 +136,10 @@
             </thead>
             <tbody>
                 <tr th:each="categoriaProducto:${categoriaProductos}">
-                    <td th:text="${categoriaProducto.tipo}"></td>
+                    <td>
+                        <a th:href="@{/kefa/categoria/{id}/productos(id=${categoriaProducto.id})}"
+                            th:text="${categoriaProducto.tipo}"></a>
+                    </td>
                     <td th:text="${categoriaProducto.descripcion}"></td>
                     <td>
                         <img th:src="@{${categoriaProducto.imagen}}" width="40px" height="40px">
@@ -149,8 +152,10 @@
                 onclick="window.location.href='/kefa/formulario_categoria_producto'">Añadir</button>
         </div>
         <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/perfil_usuario'">Cuenta</button> 
-            <!--<form th:action="@{/kefa/perfil_usuario/{nickname}(nickname = ${categoriaProductos.nickname})}"
+            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/perfil_usuario'">Cuenta</button>
+            <!--<button type="button" class="btn btn-outline-info" data-nickname="${nickname}"
+                onclick="redirectToUserAccount()">Cuenta</button>
+            <form th:action="@{/kefa/perfil_usuario/{nickname}(nickname = ${categoriaProductos.nickname})}"
                 th:method="GET">
                 <input type="submit" class="btn btn-outline-secondary" value="Cuenta">
             </form>-->
@@ -162,12 +167,28 @@
             <button type="button" class="btn btn-outline-info" onclick="window.location.href=''">Reportes</button>
         </div>
         <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/formulario_otros_servicios'">Otros</button>
+            <button type="button" class="btn btn-outline-info"
+                onclick="window.location.href='/kefa/formulario_otros_servicios'">Otros</button>
         </div>
         <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/lista_sugerencias'">Ayuda</button>
+            <button type="button" class="btn btn-outline-info"
+                onclick="window.location.href='/kefa/lista_sugerencias'">Ayuda</button>
         </div>
     </div>
+    <!--<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Supongamos que este es el nickname obtenido de alguna parte
+            var userNickname = 'elNicknameDelUsuario';
+
+            // Encuentra el botón por su clase (ajusta esto según sea necesario)
+            var button = document.querySelector('.btn-outline-info');
+
+            // Asigna el nickname como un atributo de datos
+            button.setAttribute('data-nickname', userNickname);
+
+            // Ahora el botón tiene el atributo data-nickname con el valor correcto
+        });
+    </script>-->
 </body>
 
 </html>

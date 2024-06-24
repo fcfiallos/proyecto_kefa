@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.software.kefa.repository.modelo.CategoriaProducto;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
@@ -32,10 +33,21 @@ public class CategoriaProductoRepositoryImpl implements ICategoriaProductoReposi
     }
 
     @Override
-    
+    @Transactional(value = TxType.MANDATORY)
     public void actualizar(CategoriaProducto producto) {
         
         this.entityManager.merge(producto);
+    }
+
+    @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
+    public CategoriaProducto seleccionarPorId(Integer id) {
+        try {
+            return this.entityManager.find(CategoriaProducto.class, id);
+        } catch (NoResultException e) {
+            return null;
+        }
+        
     }
 
 }

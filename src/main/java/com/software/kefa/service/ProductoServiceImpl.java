@@ -7,9 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.software.kefa.excepcion.UsuarioExisteExcepcion;
+import com.software.kefa.excepcion.MensajeExisteExcepcion;
+import com.software.kefa.repository.ICategoriaProductoRepository;
 import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IProveedorRepository;
+import com.software.kefa.repository.modelo.CategoriaProducto;
 import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.repository.modelo.Proveedor;
 import com.software.kefa.service.modelosto.ProductoTO;
@@ -31,13 +33,16 @@ public class ProductoServiceImpl implements IProductoService {
     @Autowired
     private IProveedorRepository proveedorRepository;
 
+    @Autowired
+    private ICategoriaProductoRepository categoriaProductoRepository;
+
     // @Autowired
     // private IUsuarioRepository usuarioRepository;
 
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
-    public List<Producto> buscarTodo() {
-        return this.productoRepository.seleccionarTodo();
+    public List<Producto> buscarPorCategoriaId(Integer categoriaID) {
+        return this.productoRepository.seleccionarPorCategoriaId(categoriaID);
     }
 
     /**
@@ -50,10 +55,15 @@ public class ProductoServiceImpl implements IProductoService {
     public void guardar(ProductoTO producto) {
         Producto pro = new Producto();
         Proveedor prov = new Proveedor();
+        CategoriaProducto categoria = this.categoriaProductoRepository.seleccionarPorId(producto.getCategoriaId());
 
         if (this.existeProductoCodigo(producto.getCodigo())
                 || this.existeProveedorNombre(producto.getNombreProveedor())) {
-            throw new UsuarioExisteExcepcion("El proveedor o el código del producto ya existe");
+            throw new MensajeExisteExcepcion("El proveedor o el código del producto ya existe");
+        }
+
+        if (categoria == null) {
+            throw new RuntimeException("La categoría especificada no existe.");
         }
 
         pro.setCantidad(producto.getCantidad());
@@ -71,6 +81,7 @@ public class ProductoServiceImpl implements IProductoService {
         prov.setTipo(producto.getTipo());
 
         pro.setProveedor(prov);
+        pro.setCategoriaProducto(categoria);
 
         this.productoRepository.insertar(pro);
         this.proveedorRepository.insertar(prov);
@@ -94,6 +105,7 @@ public class ProductoServiceImpl implements IProductoService {
         * @return true if a product with the given code exists, false otherwise
         */
     @Override
+    @Transactional (value = TxType.REQUIRES_NEW)
     public boolean existeProductoCodigo(String codigo) {
         Producto pro = this.productoRepository.seleccionarPorCodigo(codigo);
         return pro != null;
@@ -106,12 +118,14 @@ public class ProductoServiceImpl implements IProductoService {
         * @return true if a provider with the given name exists, false otherwise
         */
     @Override
+    @Transactional (value = TxType.REQUIRES_NEW)
     public boolean existeProveedorNombre(String nombre) {
         Proveedor prov = this.proveedorRepository.seleccionarPorNombre(nombre);
         return prov != null;
     }
 
     @Override
+    @Transactional (value = TxType.REQUIRES_NEW)
     public Producto buscarPorCodigo(String codigo) {
         return this.productoRepository.seleccionarPorCodigo(codigo);
     }

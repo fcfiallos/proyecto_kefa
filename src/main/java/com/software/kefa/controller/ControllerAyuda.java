@@ -1,6 +1,5 @@
 package com.software.kefa.controller;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Predicate;
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.repository.modelo.PreguntaFrecuente;
-import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.service.IPreguntaFrecuenteService;
-import com.software.kefa.service.modelosto.OtrosTO;
-import com.software.kefa.service.modelosto.ProductoTO;
 
 @Controller
 @RequestMapping("/kefa")

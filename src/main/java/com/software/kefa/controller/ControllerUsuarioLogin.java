@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.software.kefa.excepcion.UsuarioExisteExcepcion;
+import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.IUsuarioService;
 import com.software.kefa.service.modelosto.UsuarioRegistroTO;
@@ -63,7 +63,7 @@ public class ControllerUsuarioLogin {
         try {
             this.iUsuarioService.guardar(usuarioRegistroTO);
             return "redirect:/kefa/formulario_iniciar_sesion";
-        } catch (UsuarioExisteExcepcion e) {
+        } catch (MensajeExisteExcepcion e) {
             model.addAttribute("error", e.getMessage());
             return "formulario_registro_ClieUsua";
         } catch (IllegalArgumentException e) {

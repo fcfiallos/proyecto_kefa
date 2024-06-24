@@ -8,4 +8,5 @@ public interface ICategoriaProductoRepository {
     public List<CategoriaProducto> seleccionarTodo();
     public void insertar(CategoriaProducto producto);
     public void actualizar(CategoriaProducto producto);
+    public CategoriaProducto seleccionarPorId (Integer id);
 }
