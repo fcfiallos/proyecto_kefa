@@ -123,70 +123,33 @@
 
 <body>
     <div class="overlay">
-        <h1>Lista de Productos</h1>
-        <table>
-            <thead>
-                <tr>
-                <tr>
-                    <th>Nombre del Producto</th>
-                    <th>Descripción</th>
-                    <th>Código</th>
-                    <th>Estado</th>
-                    <th>Imagen</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Modificacion</th>
-                    <th>Acciones</th>
-                </tr>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="producto:${productos}">
-                    <td th:text="${producto.nombre}"></td>
-                    <td th:text="${producto.descripcion}"></td>
-                    <td th:text="${producto.codigo}"></td>
-                    <td th:text="${producto.estado}"></td>
-                    <td>
-                        <img th:src="@{${producto.imagen}}" width="40px" height="40px">
-                    </td>
-                    <td th:text="${producto.cantidad}"></td>
-                    <td th:text="${producto.precio}"></td>
-                    <td>
-                        <form
-                            th:action="@{/kefa/categoria/{id}/lista_productos/formulario_actualizar_producto/{codigo}(id=${categoriaId}, codigo=${producto.codigo})}"
-                            th:method="GET">
-                            <input type="submit" class="btn btn-outline-secondary" value="Editar">
-                        </form>
-                    </td>
-                    <td>
-                        <form th:action="@{/kefa/carrito/agregar}" method="post" style="display:inline;">
-                            <input type="hidden" name="productoId" th:value="${producto.id}" />
-                            <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
-                        </form>
-                        <form th:action="@{/kefa/lista_deseos/agregar}" method="post" style="display:inline;">
-                            <input type="hidden" name="productoId" th:value="${producto.id}" />
-                            <button type="submit" class="btn btn-secondary">Agregar a Lista de Deseos</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" id="addButton">Añadir</button>
-            <button type="button" class="btn btn-outline-secondary"
-                onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+        <h1>Lista de Lista de Deseos</h1>
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+        <div th:if="${#lists.isEmpty(listaDeseos)}">
+            <p>No hay productos en tu lista de deseos.</p>
         </div>
-    </div>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const categoriaId = [[${ categoriaId }]]; // Obtiene el id de categoría del modelo
-            document.getElementById('addButton').onclick = function () {
-                window.location.href = `/kefa/categoria/${categoriaId}/lista_productos/formulario_producto`;
-            };
-        });
-        /*]]>*/
-    </script>
+        <div th:if="${not #lists.isEmpty(listaDeseos)}">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="producto : ${listaDeseos}">
+                        <td th:text="${producto.nombre}">Nombre del Producto</td>
+                        <td th:text="${producto.descripcion}">Descripción</td>
+                        <td th:text="${producto.precio}">Precio</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-grid gap-2 d-md-block">
+            <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+        </div>
 </body>
 
 </html>

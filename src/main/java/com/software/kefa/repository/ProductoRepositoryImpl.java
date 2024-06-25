@@ -21,6 +21,7 @@ public class ProductoRepositoryImpl implements IProductoRepository {
     private EntityManager entityManager;
 
     @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
     public List<Producto> seleccionarPorCategoriaId(Integer categoriaID) {
         try {
             return this.entityManager.createQuery("SELECT p FROM Producto p WHERE p.categoriaProducto.id = :categoriaID",
@@ -32,11 +33,13 @@ public class ProductoRepositoryImpl implements IProductoRepository {
     }
 
     @Override
+    @Transactional(value = TxType.MANDATORY)
     public void insertar(Producto producto) {
         this.entityManager.persist(producto);
     }
 
     @Override
+    @Transactional(value = TxType.MANDATORY)
     public void actualizar(Producto producto) {
         this.entityManager.merge(producto);
     }
@@ -52,6 +55,16 @@ public class ProductoRepositoryImpl implements IProductoRepository {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
+    public Producto seleccionarPorId(Integer id) {
+        try {
+            return this.entityManager.find(Producto.class, id);
+        } catch (NoResultException e) {
+            return null;
+        } 
     }
 
 }

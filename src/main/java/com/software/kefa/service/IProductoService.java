@@ -12,4 +12,5 @@ public interface IProductoService {
     public boolean existeProductoCodigo (String codigo);
     public boolean existeProveedorNombre(String nombre);
     public Producto buscarPorCodigo(String codigo);
+    public Producto buscarPorId(Integer id);
 }

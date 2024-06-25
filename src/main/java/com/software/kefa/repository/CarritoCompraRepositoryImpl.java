@@ -1,10 +1,15 @@
 package com.software.kefa.repository;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.stereotype.Repository;
 
 import com.software.kefa.repository.modelo.CarritoCompra;
+import com.software.kefa.repository.modelo.Producto;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
@@ -26,4 +31,21 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository{
         this.entityManager.merge(carritoCompra);
     }
 
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public CarritoCompra seleccionarPorId(Integer id) {
+        try {
+            return this.entityManager.find(CarritoCompra.class, id);
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public Set<Producto> seleccionarTodo() {
+        return new HashSet<>(this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList());
+    }
+
 }
+

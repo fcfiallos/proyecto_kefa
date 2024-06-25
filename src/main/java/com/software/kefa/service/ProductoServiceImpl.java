@@ -130,4 +130,9 @@ public class ProductoServiceImpl implements IProductoService {
         return this.productoRepository.seleccionarPorCodigo(codigo);
     }
 
+    @Override
+    public Producto buscarPorId(Integer id) {
+        return this.productoRepository.seleccionarPorId(id);
+    }
+
 }

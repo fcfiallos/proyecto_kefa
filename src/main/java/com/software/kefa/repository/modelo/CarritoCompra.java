@@ -1,5 +1,6 @@
 package com.software.kefa.repository.modelo;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -25,6 +26,9 @@ public class CarritoCompra {
 
     @Column(name = "cdco_cantidad")
     private Integer cantidad;
+
+    @Column(name = "cdco_fecha_seleccionada")
+    private LocalDateTime fechaSeleccionada;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cdco_id_usuario")
@@ -63,6 +67,14 @@ public class CarritoCompra {
 
     public void setProductos(Set<Producto> productos) {
         this.productos = productos;
+    }
+
+    public LocalDateTime getFechaSeleccionada() {
+        return fechaSeleccionada;
+    }
+
+    public void setFechaSeleccionada(LocalDateTime fechaSeleccionada) {
+        this.fechaSeleccionada = fechaSeleccionada;
     }
 
 }

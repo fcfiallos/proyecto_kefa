@@ -1,12 +1,15 @@
 package com.software.kefa.repository;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
 import com.software.kefa.repository.modelo.ListaDeseos;
+import com.software.kefa.repository.modelo.Producto;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
@@ -30,8 +33,24 @@ public class ListaDeseoRepositoryImpl implements IListaDeseoRepository{
 
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
-    public List<ListaDeseos> seleccionarTodo() {
-        return this.entityManager.createQuery("SELECT l FROM ListaDeseos l", ListaDeseos.class).getResultList();
+    public Set<Producto> seleccionarTodo(Integer id) {
+        try {
+            return new HashSet<>(this.entityManager.createQuery("SELECT p FROM Producto p WHERE p.categoriaProducto.id = :id", Producto.class)
+                                             .setParameter("id", id)
+                                             .getResultList());
+        } catch (NoResultException e) {
+            return null;
+        }  
+    }
+
+    @Override
+    public ListaDeseos seleccionarPorId(Integer id) {
+        try {
+           return this.entityManager.find(ListaDeseos.class, id); 
+        } catch (NoResultException e) {
+            return null;
+        }
+        
     }
 
 }
