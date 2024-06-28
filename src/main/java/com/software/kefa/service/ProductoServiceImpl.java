@@ -11,9 +11,11 @@ import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.ICategoriaProductoRepository;
 import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IProveedorRepository;
+import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.CategoriaProducto;
 import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.repository.modelo.Proveedor;
+import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.modelosto.ProductoTO;
 
 import jakarta.transaction.Transactional;
@@ -36,8 +38,8 @@ public class ProductoServiceImpl implements IProductoService {
     @Autowired
     private ICategoriaProductoRepository categoriaProductoRepository;
 
-    // @Autowired
-    // private IUsuarioRepository usuarioRepository;
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
 
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
@@ -52,9 +54,10 @@ public class ProductoServiceImpl implements IProductoService {
      */
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
-    public void guardar(ProductoTO producto) {
+    public void guardar(ProductoTO producto, String nickname) {
         Producto pro = new Producto();
         Proveedor prov = new Proveedor();
+        Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
         CategoriaProducto categoria = this.categoriaProductoRepository.seleccionarPorId(producto.getCategoriaId());
 
         if (this.existeProductoCodigo(producto.getCodigo())
@@ -69,7 +72,8 @@ public class ProductoServiceImpl implements IProductoService {
         pro.setCantidad(producto.getCantidad());
         pro.setCodigo(producto.getCodigo());
         pro.setDescripcion(producto.getDescripcion());
-        pro.setEstado("Disponible"); // en la entidad orden toca manipular cuando este agotado envia ese cambio de estado
+        pro.setEstado("Disponible"); // en la entidad orden toca manipular cuando este agotado envia ese cambio de
+                                     // estado
         pro.setNombre(producto.getNombre());
         pro.setImagen(producto.getImagen());
         BigDecimal precio = new BigDecimal(producto.getPrecio());
@@ -82,16 +86,17 @@ public class ProductoServiceImpl implements IProductoService {
 
         pro.setProveedor(prov);
         pro.setCategoriaProducto(categoria);
+        pro.setUsuario(usuario);
 
         this.productoRepository.insertar(pro);
         this.proveedorRepository.insertar(prov);
     }
 
     /**
-        * Actualiza un producto en la base de datos.
-        *
-        * @param producto El producto a actualizar.
-        */
+     * Actualiza un producto en la base de datos.
+     *
+     * @param producto El producto a actualizar.
+     */
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public void actualizar(Producto producto) {
@@ -99,33 +104,33 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     /**
-        * Checks if a product with the given code exists.
-        *
-        * @param codigo the code of the product to check
-        * @return true if a product with the given code exists, false otherwise
-        */
+     * Checks if a product with the given code exists.
+     *
+     * @param codigo the code of the product to check
+     * @return true if a product with the given code exists, false otherwise
+     */
     @Override
-    @Transactional (value = TxType.REQUIRES_NEW)
+    @Transactional(value = TxType.REQUIRES_NEW)
     public boolean existeProductoCodigo(String codigo) {
         Producto pro = this.productoRepository.seleccionarPorCodigo(codigo);
         return pro != null;
     }
 
     /**
-        * Checks if a provider with the given name exists.
-        *
-        * @param nombre the name of the provider to check
-        * @return true if a provider with the given name exists, false otherwise
-        */
+     * Checks if a provider with the given name exists.
+     *
+     * @param nombre the name of the provider to check
+     * @return true if a provider with the given name exists, false otherwise
+     */
     @Override
-    @Transactional (value = TxType.REQUIRES_NEW)
+    @Transactional(value = TxType.REQUIRES_NEW)
     public boolean existeProveedorNombre(String nombre) {
         Proveedor prov = this.proveedorRepository.seleccionarPorNombre(nombre);
         return prov != null;
     }
 
     @Override
-    @Transactional (value = TxType.REQUIRES_NEW)
+    @Transactional(value = TxType.REQUIRES_NEW)
     public Producto buscarPorCodigo(String codigo) {
         return this.productoRepository.seleccionarPorCodigo(codigo);
     }

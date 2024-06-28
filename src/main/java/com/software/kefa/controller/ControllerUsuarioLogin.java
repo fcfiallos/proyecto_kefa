@@ -1,7 +1,6 @@
 package com.software.kefa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,18 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.excepcion.MensajeExisteExcepcion;
-import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.IUsuarioService;
 import com.software.kefa.service.modelosto.UsuarioRegistroTO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/kefa")
 public class ControllerUsuarioLogin {
     @Autowired
     private IUsuarioService iUsuarioService;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/presentacion")
     public String mostrarPaginaDeLogin() {
@@ -54,7 +51,7 @@ public class ControllerUsuarioLogin {
                 usuarioRegistroTO.getPreguntaDos().isEmpty() ||
                 usuarioRegistroTO.getPreguntaTres().isEmpty() ||
                 usuarioRegistroTO.getPreguntaUno().isEmpty() ||
-                usuarioRegistroTO.getTelefono().isEmpty() ){
+                usuarioRegistroTO.getTelefono().isEmpty()) {
 
             model.addAttribute("error", "Todos los campos son obligatorios");
             return "formulario_registro_ClieUsua";
@@ -79,15 +76,28 @@ public class ControllerUsuarioLogin {
     }
 
     @PostMapping("/iniciarSesion")
-    public String iniciarSesion(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO, Model model) {
-        Usuario usuario = this.iUsuarioService.buscarPorNickname(usuarioRegistroTO.getNickname());
-        
-        if (usuario != null && passwordEncoder.matches(usuarioRegistroTO.getConstrasenia(), usuario.getConstrasenia())) {
+    public String iniciarSesion(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO, Model model,
+            HttpSession session) {
+        try {
+            // Llamada al método iniciarSesion del servicio
+            this.iUsuarioService.iniciarSesion(usuarioRegistroTO.getNickname(), usuarioRegistroTO.getConstrasenia());
+            session.setAttribute("nickname", usuarioRegistroTO.getNickname()); // Guardar nickname en la sesión
             return "redirect:/kefa/lista_categoria_productos";
-        } else {
-            model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "formulario_iniciar_sesion";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "formulario_inicio_sesion";
         }
+    }
+
+    @GetMapping("/cerrarSesion")
+    public String cerrarSesion(HttpSession session) {
+        String nickname = (String) session.getAttribute("nickname");
+        if (nickname != null) {
+            // Llamada al método cerrarSesion del servicio
+            this.iUsuarioService.cerrarSesion(nickname);
+        }
+        session.invalidate(); // Invalidar la sesión
+        return "redirect:/kefa/presentacion"; // Redirigir a la página de inicio de sesión
     }
 
 }

@@ -10,5 +10,6 @@ public interface ICarritoCompraService {
     public void actualizar(CarritoCompra carritoCompra);
     public CarritoCompra buscarPorId(Integer id);
     public Set<Producto> buscarTodo();
-    public void agregarProductoAlCarrito(Integer carritoCompraId, Integer productoId);
+    public void agregarProductoAlCarrito(Integer carritoCompraId, Integer productoId, String nickname);
+    public void eliminarProductoDelCarrito(Integer carritoCompraId, Integer productoId);
 }

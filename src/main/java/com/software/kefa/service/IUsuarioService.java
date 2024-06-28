@@ -14,5 +14,7 @@ public interface IUsuarioService {
     public Usuario buscarPorNickname (String nickname);
     public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi);
     public UsuarioPerfilDTO buscarInformacion(String nickname);
+    public void iniciarSesion(String nickname, String contrasenia);
+    public void cerrarSesion(String nickname);
 
 }

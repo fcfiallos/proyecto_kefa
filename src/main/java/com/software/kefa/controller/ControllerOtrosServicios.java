@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.software.kefa.service.IOtrosService;
 import com.software.kefa.service.modelosto.OtrosTO;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/kefa")
 public class ControllerOtrosServicios {
@@ -26,10 +28,11 @@ public class ControllerOtrosServicios {
     }
 
     @PostMapping("/añadir_comentario")
-    public String añadirComentario(@ModelAttribute("otroTO") OtrosTO otroTO, Model model) {
+    public String añadirComentario(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
         Predicate<OtrosTO> validar = otro -> otro.getComentario() != null && !otro.getComentario().isEmpty();
         if (validar.test(otroTO)) {
-            this.otrosService.guardarComentario(otroTO);
+            String nickname = (String) session.getAttribute("nickname");
+            this.otrosService.guardarComentario(otroTO, nickname);
             return "formulario_come_devo";
         } else {
             model.addAttribute("error",
@@ -39,10 +42,11 @@ public class ControllerOtrosServicios {
     }
 
     @PostMapping("/añadir_devolucion")
-    public String añadirDevolucion(@ModelAttribute("otroTO") OtrosTO otroTO, Model model) {
+    public String añadirDevolucion(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
         if (otroTO.getEstadoDevolucion() != null && otroTO.getMotivoDevolucion() != null
                 && !otroTO.getEstadoDevolucion().isEmpty() && !otroTO.getMotivoDevolucion().isEmpty()) {
-            this.otrosService.guardarDevolucion(otroTO);
+            String nickname = (String) session.getAttribute("nickname");
+            this.otrosService.guardarDevolucion(otroTO, nickname);
             return "formulario_come_devo";
         } else {
             model.addAttribute("error",

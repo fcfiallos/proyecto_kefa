@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.software.kefa.repository.modelo.PreguntaFrecuente;
 import com.software.kefa.service.IPreguntaFrecuenteService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/kefa")
 public class ControllerAyuda {
@@ -37,11 +39,12 @@ public class ControllerAyuda {
     }
 
     @PostMapping("/añadir_sugerencia")
-    public String añadirComentario(@ModelAttribute("preguntaFrecuente") PreguntaFrecuente preguntaFrecuente, Model model) {
+    public String añadirComentario(@ModelAttribute("preguntaFrecuente") PreguntaFrecuente preguntaFrecuente, HttpSession session, Model model) {
         Predicate<PreguntaFrecuente> validar = prfr -> prfr.getPregunta().length() <= 250 && !prfr.getPregunta().isEmpty()
                 && prfr.getRespuesta().length() <= 250 && !prfr.getRespuesta().isEmpty() && !prfr.getCategoria().isEmpty();
         if (validar.test(preguntaFrecuente)) {
-            this.preguntaFrecuenteService.guardar(preguntaFrecuente);
+            String nickname = (String) session.getAttribute("nickname");
+            this.preguntaFrecuenteService.guardar(preguntaFrecuente, nickname);
             return "redirect:/kefa/lista_sugerencias";
         } else {
             model.addAttribute("error",

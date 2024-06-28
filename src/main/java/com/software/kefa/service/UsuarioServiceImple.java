@@ -1,5 +1,6 @@
 package com.software.kefa.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.software.kefa.excepcion.MensajeExisteExcepcion;
+import com.software.kefa.repository.IRegistroSesionRepository;
 import com.software.kefa.repository.IUsuarioRepository;
+import com.software.kefa.repository.modelo.RegistroSesion;
 import com.software.kefa.repository.modelo.Rol;
 import com.software.kefa.repository.modelo.Ubicacion;
 import com.software.kefa.repository.modelo.Usuario;
@@ -29,6 +32,9 @@ import jakarta.transaction.Transactional.TxType;
 public class UsuarioServiceImple implements IUsuarioService {
     @Autowired
     private IUsuarioRepository repositoryImpl;
+
+    @Autowired
+    private IRegistroSesionRepository registroSesionRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -60,7 +66,7 @@ public class UsuarioServiceImple implements IUsuarioService {
         usuario.setApellido(usuarioTO.getApellido());
         usuario.setCedula(usuarioTO.getCedula());
 
-        //Encriptacion de Contraseña usuario
+        //Encriptación de contraseña del usuario
         String passwordEncriptada = passwordEncoder.encode(usuarioTO.getConstrasenia());
         usuario.setConstrasenia(passwordEncriptada);
         
@@ -112,6 +118,7 @@ public class UsuarioServiceImple implements IUsuarioService {
      * @param usuarioEfi the list of users to be registered
      */
     @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
     public void registroEficiente(List<UsuarioRegistroTO> usuarioEfi) {
 
         if (usuarioEfi != null) {
@@ -129,31 +136,69 @@ public class UsuarioServiceImple implements IUsuarioService {
         * @return true if a user with the given cedula exists, false otherwise
         */
     @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
     public boolean existeUsuarioCedula(String cedula) {
         Usuario usuario = this.repositoryImpl.seleccionarPorCedula(cedula);
         return usuario != null;
     }
 
-    /**
-        * Checks if a user with the given nickname exists.
-        *
-        * @param nickname the nickname of the user to check
-        * @return true if a user with the given nickname exists, false otherwise
-        */
+    
     @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
     public boolean existeUsuarioNickname(String nickname) {
         Usuario usuario = this.repositoryImpl.seleccionarPorNickname(nickname);
         return usuario != null;
     }
 
     @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
     public Usuario buscarPorNickname(String nickname) {
         return this.repositoryImpl.seleccionarPorNickname(nickname);
     }
 
     @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
     public UsuarioPerfilDTO buscarInformacion(String nickname) {
         return this.repositoryImpl.seleccionarInformacion(nickname);
+    }
+
+    /**
+     * Inicia sesión de un usuario con el nickname y contraseña proporcionados.
+     * 
+     * @param nickname    El nickname del usuario.
+     * @param contrasenia La contraseña del usuario.
+     * @throws IllegalArgumentException Si el usuario no existe o la contraseña es incorrecta.
+     */
+    @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
+    public void iniciarSesion(String nickname, String contrasenia) {
+        if (!existeUsuarioNickname(nickname)) {
+            throw new IllegalArgumentException("El usuario no existe");
+        }
+        Usuario usuario = buscarPorNickname(nickname);
+        if (!passwordEncoder.matches(contrasenia, usuario.getConstrasenia())) {
+            throw new IllegalArgumentException("Contraseña incorrecta");
+        }
+        // Aquí se registra el inicio de sesión en IRegistroSesionRepository
+        RegistroSesion registroSesion = new RegistroSesion();
+        registroSesion.setUsuario(this.buscarPorNickname(nickname));
+        registroSesion.setFechaInicio(LocalDateTime.now());
+        registroSesion.setEstado("Activo");
+        registroSesionRepository.insertar(registroSesion);
+    }
+
+    /**
+     * Closes the session for the given user.
+     * 
+     * @param nickname the nickname of the user
+     */
+    @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
+    public void cerrarSesion(String nickname) {
+        RegistroSesion registroSesion = registroSesionRepository.seleccionarPorNickname(nickname);
+        registroSesion.setFechaFin(LocalDateTime.now());
+        registroSesion.setEstado("Inactivo");
+        registroSesionRepository.actualizar(registroSesion);
     }
 
 }

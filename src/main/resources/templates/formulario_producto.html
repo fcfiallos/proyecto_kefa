@@ -161,7 +161,9 @@
 <body>
     <h1>Añadir un Nuevo Producto</h1>
     <div th:if="${error}" class="error-message" th:text="${error}"></div>
-    <form th:action="@{/kefa/categoria/{categoriaId}/lista_productos/formulario_producto/añadir(categoriaId=${categoriaId})}" th:object="${productoTO}" th:method="POST">
+    <form id="formulario_producto"
+        th:action="@{/kefa/categoria/{categoriaId}/lista_productos/formulario_producto/añadir(categoriaId=${categoriaId})}"
+        th:object="${productoTO}" th:method="POST">
         <!--<input type="hidden" th:field="*{categoriaId}" />-->
         <table>
             <tr>
@@ -201,7 +203,7 @@
             </tr>
             <tr>
                 <td><label>Precio:</label></td>
-                <td><input type="text" class="form-control"
+                <td><input type="text" id="precio" class="form-control"
                         placeholder="Registrar el precio de la siguiente manera: 3.14"
                         aria-label="Registrar el precio de la siguiente manera: 3.14" th:field="${productoTO.precio}">
                 </td>
@@ -234,7 +236,7 @@
             <button type="submit" class="btn btn-outline-secondary">Registrar</button>
             <!--<button type="button" onclick="window.location.href='/kefa/categoria/{categoriaId}/lista_productos'"
                 class="btn btn-outline-secondary">Regresar</button>-->
-                <button type="button" class="btn btn-outline-info" id="addButton">Regresar</button>
+            <button type="button" class="btn btn-outline-info" id="addButton">Regresar</button>
         </div>
     </form>
     <script th:inline="javascript">
@@ -246,6 +248,23 @@
             };
         });
         /*]]>*/
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const formulario = document.getElementById('formulario_producto');
+            const inputPrecio = document.getElementById('precio');
+
+            formulario.addEventListener('submit', function (event) {
+                const valorPrecio = inputPrecio.value;
+                // Expresión regular para validar el formato del precio (número con dos decimales)
+                const regexPrecio = /^\d+(\.\d{2})?$/;
+                if (!regexPrecio.test(valorPrecio)) {
+                    alert('El precio ingresado no es válido. Por favor, ingrese el precio en el formato correcto, por ejemplo: 3.14');
+                    event.preventDefault(); // Evita que el formulario se envíe
+                }
+            });
+        });
     </script>
     <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 </body>

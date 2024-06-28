@@ -29,7 +29,7 @@ public class ControllerListaDeseo {
     public String vistaListaDeseos(Model model, HttpSession session) {
         Integer listaDeseosId = (Integer) session.getAttribute("listaDeseosId");
         if (listaDeseosId != null) {
-            Set<Producto> listaDeseos = iListaDeseoService.buscarTodo();
+            Set<Producto> listaDeseos = iListaDeseoService.buscarTodo(listaDeseosId);
             model.addAttribute("listaDeseos", listaDeseos);
         } else {
             model.addAttribute("listaDeseos", Collections.emptyList());
@@ -38,10 +38,10 @@ public class ControllerListaDeseo {
     }
 
     @PostMapping("/lista_deseos/agregar")
-    public String agregarProductoAListaDeseos(@RequestParam("productoId") Integer productoId, HttpSession session, Model model) {
+    public String agregarProductoALaListaDeseos(@RequestParam("productoId") Integer productoId, HttpSession session, Model model) {
         Integer listaDeseosId = (Integer) session.getAttribute("listaDeseosId");
         if (listaDeseosId == null) {
-            listaDeseosId = crearNuevaListaDeseos(session);  // Método para crear una nueva lista de deseos y guardar su ID en la sesión
+            listaDeseosId = crearNuevaListaDeseos(session);
         }
 
         try {
@@ -50,7 +50,7 @@ public class ControllerListaDeseo {
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto a la lista de deseos: " + e.getMessage());
         }
-        return "redirect:/kefa/lista_categoria_productos";
+        return "redirect:/kefa/lista_deseos";
     }
 
     private Integer crearNuevaListaDeseos(HttpSession session) {

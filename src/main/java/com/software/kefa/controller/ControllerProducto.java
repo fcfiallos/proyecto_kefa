@@ -23,6 +23,8 @@ import com.software.kefa.service.ICategoriaProductoService;
 import com.software.kefa.service.IProductoService;
 import com.software.kefa.service.modelosto.ProductoTO;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/kefa")
 public class ControllerProducto {
@@ -33,14 +35,6 @@ public class ControllerProducto {
     @Autowired
     private ICategoriaProductoService iCategoriaProductoService;
 
-    /*
-     * @GetMapping("/lista_productos")
-     * public String vistaListaProductos(Model model) {
-     * List<Producto> productos = this.iProductoService.buscarPorCategoriaId(null);
-     * model.addAttribute("productos", productos);
-     * return "vista_lista_producto";
-     * }
-     */
     @GetMapping("/categoria/{categoriaId}/lista_productos")
     public String vistaListaProductosPorCategoria(@PathVariable("categoriaId") Integer categoriaId, Model model) {
         // Buscar todos los productos relacionados con la categoría dada
@@ -61,7 +55,7 @@ public class ControllerProducto {
 
     @PostMapping("/categoria/{categoriaId}/lista_productos/formulario_producto/añadir")
     public String añadirProducto(@PathVariable("categoriaId") Integer categoriaId,@ModelAttribute("productoTO") ProductoTO productoTO,
-            Model model) {
+            HttpSession session, Model model) {
         CategoriaProducto categoria = null;
 
         /*if (productoTO.getCategoriaId() == null) {
@@ -83,7 +77,8 @@ public class ControllerProducto {
         if (validar.test(productoTO)) {
 
             try {
-                this.iProductoService.guardar(productoTO);
+                String nickname = (String) session.getAttribute("nickname");
+                this.iProductoService.guardar(productoTO, nickname);
                 return "redirect:/kefa/categoria/" + categoria.getId() + "/lista_productos";
             } catch (MensajeExisteExcepcion e) {
                 model.addAttribute("error", e.getMessage());

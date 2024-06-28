@@ -43,19 +43,36 @@ public class ControllerCarritoCompra {
     }
 
     @PostMapping("/carrito/agregar")
-    public String agregarProductoAlCarrito(@RequestParam("productoId") Integer productoId, HttpSession session, Model model) {
+    public String agregarProductoAlCarrito(@RequestParam("productoId") Integer productoId, HttpSession session,
+            Model model) {
         Integer carritoId = (Integer) session.getAttribute("carritoId");
         if (carritoId == null) {
-            carritoId = crearNuevoCarrito(session);  // Método para crear un nuevo carrito y guardar su ID en la sesión
+            carritoId = crearNuevoCarrito(session); // Método para crear un nuevo carrito y guardar su ID en la sesión
         }
 
         try {
-            iCarritoCompraService.agregarProductoAlCarrito(carritoId, productoId);
+            String nickname = (String) session.getAttribute("nickname");
+            iCarritoCompraService.agregarProductoAlCarrito(carritoId, productoId, nickname);
             model.addAttribute("mensaje", "Producto agregado al carrito de compras exitosamente.");
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto al carrito: " + e.getMessage());
         }
         return "redirect:/kefa/lista_categoria_productos";
+    }
+
+    @PostMapping("/carrito/eliminar")
+    public String eliminarProductoDelCarrito(@RequestParam("productoId") Integer productoId, HttpSession session,
+            Model model) {
+        Integer carritoId = (Integer) session.getAttribute("carritoId");
+        if (carritoId != null) {
+            try {
+                iCarritoCompraService.eliminarProductoDelCarrito(carritoId, productoId);
+                model.addAttribute("mensaje", "Producto eliminado del carrito de compras exitosamente.");
+            } catch (Exception e) {
+                model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());
+            }
+        }
+        return "redirect:/kefa/carrito";
     }
 
     private Integer crearNuevoCarrito(HttpSession session) {

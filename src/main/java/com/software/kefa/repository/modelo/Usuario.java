@@ -81,6 +81,9 @@ public class Usuario {
     @OneToOne (mappedBy = "usuario", cascade = CascadeType.ALL)
     private CarritoCompra carritoCompra;
 
+    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<RegistroSesion> registrosSesion;
+
     //Setter and getter
     public String getNickname() {
         return nickname;
@@ -225,5 +228,23 @@ public class Usuario {
     public void setOrdenes(List<Orden> ordenes) {
         this.ordenes = ordenes;
     }
+
+    public CarritoCompra getCarritoCompra() {
+        return carritoCompra;
+    }
+
+    public void setCarritoCompra(CarritoCompra carritoCompra) {
+        this.carritoCompra = carritoCompra;
+    }
+
+    public List<RegistroSesion> getRegistrosSesion() {
+        return registrosSesion;
+    }
+
+    public void setRegistrosSesion(List<RegistroSesion> registrosSesion) {
+        this.registrosSesion = registrosSesion;
+    }
+
+    
     
 }

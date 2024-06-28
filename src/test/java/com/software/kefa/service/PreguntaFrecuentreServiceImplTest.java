@@ -21,7 +21,7 @@ public class PreguntaFrecuentreServiceImplTest {
         preguntaFrecuente.setPregunta("Pregunta");
         preguntaFrecuente.setRespuesta("Respuesta");
         // Act
-        preguntaFrecuenteService.guardar(preguntaFrecuente);
+        preguntaFrecuenteService.guardar(preguntaFrecuente, "fcfch");
         // Assert
         assertNotNull(preguntaFrecuente.getId());
     }

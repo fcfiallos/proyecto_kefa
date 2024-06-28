@@ -15,7 +15,7 @@ public class CarritoComprasServiceImplTest {
     @Test
     void testAgregarProductoAlCarrito() {
         assertThrows(RuntimeException.class, () -> {
-        carritoComprasService.agregarProductoAlCarrito(1, 10);
+        carritoComprasService.agregarProductoAlCarrito(1, 10, "fcfch");
     }, "Carrito de Compras o Producto no encontrado");
     }
 }
