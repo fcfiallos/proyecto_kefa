@@ -1,7 +1,7 @@
 package com.software.kefa.controller;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class ControllerCarritoCompra {
     public String vistaListaCarrito(Model model, HttpSession session) {
         Integer carritoId = (Integer) session.getAttribute("carritoId");
         if (carritoId != null) {
-            Set<Producto> carritoCompra = iCarritoCompraService.buscarTodo();
+            List<Producto> carritoCompra = iCarritoCompraService.buscarTodo();
             model.addAttribute("carritoCompra", carritoCompra);
         } else {
             model.addAttribute("carritoCompra", Collections.emptyList());
@@ -37,22 +37,22 @@ public class ControllerCarritoCompra {
 
     @GetMapping("/productos")
     public String vistaListaProductosDisponibles(Model model) {
-        Set<Producto> productos = iCarritoCompraService.buscarTodo();
+        List<Producto> productos = iCarritoCompraService.buscarTodo();
         model.addAttribute("productos", productos);
         return "vista_lista_producto";
     }
 
     @PostMapping("/carrito/agregar")
     public String agregarProductoAlCarrito(@RequestParam("productoId") Integer productoId, HttpSession session,
-            Model model) {
+            Model model, @RequestParam("cantidad") Integer cantidad){
         Integer carritoId = (Integer) session.getAttribute("carritoId");
         if (carritoId == null) {
-            carritoId = crearNuevoCarrito(session); // Método para crear un nuevo carrito y guardar su ID en la sesión
+            carritoId = crearNuevoCarrito(productoId,session); // Método para crear un nuevo carrito y guardar su ID en la sesión
         }
 
         try {
             String nickname = (String) session.getAttribute("nickname");
-            iCarritoCompraService.agregarProductoAlCarrito(carritoId, productoId, nickname);
+            iCarritoCompraService.agregarProductoAlCarrito(carritoId, productoId, nickname, cantidad);
             model.addAttribute("mensaje", "Cantidad actualizada exitosamente.");
             model.addAttribute("mensaje", "Producto agregado al carrito de compras exitosamente.");
         } catch (Exception e) {
@@ -76,10 +76,11 @@ public class ControllerCarritoCompra {
         return "redirect:/kefa/carrito";
     }
 
-    private Integer crearNuevoCarrito(HttpSession session) {
+    private Integer crearNuevoCarrito(@RequestParam("productoId") Integer productoId,HttpSession session) {
         // Crear un nuevo carrito de compras y guardar su ID en la sesión
         CarritoCompra nuevoCarrito = new CarritoCompra();
-        iCarritoCompraService.guardar(nuevoCarrito);
+        String nickname = (String) session.getAttribute("nickname");
+        iCarritoCompraService.guardar(nuevoCarrito, nickname, productoId);
         session.setAttribute("carritoId", nuevoCarrito.getId());
         return nuevoCarrito.getId();
     }

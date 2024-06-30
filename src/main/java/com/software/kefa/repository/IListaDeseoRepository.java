@@ -1,6 +1,6 @@
 package com.software.kefa.repository;
 
-import java.util.Set;
+import java.util.List;
 
 import com.software.kefa.repository.modelo.ListaDeseos;
 import com.software.kefa.repository.modelo.Producto;
@@ -8,6 +8,6 @@ import com.software.kefa.repository.modelo.Producto;
 public interface IListaDeseoRepository {
     public void insertar(ListaDeseos listaDeseo);
     public void actualizar(ListaDeseos listaDeseo);
-    public Set<Producto> seleccionarTodo(Integer id);
+    public List<Producto> seleccionarTodo(Integer id);
     public ListaDeseos seleccionarPorId(Integer id);
 }

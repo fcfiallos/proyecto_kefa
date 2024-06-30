@@ -1,7 +1,6 @@
 package com.software.kefa.repository;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -43,8 +42,8 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository{
 
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
-    public Set<Producto> seleccionarTodo() {
-        return new HashSet<>(this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList());
+    public List<Producto> seleccionarTodo() {
+        return this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
     }
 
 }

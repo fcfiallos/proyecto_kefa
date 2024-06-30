@@ -1,7 +1,7 @@
 package com.software.kefa.service;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,13 +10,15 @@ import com.software.kefa.repository.ICarritoCompraRepository;
 import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.CarritoCompra;
+import com.software.kefa.repository.modelo.DetalleOrden;
 import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.repository.modelo.Usuario;
 
 import jakarta.transaction.Transactional;
 
 /**
- * This class implements the {@link ICarritoCompraService} interface and provides the implementation
+ * This class implements the {@link ICarritoCompraService} interface and
+ * provides the implementation
  * for managing the shopping cart operations.
  */
 @Service
@@ -32,13 +34,23 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
     private IUsuarioRepository iUsuarioRepository;
 
     /**
-     * Saves a shopping cart in the repository.
-     *
-     * @param carritoCompra the shopping cart to save
-     */
+        * Saves a CarritoCompra object to the database.
+        * 
+        * @param carritoCompra The CarritoCompra object to be saved.
+        * @param nickname The nickname of the user associated with the CarritoCompra.
+        * @param productoId The ID of the product to be added to the CarritoCompra.
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void guardar(CarritoCompra carritoCompra) {
+    public void guardar(CarritoCompra carritoCompra, String nickname, Integer productoId) {
+        carritoCompra.setFechaSeleccionada(LocalDateTime.now());
+
+        Usuario usuario = iUsuarioRepository.seleccionarPorNickname(nickname);
+        carritoCompra.setUsuario(usuario);
+
+        List <Producto> productos = this.carritoCompraRepository.seleccionarTodo();
+        carritoCompra.setProductos(productos);
+
         this.carritoCompraRepository.insertar(carritoCompra);
     }
 
@@ -72,29 +84,28 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
      */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public Set<Producto> buscarTodo() {
+    public List<Producto> buscarTodo() {
         return this.carritoCompraRepository.seleccionarTodo();
     }
 
-    /**
-     * Adds a product to a shopping cart.
-     *
-     * @param carritoCompraId the ID of the shopping cart
-     * @param productoId      the ID of the product to add
-     * @param nickname        the nickname of the user adding the product
-     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void agregarProductoAlCarrito(Integer carritoCompraId, Integer productoId, String nickname) {
+    public void agregarProductoAlCarrito(Integer carritoCompraId, Integer productoId, String nickname,
+            Integer cantidad) {
         Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
         CarritoCompra carritoCompra = carritoCompraRepository.seleccionarPorId(carritoCompraId);
         carritoCompra.setFechaSeleccionada(LocalDateTime.now());
 
         Producto producto = productoRepository.seleccionarPorId(productoId);
         if (carritoCompra != null && producto != null) {
-            carritoCompra.getProductos().add(producto);
-            carritoCompra.setProductos(this.buscarTodo());
+            DetalleOrden detalle = new DetalleOrden();
+            detalle.setCarritoCompra(carritoCompra);
+            detalle.setProducto(producto);
+            detalle.setCantidad(cantidad);
+
+            carritoCompra.getDetalleOrden().add(detalle);
             carritoCompra.setUsuario(usuario);
+            carritoCompra.setCantidad(cantidad);
             carritoCompraRepository.actualizar(carritoCompra);
         } else {
             throw new RuntimeException("Carrito de Compras o Producto no encontrado");

@@ -2,7 +2,7 @@ package com.software.kefa.repository.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -38,8 +38,8 @@ public class Promocion {
     @Column(name = "prom_estado")
     private String estado;
 
-    @ManyToMany(mappedBy = "promocion", cascade = CascadeType.ALL)
-    private Set<Producto> producto;
+    @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL)
+    private List<ProductoPromocion> productoPromocion;
 
     public Integer getId() {
         return id;
@@ -89,14 +89,12 @@ public class Promocion {
         this.estado = estado;
     }
 
-    public Set<Producto> getProducto() {
-        return producto;
+    public List<ProductoPromocion> getProductoPromocion() {
+        return productoPromocion;
     }
 
-    public void setProducto(Set<Producto> producto) {
-        this.producto = producto;
+    public void setProductoPromocion(List<ProductoPromocion> productoPromocion) {
+        this.productoPromocion = productoPromocion;
     }
-
-    
 
 }

@@ -2,7 +2,6 @@ package com.software.kefa.repository.modelo;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,8 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
@@ -66,17 +63,16 @@ public class Producto {
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     private List<DetalleOrden> detalleOrden;
 
-    @ManyToMany
-    @JoinTable(name = "producto_promocion", joinColumns = @JoinColumn(name = "prod_id"), inverseJoinColumns = @JoinColumn(name = "prom_id"))
-    private Set<Promocion> promocion;
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    private List<ProductoPromocion> productoPromocion;
 
-    @ManyToMany
-    @JoinTable(name = "producto_lista_deseos", joinColumns = @JoinColumn(name = "prod_id"), inverseJoinColumns = @JoinColumn(name = "lide_id"))
-    private Set<ListaDeseos> listaDeseos;
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "prod_id_carrito_compra")
+    private CarritoCompra carritoCompra;
 
-    @ManyToMany
-    @JoinTable(name = "producto_carrito_compra", joinColumns = @JoinColumn(name = "prod_id"), inverseJoinColumns = @JoinColumn(name = "cdco_id"))
-    private Set<CarritoCompra> carritoCompra;
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "prod_id_lista_deseos")
+    private ListaDeseos listaDeseos;
 
     public Proveedor getProveedor() {
         return proveedor;
@@ -174,27 +170,28 @@ public class Producto {
         this.detalleOrden = detalleOrden;
     }
 
-    public Set<Promocion> getPromocion() {
-        return promocion;
+    public List<ProductoPromocion> getProductoPromocion() {
+        return productoPromocion;
     }
 
-    public void setPromocion(Set<Promocion> promocion) {
-        this.promocion = promocion;
+    public void setProductoPromocion(List<ProductoPromocion> productoPromocion) {
+        this.productoPromocion = productoPromocion;
     }
 
-    public Set<ListaDeseos> getListaDeseos() {
-        return listaDeseos;
-    }
-
-    public void setListaDeseos(Set<ListaDeseos> listaDeseos) {
-        this.listaDeseos = listaDeseos;
-    }
-
-    public Set<CarritoCompra> getCarritoCompra() {
+    public CarritoCompra getCarritoCompra() {
         return carritoCompra;
     }
 
-    public void setCarritoCompra(Set<CarritoCompra> carritoCompra) {
+    public void setCarritoCompra(CarritoCompra carritoCompra) {
         this.carritoCompra = carritoCompra;
     }
+
+    public ListaDeseos getListaDeseos() {
+        return listaDeseos;
+    }
+
+    public void setListaDeseos(ListaDeseos listaDeseos) {
+        this.listaDeseos = listaDeseos;
+    }
+
 }

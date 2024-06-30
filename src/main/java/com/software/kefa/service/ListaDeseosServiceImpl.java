@@ -1,15 +1,17 @@
 package com.software.kefa.service;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.software.kefa.repository.IListaDeseoRepository;
 import com.software.kefa.repository.IProductoRepository;
+import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.ListaDeseos;
 import com.software.kefa.repository.modelo.Producto;
+import com.software.kefa.repository.modelo.Usuario;
 
 import jakarta.transaction.Transactional;
 
@@ -22,14 +24,27 @@ public class ListaDeseosServiceImpl implements IListaDeseoService {
     @Autowired
     private IProductoRepository productoRepository;
 
+    @Autowired
+    private IUsuarioRepository iUsuarioRepository;
+    
     /**
-     * Guarda una lista de deseos en el repositorio.
-     *
-     * @param listaDeseo la lista de deseos a guardar
-     */
+        * Saves a ListaDeseos object with the given parameters.
+        * 
+        * @param listaDeseo The ListaDeseos object to be saved.
+        * @param nickname The nickname of the user.
+        * @param productoId The ID of the product.
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void guardar(ListaDeseos listaDeseo) {
+    public void guardar(ListaDeseos listaDeseo, String nickname, Integer productoId) {
+        listaDeseo.setFechaSeleccionada(LocalDateTime.now());
+
+        Usuario usuario = iUsuarioRepository.seleccionarPorNickname(nickname);
+        listaDeseo.setUsuario(usuario);
+
+        List<Producto> productos = this.listaDeseoRepository.seleccionarTodo(productoId);
+        listaDeseo.setProductos(productos);
+
         this.listaDeseoRepository.insertar(listaDeseo);
     }
 
@@ -52,7 +67,7 @@ public class ListaDeseosServiceImpl implements IListaDeseoService {
      */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public Set<Producto> buscarTodo(Integer id) {
+    public List<Producto> buscarTodo(Integer id) {
         return this.listaDeseoRepository.seleccionarTodo(id);
     }
 

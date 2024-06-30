@@ -41,6 +41,12 @@ public class ProductoServiceImpl implements IProductoService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
+/*@Autowired
+    private ICarritoCompraRepository carritoCompraRepository;
+
+    @Autowired
+    private IListaDeseoRepository listaDeseoRepository;*/
+
     /**
         * Busca productos por ID de categoría.
         *
@@ -66,6 +72,8 @@ public class ProductoServiceImpl implements IProductoService {
         Proveedor prov = new Proveedor();
         Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
         CategoriaProducto categoria = this.categoriaProductoRepository.seleccionarPorId(producto.getCategoriaId());
+        //ListaDeseos listaDeseo = this.listaDeseoRepository.seleccionarPorId(listaId);
+        //CarritoCompra carritoCompra = this.carritoCompraRepository.seleccionarPorId(carritoId);
 
         if (this.existeProductoCodigo(producto.getCodigo())
                 || this.existeProveedorNombre(producto.getNombreProveedor())) {
@@ -94,6 +102,8 @@ public class ProductoServiceImpl implements IProductoService {
         pro.setProveedor(prov);
         pro.setCategoriaProducto(categoria);
         pro.setUsuario(usuario);
+        //pro.setListaDeseos(listaDeseo);
+        //pro.setCarritoCompra(carritoCompra);
 
         this.productoRepository.insertar(pro);
         this.proveedorRepository.insertar(prov);

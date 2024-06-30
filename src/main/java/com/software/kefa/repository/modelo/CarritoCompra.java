@@ -2,7 +2,6 @@ package com.software.kefa.repository.modelo;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
@@ -36,11 +34,11 @@ public class CarritoCompra {
     @JoinColumn(name = "cdco_id_usuario")
     private Usuario usuario;
 
-    @ManyToMany (mappedBy = "carritoCompra")
-    private Set<Producto> productos;
-
-    @OneToMany(mappedBy = "carritoCompra")
+    @OneToMany(mappedBy = "carritoCompra", cascade = CascadeType.ALL)
     private List<DetalleOrden> detalleOrden;
+
+    @OneToMany(mappedBy = "carritoCompra", cascade = CascadeType.ALL)
+    private List<Producto> productos;
 
     public Integer getId() {
         return id;
@@ -66,14 +64,6 @@ public class CarritoCompra {
         this.usuario = usuario;
     }
 
-    public Set<Producto> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(Set<Producto> productos) {
-        this.productos = productos;
-    }
-
     public LocalDateTime getFechaSeleccionada() {
         return fechaSeleccionada;
     }
@@ -88,6 +78,14 @@ public class CarritoCompra {
 
     public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
         this.detalleOrden = detalleOrden;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
     }
 
 }

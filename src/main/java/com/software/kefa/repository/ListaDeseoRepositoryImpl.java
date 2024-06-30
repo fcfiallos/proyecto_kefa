@@ -1,7 +1,6 @@
 package com.software.kefa.repository;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +14,7 @@ import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional
-public class ListaDeseoRepositoryImpl implements IListaDeseoRepository{
+public class ListaDeseoRepositoryImpl implements IListaDeseoRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -33,24 +32,26 @@ public class ListaDeseoRepositoryImpl implements IListaDeseoRepository{
 
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
-    public Set<Producto> seleccionarTodo(Integer id) {
+    public List<Producto> seleccionarTodo(Integer id) {
         try {
-            return new HashSet<>(this.entityManager.createQuery("SELECT p FROM Producto p WHERE p.categoriaProducto.id = :id", Producto.class)
-                                             .setParameter("id", id)
-                                             .getResultList());
+            return this.entityManager.createQuery("SELECT p FROM Producto p JOIN p.listaDeseos l WHERE l.id = :id", Producto.class)
+                    .setParameter("id", id).getResultList();
         } catch (NoResultException e) {
             return null;
-        }  
+        }
     }
 
     @Override
     public ListaDeseos seleccionarPorId(Integer id) {
         try {
-           return this.entityManager.find(ListaDeseos.class, id); 
+            if (id == null || id <= 0) {
+                throw new IllegalArgumentException("El ID proporcionado es inválido: " + id);
+            }
+            return this.entityManager.find(ListaDeseos.class, id);
         } catch (NoResultException e) {
             return null;
         }
-        
+
     }
 
 }

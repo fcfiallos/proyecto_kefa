@@ -95,17 +95,19 @@ public class ControllerProducto {
         if (validar.test(productoTO)) {
 
             try {
+                //Integer listaDeseosId = (Integer) session.getAttribute("listaDeseosId");
+                //Integer carritoId = (Integer) session.getAttribute("carritoId");
                 String nickname = (String) session.getAttribute("nickname");
                 this.iProductoService.guardar(productoTO, nickname);
                 return "redirect:/kefa/categoria/" + categoria.getId() + "/lista_productos";
             } catch (MensajeExisteExcepcion e) {
                 model.addAttribute("error", e.getMessage());
                 return "formulario_producto";
-            } catch (Exception e) {
+            } /*catch (Exception e) {
                 // Manejo de cualquier otra excepción no capturada específicamente
                 model.addAttribute("error", "Ocurrió un error al guardar el producto: " + e.getMessage());
                 return "formulario_producto";
-            }
+            }*/
         } else {
             model.addAttribute("error",
                     "Validación del producto falló.");

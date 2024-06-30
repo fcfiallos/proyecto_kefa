@@ -1,7 +1,7 @@
 package com.software.kefa.controller;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class ControllerListaDeseo {
     public String vistaListaDeseos(Model model, HttpSession session) {
         Integer listaDeseosId = (Integer) session.getAttribute("listaDeseosId");
         if (listaDeseosId != null) {
-            Set<Producto> listaDeseos = iListaDeseoService.buscarTodo(listaDeseosId);
+            List<Producto> listaDeseos = iListaDeseoService.buscarTodo(listaDeseosId);
             model.addAttribute("listaDeseos", listaDeseos);
         } else {
             model.addAttribute("listaDeseos", Collections.emptyList());
@@ -41,7 +41,7 @@ public class ControllerListaDeseo {
     public String agregarProductoALaListaDeseos(@RequestParam("productoId") Integer productoId, HttpSession session, Model model) {
         Integer listaDeseosId = (Integer) session.getAttribute("listaDeseosId");
         if (listaDeseosId == null) {
-            listaDeseosId = crearNuevaListaDeseos(session);
+            listaDeseosId = crearNuevaListaDeseos(productoId,session);
         }
 
         try {
@@ -53,9 +53,10 @@ public class ControllerListaDeseo {
         return "redirect:/kefa/productos";
     }
 
-    private Integer crearNuevaListaDeseos(HttpSession session) {
+    private Integer crearNuevaListaDeseos(@RequestParam("productoId") Integer productoId,HttpSession session) {
+        String nickname = (String) session.getAttribute("nickname");
         ListaDeseos nuevaListaDeseos = new ListaDeseos();
-        iListaDeseoService.guardar(nuevaListaDeseos);
+        iListaDeseoService.guardar(nuevaListaDeseos,nickname,productoId);
         session.setAttribute("listaDeseosId", nuevaListaDeseos.getId());
         return nuevaListaDeseos.getId();
     }
