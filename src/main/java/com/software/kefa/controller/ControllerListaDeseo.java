@@ -50,7 +50,7 @@ public class ControllerListaDeseo {
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto a la lista de deseos: " + e.getMessage());
         }
-        return "redirect:/kefa/lista_deseos";
+        return "redirect:/kefa/productos";
     }
 
     private Integer crearNuevaListaDeseos(HttpSession session) {

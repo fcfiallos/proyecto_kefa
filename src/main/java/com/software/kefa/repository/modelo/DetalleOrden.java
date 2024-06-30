@@ -44,6 +44,10 @@ public class DetalleOrden {
     @JoinColumn(name = "deor_id_producto")
     private Producto producto;
 
+    @ManyToOne
+    @JoinColumn(name = "deor_id_carrito_compra")
+    private CarritoCompra carritoCompra;
+
     public Integer getId() {
         return id;
     }
@@ -106,6 +110,14 @@ public class DetalleOrden {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
+    }
+
+    public CarritoCompra getCarritoCompra() {
+        return carritoCompra;
+    }
+
+    public void setCarritoCompra(CarritoCompra carritoCompra) {
+        this.carritoCompra = carritoCompra;
     }
 
 }

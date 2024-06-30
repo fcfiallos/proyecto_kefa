@@ -84,7 +84,11 @@ public class Usuario {
     @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<RegistroSesion> registrosSesion;
 
+    @OneToOne (mappedBy = "usuario")
+    private ListaDeseos listaDeseos;
+
     //Setter and getter
+    
     public String getNickname() {
         return nickname;
     }
@@ -243,6 +247,14 @@ public class Usuario {
 
     public void setRegistrosSesion(List<RegistroSesion> registrosSesion) {
         this.registrosSesion = registrosSesion;
+    }
+
+    public ListaDeseos getListaDeseos() {
+        return listaDeseos;
+    }
+
+    public void setListaDeseos(ListaDeseos listaDeseos) {
+        this.listaDeseos = listaDeseos;
     }
 
     

@@ -66,16 +66,16 @@ public class UsuarioServiceImple implements IUsuarioService {
         usuario.setApellido(usuarioTO.getApellido());
         usuario.setCedula(usuarioTO.getCedula());
 
-        //Encriptación de contraseña del usuario
+        // Encriptación de contraseña del usuario
         String passwordEncriptada = passwordEncoder.encode(usuarioTO.getConstrasenia());
         usuario.setConstrasenia(passwordEncriptada);
-        
+
         usuario.setCorreoElectronico(usuarioTO.getCorreoElectronico());
         usuario.setGenero(usuarioTO.getGenero());
         usuario.setNickname(usuarioTO.getNickname());
         usuario.setNombre(usuarioTO.getNombre());
 
-        //Encriptacion de Preguntas de Seguridad
+        // Encriptacion de Preguntas de Seguridad
         String encriptadaPreDos = passwordEncoder.encode(usuarioTO.getPreguntaDos());
         usuario.setPreguntaDos(encriptadaPreDos);
         String encriptadaPreTres = passwordEncoder.encode(usuarioTO.getPreguntaTres());
@@ -130,11 +130,11 @@ public class UsuarioServiceImple implements IUsuarioService {
     }
 
     /**
-        * Checks if a user with the given cedula exists.
-        *
-        * @param cedula the cedula of the user to check
-        * @return true if a user with the given cedula exists, false otherwise
-        */
+     * Checks if a user with the given cedula exists.
+     *
+     * @param cedula the cedula of the user to check
+     * @return true if a user with the given cedula exists, false otherwise
+     */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public boolean existeUsuarioCedula(String cedula) {
@@ -142,7 +142,6 @@ public class UsuarioServiceImple implements IUsuarioService {
         return usuario != null;
     }
 
-    
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public boolean existeUsuarioNickname(String nickname) {
@@ -167,7 +166,8 @@ public class UsuarioServiceImple implements IUsuarioService {
      * 
      * @param nickname    El nickname del usuario.
      * @param contrasenia La contraseña del usuario.
-     * @throws IllegalArgumentException Si el usuario no existe o la contraseña es incorrecta.
+     * @throws IllegalArgumentException Si el usuario no existe o la contraseña es
+     *                                  incorrecta.
      */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
@@ -196,9 +196,14 @@ public class UsuarioServiceImple implements IUsuarioService {
     @Transactional(value = TxType.REQUIRES_NEW)
     public void cerrarSesion(String nickname) {
         RegistroSesion registroSesion = registroSesionRepository.seleccionarPorNickname(nickname);
-        registroSesion.setFechaFin(LocalDateTime.now());
-        registroSesion.setEstado("Inactivo");
-        registroSesionRepository.actualizar(registroSesion);
+        if (registroSesion != null) {
+            registroSesion.setFechaFin(LocalDateTime.now());
+            registroSesion.setEstado("Inactivo");
+            registroSesionRepository.actualizar(registroSesion);
+        } else {
+            throw new IllegalArgumentException("No se puede cerrar la sesión de un usuario que no ha iniciado sesión");
+        }
+
     }
 
 }

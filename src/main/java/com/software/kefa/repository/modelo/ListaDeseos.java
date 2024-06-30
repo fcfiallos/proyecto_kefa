@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -29,6 +31,10 @@ public class ListaDeseos {
 
     @ManyToMany(mappedBy = "listaDeseos")
     private Set<Producto> productos;
+
+    @OneToOne
+    @JoinColumn(name = "lide_id_usua")
+    private Usuario usuario;
 
     public Integer getId() {
         return id;
@@ -60,6 +66,14 @@ public class ListaDeseos {
 
     public void setProductos(Set<Producto> productos) {
         this.productos = productos;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 }

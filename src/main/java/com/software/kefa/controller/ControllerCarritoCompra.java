@@ -39,7 +39,7 @@ public class ControllerCarritoCompra {
     public String vistaListaProductosDisponibles(Model model) {
         Set<Producto> productos = iCarritoCompraService.buscarTodo();
         model.addAttribute("productos", productos);
-        return "vista_productos_disponibles";
+        return "vista_lista_producto";
     }
 
     @PostMapping("/carrito/agregar")
@@ -53,11 +53,12 @@ public class ControllerCarritoCompra {
         try {
             String nickname = (String) session.getAttribute("nickname");
             iCarritoCompraService.agregarProductoAlCarrito(carritoId, productoId, nickname);
+            model.addAttribute("mensaje", "Cantidad actualizada exitosamente.");
             model.addAttribute("mensaje", "Producto agregado al carrito de compras exitosamente.");
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto al carrito: " + e.getMessage());
         }
-        return "redirect:/kefa/lista_categoria_productos";
+        return "redirect:/kefa/productos";
     }
 
     @PostMapping("/carrito/eliminar")

@@ -14,24 +14,47 @@ import com.software.kefa.service.modelosto.UsuarioRegistroTO;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * This class is a controller that handles user login and registration related requests.
+ * It contains methods for displaying login and registration forms, registering a user or client,
+ * initiating a user session, and closing a user session.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerUsuarioLogin {
     @Autowired
     private IUsuarioService iUsuarioService;
 
+    /**
+     * Returns the name of the HTML file without the extension to display the login form.
+     *
+     * @return the name of the HTML file for the login form
+     */
     @GetMapping("/presentacion")
     public String mostrarPaginaDeLogin() {
         // Retorna el nombre del archivo HTML sin la extensión
         return "formulario_presentacion"; // Asume que tienes un archivo login.html en tu carpeta de recursos
     }
 
+    /**
+     * Displays the registration form for the user/client.
+     *
+     * @param model the model object to be used for rendering the view
+     * @return the name of the view to be displayed (formulario_registro_ClieUsua)
+     */
     @GetMapping("/formulario_registro")
     public String mostrarFormularioUsuaClie(Model model) {
         model.addAttribute("usuarioRegistroTO", new UsuarioRegistroTO());
         return "formulario_registro_ClieUsua";
     }
 
+    /**
+     * Registers a user or client by saving their information in the system.
+     *
+     * @param usuarioRegistroTO The object containing the user/client registration information.
+     * @param model The model object used for adding attributes and rendering views.
+     * @return The view name to be displayed after the registration process.
+     */
     @PostMapping("/registrar")
     public String registrarUsuaClie(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO,
             Model model) {
@@ -69,12 +92,27 @@ public class ControllerUsuarioLogin {
         }
     }
 
+    /**
+     * Displays the login form for the user.
+     * 
+     * @param model the model object to be used for rendering the view
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/formulario_iniciar_sesion")
     public String mostrarFormularioIniciarSecion(Model model) {
         model.addAttribute("usuarioRegistroTO", new UsuarioRegistroTO());
         return "formulario_inicio_sesion";
     }
 
+    /**
+     * Handles the request to initiate a user session.
+     * 
+     * @param usuarioRegistroTO The user registration transfer object containing the user's nickname and password.
+     * @param model The model object to add attributes for the view.
+     * @param session The HttpSession object to store the user's nickname.
+     * @return A string representing the view to redirect to after successful session initiation.
+     * @throws IllegalArgumentException If an invalid argument is passed or an error occurs during session initiation.
+     */
     @PostMapping("/iniciarSesion")
     public String iniciarSesion(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO, Model model,
             HttpSession session) {
@@ -89,6 +127,12 @@ public class ControllerUsuarioLogin {
         }
     }
 
+    /**
+     * Closes the user session and redirects to the login page.
+     * 
+     * @param session the HttpSession object representing the user session
+     * @return a String representing the redirect URL to the login page
+     */
     @GetMapping("/cerrarSesion")
     public String cerrarSesion(HttpSession session) {
         String nickname = (String) session.getAttribute("nickname");

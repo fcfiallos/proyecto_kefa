@@ -159,7 +159,7 @@
                     <tr th:each="producto : ${carritoCompra}">
                         <td th:text="${producto.nombre}">Nombre del Producto</td>
                         <td th:text="${producto.descripcion}">Descripción</td>
-                        <td th:text="${producto.cantidad}"></td>
+                        <td th:text="${producto.cantidad}">Cantidad</td>
                         <td th:text="${producto.precio}">Precio</td>
                         <td>
                             <form th:action="@{/kefa/carrito/eliminar}" th:method="post">

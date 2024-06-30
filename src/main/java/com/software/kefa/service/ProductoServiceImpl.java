@@ -41,6 +41,12 @@ public class ProductoServiceImpl implements IProductoService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
+    /**
+        * Busca productos por ID de categoría.
+        *
+        * @param categoriaID el ID de la categoría
+        * @return una lista de productos que pertenecen a la categoría especificada
+        */
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public List<Producto> buscarPorCategoriaId(Integer categoriaID) {
@@ -48,10 +54,11 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     /**
-     * Saves a new product.
-     *
-     * @param producto The product to be saved.
-     */
+        * Guarda un producto en la base de datos.
+        *
+        * @param producto  el producto a guardar
+        * @param nickname  el nickname del usuario que guarda el producto
+        */
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public void guardar(ProductoTO producto, String nickname) {
@@ -129,13 +136,26 @@ public class ProductoServiceImpl implements IProductoService {
         return prov != null;
     }
 
+    /**
+        * Busca un producto por su código.
+        *
+        * @param codigo el código del producto a buscar
+        * @return el producto encontrado, o null si no se encuentra ninguno con el código especificado
+        */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public Producto buscarPorCodigo(String codigo) {
         return this.productoRepository.seleccionarPorCodigo(codigo);
     }
 
+    /**
+        * Busca un producto por su ID.
+        *
+        * @param id el ID del producto a buscar
+        * @return el producto encontrado, o null si no se encuentra ninguno con el ID especificado
+        */
     @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
     public Producto buscarPorId(Integer id) {
         return this.productoRepository.seleccionarPorId(id);
     }

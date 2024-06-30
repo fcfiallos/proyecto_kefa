@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class Promocion {
     @Column(name = "prom_estado")
     private String estado;
 
-    @ManyToMany(mappedBy = "promocion")
+    @ManyToMany(mappedBy = "promocion", cascade = CascadeType.ALL)
     private Set<Producto> producto;
 
     public Integer getId() {

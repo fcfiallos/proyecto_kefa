@@ -15,8 +15,12 @@ import com.software.kefa.repository.modelo.Usuario;
 
 import jakarta.transaction.Transactional;
 
+/**
+ * This class implements the {@link ICarritoCompraService} interface and provides the implementation
+ * for managing the shopping cart operations.
+ */
 @Service
-public class CarritoComprasServiceImpl implements ICarritoCompraService {
+public class CarritoCompraServiceImpl implements ICarritoCompraService {
 
     @Autowired
     private ICarritoCompraRepository carritoCompraRepository;
@@ -27,30 +31,58 @@ public class CarritoComprasServiceImpl implements ICarritoCompraService {
     @Autowired
     private IUsuarioRepository iUsuarioRepository;
 
+    /**
+     * Saves a shopping cart in the repository.
+     *
+     * @param carritoCompra the shopping cart to save
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(CarritoCompra carritoCompra) {
         this.carritoCompraRepository.insertar(carritoCompra);
     }
 
+    /**
+     * Updates a shopping cart in the repository.
+     *
+     * @param carritoCompra the shopping cart to update
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void actualizar(CarritoCompra carritoCompra) {
         this.carritoCompraRepository.actualizar(carritoCompra);
     }
 
+    /**
+     * Retrieves a shopping cart by its ID.
+     *
+     * @param id the ID of the shopping cart
+     * @return the shopping cart with the specified ID
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public CarritoCompra buscarPorId(Integer id) {
         return this.carritoCompraRepository.seleccionarPorId(id);
     }
 
+    /**
+     * Retrieves all products in a shopping cart.
+     *
+     * @return a set of products in the shopping cart
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public Set<Producto> buscarTodo() {
         return this.carritoCompraRepository.seleccionarTodo();
     }
 
+    /**
+     * Adds a product to a shopping cart.
+     *
+     * @param carritoCompraId the ID of the shopping cart
+     * @param productoId      the ID of the product to add
+     * @param nickname        the nickname of the user adding the product
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void agregarProductoAlCarrito(Integer carritoCompraId, Integer productoId, String nickname) {
@@ -69,6 +101,12 @@ public class CarritoComprasServiceImpl implements ICarritoCompraService {
         }
     }
 
+    /**
+     * Deletes a product from a shopping cart.
+     *
+     * @param carritoCompraId the ID of the shopping cart
+     * @param productoId      the ID of the product to delete
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void eliminarProductoDelCarrito(Integer carritoCompraId, Integer productoId) {

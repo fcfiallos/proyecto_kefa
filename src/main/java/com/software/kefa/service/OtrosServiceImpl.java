@@ -15,6 +15,10 @@ import com.software.kefa.service.modelosto.OtrosTO;
 
 import jakarta.transaction.Transactional;
 
+/**
+ * This class implements the IOtrosService interface and provides the implementation for the service methods.
+ * It is responsible for saving comments and returns in the system.
+ */
 @Service
 public class OtrosServiceImpl implements IOtrosService {
 
@@ -25,6 +29,12 @@ public class OtrosServiceImpl implements IOtrosService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
+    /**
+     * Saves a comment for a user.
+     *
+     * @param otrosTO   the OtrosTO object containing the comment details
+     * @param nickname  the nickname of the user
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardarComentario(OtrosTO otrosTO, String nickname) {
@@ -37,6 +47,12 @@ public class OtrosServiceImpl implements IOtrosService {
 
     }
 
+    /**
+        * Guarda una devolución en la base de datos.
+        * 
+        * @param otrosTO   el objeto que contiene los datos de la devolución
+        * @param nickname  el nickname del usuario que realiza la devolución
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardarDevolucion(OtrosTO otrosTO, String nickname) {

@@ -8,6 +8,9 @@ import com.software.kefa.repository.modelo.modelosdto.OrdenDTO;
 public interface IOrdenService {
     public void guardar(Orden orden);
     public void actualizar(Orden orden);
+    public Orden buscarPorId(Integer id);
+    public Orden buscarTodo();
     public Orden buscarPorCodigo(String codigo);
     public List<OrdenDTO> buscarTodos();
+    public void crearOrdenDeCompra();
 }

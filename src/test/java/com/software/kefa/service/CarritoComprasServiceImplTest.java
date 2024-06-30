@@ -10,12 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class CarritoComprasServiceImplTest {
 
     @Autowired
-    private CarritoComprasServiceImpl carritoComprasService;
-    
+    private CarritoCompraServiceImpl carritoComprasService;
+
     @Test
     void testAgregarProductoAlCarrito() {
         assertThrows(RuntimeException.class, () -> {
-        carritoComprasService.agregarProductoAlCarrito(1, 10, "fcfch");
-    }, "Carrito de Compras o Producto no encontrado");
+            carritoComprasService.agregarProductoAlCarrito(1, 2, "fcfch");
+        }, "Carrito de Compras o Producto no encontrado");
     }
 }

@@ -24,7 +24,7 @@ public class ProductoServiceImplTest {
         producto.setTipo("Producto");
         producto.setPais("Colombia");
         producto.setCategoriaId(1);
-        productoServiceImpl.guardar(producto);
+        productoServiceImpl.guardar(producto, "fcfch");
 
     }
 }

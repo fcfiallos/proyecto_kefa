@@ -35,6 +35,13 @@ public class ControllerProducto {
     @Autowired
     private ICategoriaProductoService iCategoriaProductoService;
 
+    /**
+     * Retrieves a list of products based on the given category ID and renders the view for the product list.
+     *
+     * @param categoriaId The ID of the category.
+     * @param model The model object used to pass data to the view.
+     * @return The name of the view to be rendered.
+     */
     @GetMapping("/categoria/{categoriaId}/lista_productos")
     public String vistaListaProductosPorCategoria(@PathVariable("categoriaId") Integer categoriaId, Model model) {
         // Buscar todos los productos relacionados con la categoría dada
@@ -46,6 +53,13 @@ public class ControllerProducto {
         return "vista_lista_producto";
     }
 
+    /**
+     * Displays the form for creating a new product.
+     * 
+     * @param categoriaId The ID of the category for which the product is being created.
+     * @param model The model object used to pass data to the view.
+     * @return The name of the view template for the product creation form.
+     */
     @GetMapping("/categoria/{categoriaId}/lista_productos/formulario_producto")
     public String mostrarFormularioProducto(@PathVariable("categoriaId") Integer categoriaId, Model model) {
         model.addAttribute("categoriaId", categoriaId);
@@ -53,16 +67,20 @@ public class ControllerProducto {
         return "formulario_producto";
     }
 
+    /**
+     * Adds a new product to the specified category.
+     *
+     * @param categoriaId   The ID of the category to add the product to.
+     * @param productoTO    The product transfer object containing the product details.
+     * @param session       The HttpSession object for managing session data.
+     * @param model         The Model object for adding attributes to the view.
+     * @return              The view name to render after adding the product.
+     */
     @PostMapping("/categoria/{categoriaId}/lista_productos/formulario_producto/añadir")
     public String añadirProducto(@PathVariable("categoriaId") Integer categoriaId,@ModelAttribute("productoTO") ProductoTO productoTO,
             HttpSession session, Model model) {
         CategoriaProducto categoria = null;
 
-        /*if (productoTO.getCategoriaId() == null) {
-            model.addAttribute("error", "El ID de la categoría es requerido.");
-            return "formulario_producto";
-        }
-*/
         try {
             categoria = this.iCategoriaProductoService.buscarPorId(categoriaId);
         } catch (IllegalArgumentException e) {
@@ -95,6 +113,14 @@ public class ControllerProducto {
         }
     }
 
+    /**
+     * Retrieves the form for updating a product based on its category ID and product code.
+     *
+     * @param categoriaId The ID of the category to which the product belongs.
+     * @param codigo The code of the product to be updated.
+     * @param model The model object to be used for rendering the view.
+     * @return The name of the view template for the update product form.
+     */
     @GetMapping("/categoria/{categoriaId}/lista_productos/formulario_actualizar_producto/{codigo}")
     public String mostrarFormularioActualizarProducto(@PathVariable("categoriaId") Integer categoriaId,
             @PathVariable("codigo") String codigo, Model model) {
@@ -104,6 +130,15 @@ public class ControllerProducto {
         return "formulario_actua_producto";
     }
 
+    /**
+     * Displays the form for updating a product.
+     *
+     * @param codigo The code of the product to be updated.
+     * @param categoriaId The ID of the category to which the product belongs.
+     * @param producto The updated product data.
+     * @param model The model object for rendering views.
+     * @return A string representing the view to be displayed after updating the product.
+     */
     @PutMapping("/categoria/{categoriaId}/lista_productos/actualizar_producto/{codigo}")
     public String mostrarFormularioActulizar(@PathVariable("codigo") String codigo,
             @PathVariable("categoriaId") Integer categoriaId, ProductoTO producto, Model model) {
@@ -122,6 +157,13 @@ public class ControllerProducto {
         }
     }
 
+    /**
+     * Handles the MethodArgumentTypeMismatchException by displaying an error message and returning the "formulario_producto" view.
+     * 
+     * @param e     The MethodArgumentTypeMismatchException that occurred.
+     * @param model The Model object used to pass data to the view.
+     * @return The name of the view to be rendered, in this case, "formulario_producto".
+     */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public String handleTypeMismatchException(MethodArgumentTypeMismatchException e, Model model) {
         model.addAttribute("error",

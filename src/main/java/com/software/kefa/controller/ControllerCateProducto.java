@@ -17,6 +17,12 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import com.software.kefa.repository.modelo.CategoriaProducto;
 import com.software.kefa.service.ICategoriaProductoService;
 
+import jakarta.servlet.http.HttpSession;
+
+/**
+ * This class is a controller for managing category products in the application.
+ * It handles requests related to category products and interacts with the category product service.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerCateProducto {
@@ -24,6 +30,12 @@ public class ControllerCateProducto {
     @Autowired
     private ICategoriaProductoService categoriaProductoService;
 
+    /**
+     * Retrieves a list of category products and adds them to the model.
+     * 
+     * @param model the model object to add the category products to
+     * @return the name of the view to render
+     */
     @GetMapping("/lista_categoria_productos")
     public String vistaListaProductos( Model model) {
         List<CategoriaProducto> categoriaProductos = this.categoriaProductoService.buscarTodo();
@@ -31,11 +43,19 @@ public class ControllerCateProducto {
         return "vista_lista_cate_producto";
     }
 
-    // Método para capturar el ID de la categoría seleccionada y redirigir a la
-    // vista de productos filtrados por esa categoría
-    @GetMapping("/categoria/{id}/productos")
-    public String redirigirProductosPorCategoria(@PathVariable("id") Integer id, Model model) {
+    
+    /**
+     * Redirects the user to the view of products filtered by the selected category.
+     *
+     * @param id      the ID of the selected category
+     * @param model   the model object to add attributes to
+     * @param session the HttpSession object to store the category ID
+     * @return the view name to redirect to
+     */
+    @GetMapping("/categoria/{categoriaId}/productos")
+    public String redirigirProductosPorCategoria(@PathVariable("categoriaId") Integer id, Model model, HttpSession session) {
         // Capturar el ID de la categoría seleccionada
+        session.setAttribute("categoriaId", id);
         CategoriaProducto categoriaProducto = this.categoriaProductoService.buscarPorId(id);
 
         if (categoriaProducto != null) {
@@ -48,12 +68,25 @@ public class ControllerCateProducto {
         }
     }
 
+    /**
+     * Displays the formulario_cate_producto form.
+     *
+     * @param model the model object to be used for rendering the view
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/formulario_categoria_producto")
     public String mostrarFormularioProducto(Model model) {
         model.addAttribute("categoriaProducto", new CategoriaProducto());
         return "formulario_cate_producto";
     }
 
+    /**
+     * Adds a new product category.
+     *
+     * @param producto The product category to be added.
+     * @param model The model object for rendering views.
+     * @return The view name to redirect to after adding the product category.
+     */
     @PostMapping("/registrar_categoria_producto")
     public String añadirProducto(@ModelAttribute("categoriaProducto") CategoriaProducto producto, Model model) {
         Predicate<CategoriaProducto> validar = prod -> !prod.getDescripcion().isEmpty() && !prod.getImagen().isEmpty()
@@ -69,6 +102,13 @@ public class ControllerCateProducto {
         }
     }
 
+    /**
+     * Handles the MethodArgumentTypeMismatchException by displaying an error message and returning the error page.
+     *
+     * @param e     The MethodArgumentTypeMismatchException that occurred.
+     * @param model The Model object used to add attributes for the view.
+     * @return The name of the error page view.
+     */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public String handleTypeMismatchException(MethodArgumentTypeMismatchException e, Model model) {
         model.addAttribute("error",

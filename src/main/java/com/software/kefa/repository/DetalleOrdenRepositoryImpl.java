@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.software.kefa.repository.modelo.DetalleOrden;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
@@ -24,6 +25,15 @@ public class DetalleOrdenRepositoryImpl implements IDetalleOrdenRepository{
     @Transactional (value = Transactional.TxType.MANDATORY)
     public void actualizar(DetalleOrden detalleOrden) {
         this.entityManager.merge(detalleOrden);
+    }
+
+    @Override
+    public DetalleOrden seleccionarPorId(Integer id) {
+        try {
+            return this.entityManager.find(DetalleOrden.class, id);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 }
