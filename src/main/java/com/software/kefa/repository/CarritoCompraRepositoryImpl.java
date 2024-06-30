@@ -46,5 +46,11 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository{
         return this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
     }
 
+    @Override
+    @Transactional(value = Transactional.TxType.MANDATORY)
+    public void eliminar(CarritoCompra carritoCompra) {
+        this.entityManager.remove(carritoCompra);
+    }
+
 }
 

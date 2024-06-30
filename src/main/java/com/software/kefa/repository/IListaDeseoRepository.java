@@ -10,4 +10,5 @@ public interface IListaDeseoRepository {
     public void actualizar(ListaDeseos listaDeseo);
     public List<Producto> seleccionarTodo(Integer id);
     public ListaDeseos seleccionarPorId(Integer id);
+    public void eliminar(ListaDeseos listaDeseo);
 }

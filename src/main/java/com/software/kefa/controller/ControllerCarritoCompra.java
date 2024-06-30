@@ -1,19 +1,22 @@
 package com.software.kefa.controller;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.software.kefa.repository.modelo.CarritoCompra;
+import com.software.kefa.repository.modelo.CategoriaProducto;
 import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.service.ICarritoCompraService;
+import com.software.kefa.service.ICategoriaProductoService;
+import com.software.kefa.service.IProductoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,65 +26,75 @@ public class ControllerCarritoCompra {
     @Autowired
     private ICarritoCompraService iCarritoCompraService;
 
-    @GetMapping("/carrito")
-    public String vistaListaCarrito(Model model, HttpSession session) {
-        Integer carritoId = (Integer) session.getAttribute("carritoId");
-        if (carritoId != null) {
-            List<Producto> carritoCompra = iCarritoCompraService.buscarTodo();
-            model.addAttribute("carritoCompra", carritoCompra);
-        } else {
-            model.addAttribute("carritoCompra", Collections.emptyList());
-        }
-        return "vista_lista_CarritoCompra";
-    }
+    @Autowired
+    private IProductoService productoService;
 
-    @GetMapping("/productos")
-    public String vistaListaProductosDisponibles(Model model) {
-        List<Producto> productos = iCarritoCompraService.buscarTodo();
+    @Autowired
+    private ICategoriaProductoService iCategoriaProductoService;
+
+    /*@GetMapping("/categoria/{categoriaId}/lista_productos/carrito")
+    public String vistaListaProductosPorCategoria(@PathVariable("categoriaId") Integer categoriaId, Model model) {
+        // Buscar todos los productos relacionados con la categoría dada
+        List<Producto> productos = this.productoService.buscarPorCategoriaId(categoriaId);
+        CategoriaProducto categoria = this.iCategoriaProductoService.buscarPorId(categoriaId);
+        model.addAttribute("categoriaId", categoriaId);
         model.addAttribute("productos", productos);
+        model.addAttribute("categoria", categoria);
         return "vista_lista_producto";
+    }*/
+
+    @PostMapping("/categoria/{categoriaId}/lista_productos/carrito/agregarProducto")
+    public String agregarProducto(@PathVariable("categoriaId") Integer categoriaId, @RequestParam Integer carritoId,
+            @RequestParam Integer productoId, Model model,
+            HttpSession session) {
+        CategoriaProducto categoria = null;
+
+        try {
+            categoria = this.iCategoriaProductoService.buscarPorId(categoriaId);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "formulario_producto";
+        }
+
+        Producto producto = productoService.buscarPorId(productoId);
+        try {
+            String nickname = (String) session.getAttribute("nickname");
+            iCarritoCompraService.agregarProducto(carritoId, producto, nickname);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/categoria/"+categoriaId+"/lista_productos";
     }
 
-    @PostMapping("/carrito/agregar")
-    public String agregarProductoAlCarrito(@RequestParam("productoId") Integer productoId, HttpSession session,
-            Model model, @RequestParam("cantidad") Integer cantidad){
-        Integer carritoId = (Integer) session.getAttribute("carritoId");
-        if (carritoId == null) {
-            carritoId = crearNuevoCarrito(productoId,session); // Método para crear un nuevo carrito y guardar su ID en la sesión
+    @PostMapping("/categoria/{categoriaId}/lista_productos/carrito/eliminarProducto")
+    public String eliminarProducto(@PathVariable("categoriaId") Integer categoriaId ,@RequestParam Integer carritoId, @RequestParam Integer productoId, Model model) {
+        Producto producto = productoService.buscarPorId(productoId);
+
+        CategoriaProducto categoria = null;
+        try {
+            categoria = this.iCategoriaProductoService.buscarPorId(categoriaId);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "formulario_producto";
         }
 
         try {
-            String nickname = (String) session.getAttribute("nickname");
-            iCarritoCompraService.agregarProductoAlCarrito(carritoId, productoId, nickname, cantidad);
-            model.addAttribute("mensaje", "Cantidad actualizada exitosamente.");
-            model.addAttribute("mensaje", "Producto agregado al carrito de compras exitosamente.");
+            iCarritoCompraService.eliminarProducto(carritoId, producto);
         } catch (Exception e) {
-            model.addAttribute("error", "Error al agregar producto al carrito: " + e.getMessage());
+            model.addAttribute("error", e.getMessage());
         }
-        return "redirect:/kefa/productos";
+        return "redirect:/categoria/"+categoriaId+"/lista_productos";
     }
 
-    @PostMapping("/carrito/eliminar")
-    public String eliminarProductoDelCarrito(@RequestParam("productoId") Integer productoId, HttpSession session,
-            Model model) {
-        Integer carritoId = (Integer) session.getAttribute("carritoId");
-        if (carritoId != null) {
-            try {
-                iCarritoCompraService.eliminarProductoDelCarrito(carritoId, productoId);
-                model.addAttribute("mensaje", "Producto eliminado del carrito de compras exitosamente.");
-            } catch (Exception e) {
-                model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());
-            }
+    @GetMapping("/carrito/ver/{id}")
+    public String verCarrito(@PathVariable("id") Integer id, Model model) {
+        CarritoCompra carrito = iCarritoCompraService.obtenerCarritoPorId(id);
+        if (carrito == null) {
+            model.addAttribute("error", "El carrito de compra no existe.");
         }
-        return "redirect:/kefa/carrito";
+        model.addAttribute("carrito", carrito);
+        return "vista_carrito_compra";
     }
 
-    private Integer crearNuevoCarrito(@RequestParam("productoId") Integer productoId,HttpSession session) {
-        // Crear un nuevo carrito de compras y guardar su ID en la sesión
-        CarritoCompra nuevoCarrito = new CarritoCompra();
-        String nickname = (String) session.getAttribute("nickname");
-        iCarritoCompraService.guardar(nuevoCarrito, nickname, productoId);
-        session.setAttribute("carritoId", nuevoCarrito.getId());
-        return nuevoCarrito.getId();
-    }
 }

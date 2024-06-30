@@ -42,6 +42,7 @@ public class ListaDeseoRepositoryImpl implements IListaDeseoRepository {
     }
 
     @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
     public ListaDeseos seleccionarPorId(Integer id) {
         try {
             if (id == null || id <= 0) {
@@ -52,6 +53,12 @@ public class ListaDeseoRepositoryImpl implements IListaDeseoRepository {
             return null;
         }
 
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.MANDATORY)
+    public void eliminar(ListaDeseos listaDeseo) {
+        this.entityManager.remove(listaDeseo);
     }
 
 }

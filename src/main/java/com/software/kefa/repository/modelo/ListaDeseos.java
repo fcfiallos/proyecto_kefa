@@ -77,4 +77,14 @@ public class ListaDeseos {
         this.productos = productos;
     }
 
+    // Métodos adicionales
+    public void agregarProducto(Producto producto) {
+        this.productos.add(producto);
+        this.cantidad += 1;
+    }
+
+    public void eliminarProducto(Producto producto) {
+        this.productos.remove(producto);
+        this.cantidad -= 1;
+    }
 }
