@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.software.kefa.repository.modelo.DetalleOrden;
 import com.software.kefa.repository.modelo.ListaDeseos;
 import com.software.kefa.repository.modelo.Producto;
 
@@ -54,6 +55,36 @@ public class ListaDeseoRepositoryImpl implements IListaDeseoRepository {
             return null;
         }
 
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public ListaDeseos seleccionarPorUsuarioNickname(String nickname) {
+        try {
+            return this.entityManager.createQuery("SELECT ld FROM ListaDeseos ld JOIN ld.usuario u WHERE u.nickname = :nickname",
+                    ListaDeseos.class).setParameter("nickname", nickname).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.MANDATORY)
+    public void eliminarProductoDeLista(Integer detalleId, String nickname) {
+        this.entityManager.createQuery(
+                "DELETE FROM DetalleOrden do WHERE do.id = :detalleId AND do.listaDeseos.usuario.nickname = :nickname")
+                .setParameter("detalleId", detalleId).setParameter("nickname", nickname).executeUpdate();
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public List<DetalleOrden> seleccionarDetalleOrdenPorListaDeseoId(Integer id) {
+        try {
+            return this.entityManager.createQuery("SELECT do FROM DetalleOrden do JOIN do.listaDeseos ld WHERE ld.id = :id",
+                    DetalleOrden.class).setParameter("id", id).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 }

@@ -37,67 +37,18 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
     @Autowired
     private IDetalleOrdenRepository detalleOrdenRepository;
 
-    /**
-     * Saves a CarritoCompra object to the database.
-     * 
-     * @param carritoCompra The CarritoCompra object to be saved.
-     * @param nickname      The nickname of the user associated with the
-     *                      CarritoCompra.
-     * @param productoId    The ID of the product to be added to the CarritoCompra.
-     */
-    @Override
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void guardar(CarritoCompra carritoCompra, String nickname, Integer productoId, Integer cantidad) {
-        carritoCompra.setFechaSeleccionada(LocalDateTime.now());
-        carritoCompra.setCantidad(cantidad);
-
-        Usuario usuario = iUsuarioRepository.seleccionarPorNickname(nickname);
-        carritoCompra.setUsuario(usuario);
-
-        /*Producto producto = productoRepository.seleccionarPorId(productoId);
-        if (producto == null) {
-            throw new MensajeExisteExcepcion("Producto no encontrado");
-
-        }
-
-        // Verificar si la lista de productos es null y, de ser así, inicializarla
-        if (carritoCompra.getProductos() == null) {
-            carritoCompra.setProductos(new ArrayList<>());
-        }
-
-        carritoCompra.getProductos().add(producto);*/
-
-        this.carritoCompraRepository.insertar(carritoCompra);
-    }
-
-    /**
-     * Updates a shopping cart in the repository.
-     *
-     * @param carritoCompra the shopping cart to update
-     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void actualizar(CarritoCompra carritoCompra) {
         this.carritoCompraRepository.actualizar(carritoCompra);
     }
 
-    /**
-     * Retrieves a shopping cart by its ID.
-     *
-     * @param id the ID of the shopping cart
-     * @return the shopping cart with the specified ID
-     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public CarritoCompra buscarPorId(Integer id) {
         return this.carritoCompraRepository.seleccionarPorId(id);
     }
 
-    /**
-     * Retrieves all products in a shopping cart.
-     *
-     * @return a set of products in the shopping cart
-     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public List<Producto> buscarTodo(Integer idCarritoCompra) {
@@ -106,52 +57,48 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void agregarProductoAlCarrito(Integer carritoCompraId, Integer productoId, String nickname,
-            Integer cantidad) {
+    public CarritoCompra agregarProductoAlCarrito(Integer productoId, String nickname,
+            Integer cantidad, CarritoCompra carritoCompra) {
+        Producto producto = this.productoRepository.seleccionarPorId(productoId);
         Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
-        CarritoCompra carritoCompra = carritoCompraRepository.seleccionarPorId(carritoCompraId);
-
-        Producto producto = productoRepository.seleccionarPorId(productoId);
-        if (carritoCompra != null && producto != null) {
-            DetalleOrden detalle = new DetalleOrden();
-            detalle.setCarritoCompra(carritoCompra);
-            detalle.setProducto(producto);
-            detalle.setCantidad(cantidad);
-
-            carritoCompra.getDetalleOrden().add(detalle);
+        carritoCompra = usuario.getCarritoCompra();
+        if (carritoCompra == null) {
+            carritoCompra = new CarritoCompra();
+            carritoCompra.setFechaSeleccionada(LocalDateTime.now());
             carritoCompra.setUsuario(usuario);
-            this.detalleOrdenRepository.insertar(detalle);
-            carritoCompraRepository.actualizar(carritoCompra);
-        } else {
-            throw new RuntimeException("Carrito de Compras o Producto no encontrado");
+            carritoCompra.setCantidad(cantidad);
+            carritoCompraRepository.insertar(carritoCompra);
         }
+        DetalleOrden detalleOrden = new DetalleOrden();
+        detalleOrden.setProducto(producto);
+        detalleOrden.setCantidad(cantidad);
+        detalleOrden.setCarritoCompra(carritoCompra);
+        detalleOrdenRepository.insertar(detalleOrden);
+        return carritoCompra;
     }
 
-    /**
-     * Deletes a product from a shopping cart.
-     *
-     * @param carritoCompraId the ID of the shopping cart
-     * @param productoId      the ID of the product to delete
-     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void eliminarProductoDelCarrito(Integer carritoCompraId, Integer productoId) {
-        CarritoCompra carritoCompra = carritoCompraRepository.seleccionarPorId(carritoCompraId);
-        if (carritoCompra == null) {
-            throw new RuntimeException("Carrito de Compras no encontrado");
-        }
+    public void eliminarProductoDelCarrito(Integer detalleOrdenId, String nickname) {
+        carritoCompraRepository.eliminarProductoDelCarrito(detalleOrdenId, nickname);
+    }
 
-        Producto producto = productoRepository.seleccionarPorId(productoId);
-        if (producto == null) {
-            throw new RuntimeException("Producto no encontrado");
-        }
+    @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public void guardar(CarritoCompra carritoCompra) {
+        this.carritoCompraRepository.insertar(carritoCompra);
+    }
 
-        boolean productoEliminado = carritoCompra.getDetalleOrden().remove(producto);
-        if (!productoEliminado) {
-            throw new RuntimeException("El producto no se encontraba en el carrito de compras");
-        }
+    @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public CarritoCompra buscarPorNickname(String nickname) {
+        return this.carritoCompraRepository.seleccionarPorUsuarioNickname(nickname);
+    }
 
-        carritoCompraRepository.actualizar(carritoCompra);
+    @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public List<DetalleOrden> buscarDetallePorIdCarrito(Integer idCarritoCompra) {
+        return this.carritoCompraRepository.seleccionarDetalleOrdenPorCarritoCompraId(idCarritoCompra);
     }
 
 }

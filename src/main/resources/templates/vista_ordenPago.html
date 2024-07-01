@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html>
 
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Productos</title>
+    <title>Orden de Pago</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -137,44 +137,21 @@
 </head>
 
 <body>
-    <div class="overlay">
-        <h1>Carrito de Compra</h1>
-        <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <div th:if="${#lists.isEmpty(carrito)}">
-            <p>No hay productos en tu lista de deseos.</p>
-        </div>
-        <div th:if="${not #lists.isEmpty(carrito)}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="detalle:${carrito.detalleOrden}">
-                        <td th:text="${detalle.producto.nombre}"></td>
-                        <td th:text="${detalle.cantidad}"></td>
-                        <td>
-                            <form th:action="@{/kefa/carrito/eliminar/{id}(id=${detalle.id})}" th:method="post">
-                                <input type="hidden" id= "detalleOrdenId"name="detalleOrdenId" th:value="${detalle.id}" />
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!--<form th:action="@{/kefa/carrito/ordenPago}" th:method="get">
-            <button type="submit" class="btn btn-success">Realizar Orden</button>
-        </form>-->
-    </div>
-    <div class="d-grid gap-2 d-md-block">
-        <button type="button" class="btn btn-outline-secondary"
-            onclick="window.location.href='/kefa/carrito/ordenPago'">Orden de Pago</button>
-        <button type="button" class="btn btn-outline-secondary"
-            onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+    <h2>Orden de Pago</h2>
+    <div>
+        <p>Código de Orden: ${orden.codigo}</p>
+        <p>Fecha: ${orden.fecha}</p>
+        <p>Total Orden: ${orden.totalOrden}</p>
+        <ul>
+            <li th:each="detalle : ${orden.detalleOrden}">
+                Producto: <span th:text="${detalle.producto.nombre}"></span>,
+                Cantidad: <span th:text="${detalle.cantidad}"></span>,
+                Precio Unitario: <span th:text="${detalle.precioUnitario}"></span>,
+                Descuento: <span th:text="${detalle.descuento}"></span>,
+                Impuesto: <span th:text="${detalle.impuesto}"></span>,
+                Total Producto: <span th:text="${detalle.totalProducto}"></span>
+            </li>
+        </ul>
     </div>
 </body>
 

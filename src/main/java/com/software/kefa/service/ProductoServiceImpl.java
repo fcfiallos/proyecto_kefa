@@ -41,12 +41,6 @@ public class ProductoServiceImpl implements IProductoService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-/*@Autowired
-    private ICarritoCompraRepository carritoCompraRepository;
-
-    @Autowired
-    private IListaDeseoRepository listaDeseoRepository;*/
-
     /**
         * Busca productos por ID de categoría.
         *
@@ -102,8 +96,6 @@ public class ProductoServiceImpl implements IProductoService {
         pro.setProveedor(prov);
         pro.setCategoriaProducto(categoria);
         pro.setUsuario(usuario);
-        //pro.setListaDeseos(listaDeseo);
-        //pro.setCarritoCompra(carritoCompra);
 
         this.productoRepository.insertar(pro);
         this.proveedorRepository.insertar(prov);
@@ -168,6 +160,11 @@ public class ProductoServiceImpl implements IProductoService {
     @Transactional(value = TxType.REQUIRES_NEW)
     public Producto buscarPorId(Integer id) {
         return this.productoRepository.seleccionarPorId(id);
+    }
+
+    @Override
+    public List<Producto> buscarTodo() {
+        return this.productoRepository.seleccionarTodo();
     }
 
 }

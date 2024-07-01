@@ -67,4 +67,9 @@ public class ProductoRepositoryImpl implements IProductoRepository {
         } 
     }
 
+    @Override
+    public List<Producto> seleccionarTodo() {
+        return this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
+    }
+
 }

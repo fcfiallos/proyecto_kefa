@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,8 +35,11 @@ public class CarritoCompra {
     @JoinColumn(name = "cdco_id_usuario")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "carritoCompra", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "carritoCompra", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<DetalleOrden> detalleOrden;
+
+    public CarritoCompra() {
+    }
 
     public Integer getId() {
         return id;

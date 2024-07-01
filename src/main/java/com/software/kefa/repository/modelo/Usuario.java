@@ -16,7 +16,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -63,32 +62,32 @@ public class Usuario {
     @JoinColumn(name = "rol_id")
     private Rol rol;
 
-    @OneToOne (mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Ubicacion ubicacion;
 
-    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Comentario> comentarios;
-    
-    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Devolucion> devoluciones;
 
-    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<PreguntaFrecuente> preguntasFrecuentes;
 
-    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Orden> ordenes;
 
-    @OneToOne (mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private CarritoCompra carritoCompra;
 
-    @OneToMany (mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<RegistroSesion> registrosSesion;
 
-    @OneToOne (mappedBy = "usuario")
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private ListaDeseos listaDeseos;
 
-    //Setter and getter
-    
+    // Setter and getter
+
     public String getNickname() {
         return nickname;
     }
@@ -257,6 +256,4 @@ public class Usuario {
         this.listaDeseos = listaDeseos;
     }
 
-    
-    
 }

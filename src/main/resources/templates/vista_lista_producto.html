@@ -164,7 +164,9 @@
                             <input type="number" name="cantidad" th:value="${producto.cantidad}" min="1" />
                             <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
                         </form>
-                        <form th:action="@{/kefa/lista_deseos/agregar}" method="post" style="display:inline;">
+                    </td>
+                    <td>
+                        <form th:action="@{/kefa/lista_deseos/agregar}" th:method="post" style="display:inline;">
                             <input type="hidden" name="productoId" th:value="${producto.id}" />
                             <button type="submit" class="btn btn-secondary">Agregar a Lista de Deseos</button>
                         </form>

@@ -141,10 +141,10 @@
         <h1>Lista de Lista de Deseos</h1>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <div th:if="${mensaje}" class="mensaje-message" th:text="${mensaje}"></div>
-        <div th:if="${#lists.isEmpty(listaDeseos)}">
+        <div th:if="${#lists.isEmpty(listaDeseo)}">
             <p>No hay productos en tu lista de deseos.</p>
         </div>
-        <div th:if="${not #lists.isEmpty(listaDeseos)}">
+        <div th:if="${not #lists.isEmpty(listaDeseo)}">
             <table class="table">
                 <thead>
                     <tr>
@@ -154,10 +154,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="producto : ${listaDeseos}">
-                        <td th:text="${producto.nombre}">Nombre del Producto</td>
-                        <td th:text="${producto.descripcion}">Descripción</td>
-                        <td th:text="${producto.precio}">Precio</td>
+                    <tr th:each="detalle:${listaDeseo.detallesOrdenes}">
+                        <td th:text="${detalle.producto.nombre}">Nombre del Producto</td>
+                        <td th:text="${detalle.producto.descripcion}">Descripción</td>
                     </tr>
                 </tbody>
             </table>

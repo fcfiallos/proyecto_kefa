@@ -12,5 +12,5 @@ public interface IOrdenService {
     public Orden buscarTodo();
     public Orden buscarPorCodigo(String codigo);
     public List<OrdenDTO> buscarTodos();
-    public void crearOrdenDeCompra();
+    public Orden crearOrdenDePago(String nickname, Integer carritoId);
 }

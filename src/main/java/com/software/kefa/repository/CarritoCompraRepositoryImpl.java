@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.software.kefa.repository.modelo.CarritoCompra;
+import com.software.kefa.repository.modelo.DetalleOrden;
 import com.software.kefa.repository.modelo.Producto;
 
 import jakarta.persistence.EntityManager;
@@ -52,6 +53,38 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository{
         }
 
     }
+
+	@Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+	public CarritoCompra seleccionarPorUsuarioNickname(String nickname) {
+        try {
+            String jpql = "SELECT cc FROM CarritoCompra cc JOIN cc.usuario u WHERE u.nickname = :nickname";
+            return this.entityManager.createQuery(jpql, CarritoCompra.class)
+                    .setParameter("nickname", nickname).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+		
+	}
+
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public List<DetalleOrden> seleccionarDetalleOrdenPorCarritoCompraId(Integer id) {
+        try {
+            return this.entityManager.createQuery("SELECT do FROM DetalleOrden do JOIN do.carritoCompra cc WHERE cc.id = :id",
+                    DetalleOrden.class).setParameter("id", id).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+	@Override
+    @Transactional(value = Transactional.TxType.MANDATORY)
+	public void eliminarProductoDelCarrito(Integer detalleId, String nickname) {
+		this.entityManager.createQuery(
+                "DELETE FROM DetalleOrden do WHERE do.id = :detalleId AND do.carritoCompra.usuario.nickname = :nickname")
+                .setParameter("detalleId", detalleId).setParameter("nickname", nickname).executeUpdate();
+	}
 
 }
 

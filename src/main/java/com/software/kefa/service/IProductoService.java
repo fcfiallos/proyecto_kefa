@@ -7,6 +7,7 @@ import com.software.kefa.service.modelosto.ProductoTO;
  
 public interface IProductoService {
     public List<Producto> buscarPorCategoriaId(Integer categoriaID);
+    public List<Producto> buscarTodo();
     public void guardar(ProductoTO producto, String nickname);
     public void actualizar(Producto producto);
     public boolean existeProductoCodigo (String codigo);
