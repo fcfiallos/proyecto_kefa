@@ -63,17 +63,6 @@ public class Producto {
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     private List<DetalleOrden> detalleOrden;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-    private List<ProductoPromocion> productoPromocion;
-
-    @ManyToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "prod_id_carrito_compra")
-    private CarritoCompra carritoCompra;
-
-    @ManyToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "prod_id_lista_deseos")
-    private ListaDeseos listaDeseos;
-
     public Proveedor getProveedor() {
         return proveedor;
     }
@@ -168,30 +157,6 @@ public class Producto {
 
     public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
         this.detalleOrden = detalleOrden;
-    }
-
-    public List<ProductoPromocion> getProductoPromocion() {
-        return productoPromocion;
-    }
-
-    public void setProductoPromocion(List<ProductoPromocion> productoPromocion) {
-        this.productoPromocion = productoPromocion;
-    }
-
-    public CarritoCompra getCarritoCompra() {
-        return carritoCompra;
-    }
-
-    public void setCarritoCompra(CarritoCompra carritoCompra) {
-        this.carritoCompra = carritoCompra;
-    }
-
-    public ListaDeseos getListaDeseos() {
-        return listaDeseos;
-    }
-
-    public void setListaDeseos(ListaDeseos listaDeseos) {
-        this.listaDeseos = listaDeseos;
     }
 
 }

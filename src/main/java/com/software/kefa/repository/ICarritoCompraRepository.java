@@ -10,5 +10,5 @@ public interface ICarritoCompraRepository {
     public void insertar(CarritoCompra carritoCompra);
     public void actualizar(CarritoCompra carritoCompra);
     public CarritoCompra seleccionarPorId(Integer id);
-    public List<Producto> seleccionarTodo();
+    public List<Producto> seleccionarTodo(Integer id);
 }

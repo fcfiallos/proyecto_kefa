@@ -39,7 +39,7 @@ public class Promocion {
     private String estado;
 
     @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL)
-    private List<ProductoPromocion> productoPromocion;
+    private List<DetalleOrden> detalleOrden;
 
     public Integer getId() {
         return id;
@@ -89,12 +89,12 @@ public class Promocion {
         this.estado = estado;
     }
 
-    public List<ProductoPromocion> getProductoPromocion() {
-        return productoPromocion;
+    public List<DetalleOrden> getDetalleOrden() {
+        return detalleOrden;
     }
 
-    public void setProductoPromocion(List<ProductoPromocion> productoPromocion) {
-        this.productoPromocion = productoPromocion;
+    public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
+        this.detalleOrden = detalleOrden;
     }
 
 }

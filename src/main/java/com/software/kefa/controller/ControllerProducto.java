@@ -103,11 +103,11 @@ public class ControllerProducto {
             } catch (MensajeExisteExcepcion e) {
                 model.addAttribute("error", e.getMessage());
                 return "formulario_producto";
-            } /*catch (Exception e) {
+            } catch (Exception e) {
                 // Manejo de cualquier otra excepción no capturada específicamente
                 model.addAttribute("error", "Ocurrió un error al guardar el producto: " + e.getMessage());
                 return "formulario_producto";
-            }*/
+            }
         } else {
             model.addAttribute("error",
                     "Validación del producto falló.");

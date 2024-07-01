@@ -24,9 +24,6 @@ public class ListaDeseos {
     @Column(name = "lide_id")
     private Integer id;
 
-    @Column(name = "lide_cantidad")
-    private Integer cantidad;
-
     @Column(name = "lide_fecha_seleccionada")
     private LocalDateTime fechaSeleccionada;
 
@@ -35,7 +32,7 @@ public class ListaDeseos {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "listaDeseos", cascade = CascadeType.ALL)
-    private List <Producto> productos;
+    private List <DetalleOrden> detallesOrdenes; 
 
     public Integer getId() {
         return id;
@@ -43,14 +40,6 @@ public class ListaDeseos {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
     }
 
     public LocalDateTime getFechaSeleccionada() {
@@ -69,12 +58,13 @@ public class ListaDeseos {
         this.usuario = usuario;
     }
 
-    public List<Producto> getProductos() {
-        return productos;
+    public List<DetalleOrden> getDetallesOrdenes() {
+        return detallesOrdenes;
     }
 
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
+    public void setDetallesOrdenes(List<DetalleOrden> detallesOrdenes) {
+        this.detallesOrdenes = detallesOrdenes;
     }
+
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.software.kefa.repository.ICarritoCompraRepository;
+import com.software.kefa.repository.IDetalleOrdenRepository;
 import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.CarritoCompra;
@@ -33,23 +34,38 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
     @Autowired
     private IUsuarioRepository iUsuarioRepository;
 
+    @Autowired
+    private IDetalleOrdenRepository detalleOrdenRepository;
+
     /**
-        * Saves a CarritoCompra object to the database.
-        * 
-        * @param carritoCompra The CarritoCompra object to be saved.
-        * @param nickname The nickname of the user associated with the CarritoCompra.
-        * @param productoId The ID of the product to be added to the CarritoCompra.
-        */
+     * Saves a CarritoCompra object to the database.
+     * 
+     * @param carritoCompra The CarritoCompra object to be saved.
+     * @param nickname      The nickname of the user associated with the
+     *                      CarritoCompra.
+     * @param productoId    The ID of the product to be added to the CarritoCompra.
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void guardar(CarritoCompra carritoCompra, String nickname, Integer productoId) {
+    public void guardar(CarritoCompra carritoCompra, String nickname, Integer productoId, Integer cantidad) {
         carritoCompra.setFechaSeleccionada(LocalDateTime.now());
+        carritoCompra.setCantidad(cantidad);
 
         Usuario usuario = iUsuarioRepository.seleccionarPorNickname(nickname);
         carritoCompra.setUsuario(usuario);
 
-        List <Producto> productos = this.carritoCompraRepository.seleccionarTodo();
-        carritoCompra.setProductos(productos);
+        /*Producto producto = productoRepository.seleccionarPorId(productoId);
+        if (producto == null) {
+            throw new MensajeExisteExcepcion("Producto no encontrado");
+
+        }
+
+        // Verificar si la lista de productos es null y, de ser así, inicializarla
+        if (carritoCompra.getProductos() == null) {
+            carritoCompra.setProductos(new ArrayList<>());
+        }
+
+        carritoCompra.getProductos().add(producto);*/
 
         this.carritoCompraRepository.insertar(carritoCompra);
     }
@@ -84,8 +100,8 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
      */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public List<Producto> buscarTodo() {
-        return this.carritoCompraRepository.seleccionarTodo();
+    public List<Producto> buscarTodo(Integer idCarritoCompra) {
+        return this.carritoCompraRepository.seleccionarTodo(idCarritoCompra);
     }
 
     @Override
@@ -94,7 +110,6 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
             Integer cantidad) {
         Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
         CarritoCompra carritoCompra = carritoCompraRepository.seleccionarPorId(carritoCompraId);
-        carritoCompra.setFechaSeleccionada(LocalDateTime.now());
 
         Producto producto = productoRepository.seleccionarPorId(productoId);
         if (carritoCompra != null && producto != null) {
@@ -105,7 +120,7 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
 
             carritoCompra.getDetalleOrden().add(detalle);
             carritoCompra.setUsuario(usuario);
-            carritoCompra.setCantidad(cantidad);
+            this.detalleOrdenRepository.insertar(detalle);
             carritoCompraRepository.actualizar(carritoCompra);
         } else {
             throw new RuntimeException("Carrito de Compras o Producto no encontrado");
@@ -131,7 +146,7 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
             throw new RuntimeException("Producto no encontrado");
         }
 
-        boolean productoEliminado = carritoCompra.getProductos().remove(producto);
+        boolean productoEliminado = carritoCompra.getDetalleOrden().remove(producto);
         if (!productoEliminado) {
             throw new RuntimeException("El producto no se encontraba en el carrito de compras");
         }

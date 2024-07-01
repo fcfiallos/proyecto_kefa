@@ -32,10 +32,12 @@ public class ListaDeseoRepositoryImpl implements IListaDeseoRepository {
 
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
-    public List<Producto> seleccionarTodo(Integer id) {
+    public List<Producto> seleccionarTodo(Integer listaDeseosId) {
         try {
-            return this.entityManager.createQuery("SELECT p FROM Producto p JOIN p.listaDeseos l WHERE l.id = :id", Producto.class)
-                    .setParameter("id", id).getResultList();
+            return this.entityManager.createQuery(
+                    "SELECT p FROM Producto p JOIN DetalleOrden do ON p.id = do.producto.id WHERE do.listaDeseos.id = :listaDeseosId",
+                    Producto.class)
+                    .setParameter("listaDeseosId", listaDeseosId).getResultList();
         } catch (NoResultException e) {
             return null;
         }

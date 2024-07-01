@@ -42,8 +42,15 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository{
 
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
-    public List<Producto> seleccionarTodo() {
-        return this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
+    public List<Producto> seleccionarTodo(Integer idCarritoCompra) {
+        try {
+            String jpql = "SELECT p FROM Producto p JOIN p.detalleOrden do JOIN do.carritoCompra cc WHERE cc.id = :idCarritoCompra";
+        return this.entityManager.createQuery(jpql, Producto.class)
+                .setParameter("idCarritoCompra", idCarritoCompra).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+
     }
 
 }

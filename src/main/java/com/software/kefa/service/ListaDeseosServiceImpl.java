@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.software.kefa.repository.IListaDeseoRepository;
 import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IUsuarioRepository;
+import com.software.kefa.repository.modelo.DetalleOrden;
 import com.software.kefa.repository.modelo.ListaDeseos;
 import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.repository.modelo.Usuario;
@@ -41,9 +42,6 @@ public class ListaDeseosServiceImpl implements IListaDeseoService {
 
         Usuario usuario = iUsuarioRepository.seleccionarPorNickname(nickname);
         listaDeseo.setUsuario(usuario);
-
-        List<Producto> productos = this.listaDeseoRepository.seleccionarTodo(productoId);
-        listaDeseo.setProductos(productos);
 
         this.listaDeseoRepository.insertar(listaDeseo);
     }
@@ -94,10 +92,13 @@ public class ListaDeseosServiceImpl implements IListaDeseoService {
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void agregarProductoALaLista(Integer listaDeseoId, Integer productoId) {
         ListaDeseos listaDeseos = listaDeseoRepository.seleccionarPorId(listaDeseoId);
-        listaDeseos.setFechaSeleccionada(LocalDateTime.now());
         Producto producto = productoRepository.seleccionarPorId(productoId);
         if (listaDeseos != null && producto != null) {
-            listaDeseos.getProductos().add(producto);
+            DetalleOrden detalle = new DetalleOrden();
+            detalle.setListaDeseos(listaDeseos);
+            detalle.setProducto(producto);
+
+            listaDeseos.getDetallesOrdenes().add(detalle);
             listaDeseoRepository.actualizar(listaDeseos);
         } else {
             throw new RuntimeException("Lista de deseos o Producto no encontrado");

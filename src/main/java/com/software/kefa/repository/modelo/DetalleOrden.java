@@ -48,6 +48,14 @@ public class DetalleOrden {
     @JoinColumn(name = "deor_id_carrito_compra")
     private CarritoCompra carritoCompra;
 
+    @ManyToOne
+    @JoinColumn(name = "deor_id_lista_deseos")
+    private ListaDeseos listaDeseos;
+
+    @ManyToOne
+    @JoinColumn(name = "deor_id_promocion")
+    private Promocion promocion;
+
     public Integer getId() {
         return id;
     }
@@ -118,6 +126,22 @@ public class DetalleOrden {
 
     public void setCarritoCompra(CarritoCompra carritoCompra) {
         this.carritoCompra = carritoCompra;
+    }
+
+    public ListaDeseos getListaDeseos() {
+        return listaDeseos;
+    }
+
+    public void setListaDeseos(ListaDeseos listaDeseos) {
+        this.listaDeseos = listaDeseos;
+    }
+
+    public Promocion getPromocion() {
+        return promocion;
+    }
+
+    public void setPromocion(Promocion promocion) {
+        this.promocion = promocion;
     }
 
 }

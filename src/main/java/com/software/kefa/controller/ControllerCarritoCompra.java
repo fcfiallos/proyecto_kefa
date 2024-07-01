@@ -27,7 +27,7 @@ public class ControllerCarritoCompra {
     public String vistaListaCarrito(Model model, HttpSession session) {
         Integer carritoId = (Integer) session.getAttribute("carritoId");
         if (carritoId != null) {
-            List<Producto> carritoCompra = iCarritoCompraService.buscarTodo();
+            List<Producto> carritoCompra = iCarritoCompraService.buscarTodo(carritoId);
             model.addAttribute("carritoCompra", carritoCompra);
         } else {
             model.addAttribute("carritoCompra", Collections.emptyList());
@@ -36,8 +36,9 @@ public class ControllerCarritoCompra {
     }
 
     @GetMapping("/productos")
-    public String vistaListaProductosDisponibles(Model model) {
-        List<Producto> productos = iCarritoCompraService.buscarTodo();
+    public String vistaListaProductosDisponibles(Model model, HttpSession session) {
+        Integer carritoId = (Integer) session.getAttribute("carritoId");
+        List<Producto> productos = iCarritoCompraService.buscarTodo(carritoId);
         model.addAttribute("productos", productos);
         return "vista_lista_producto";
     }
@@ -47,7 +48,7 @@ public class ControllerCarritoCompra {
             Model model, @RequestParam("cantidad") Integer cantidad){
         Integer carritoId = (Integer) session.getAttribute("carritoId");
         if (carritoId == null) {
-            carritoId = crearNuevoCarrito(productoId,session); // Método para crear un nuevo carrito y guardar su ID en la sesión
+            carritoId = crearNuevoCarrito(productoId,session,cantidad); // Método para crear un nuevo carrito y guardar su ID en la sesión
         }
 
         try {
@@ -57,7 +58,7 @@ public class ControllerCarritoCompra {
             model.addAttribute("mensaje", "Producto agregado al carrito de compras exitosamente.");
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto al carrito: " + e.getMessage());
-        }
+        } 
         return "redirect:/kefa/productos";
     }
 
@@ -76,11 +77,11 @@ public class ControllerCarritoCompra {
         return "redirect:/kefa/carrito";
     }
 
-    private Integer crearNuevoCarrito(@RequestParam("productoId") Integer productoId,HttpSession session) {
+    private Integer crearNuevoCarrito(@RequestParam("productoId") Integer productoId,HttpSession session, Integer cantidad) {
         // Crear un nuevo carrito de compras y guardar su ID en la sesión
         CarritoCompra nuevoCarrito = new CarritoCompra();
         String nickname = (String) session.getAttribute("nickname");
-        iCarritoCompraService.guardar(nuevoCarrito, nickname, productoId);
+        iCarritoCompraService.guardar(nuevoCarrito, nickname, productoId,cantidad);
         session.setAttribute("carritoId", nuevoCarrito.getId());
         return nuevoCarrito.getId();
     }
