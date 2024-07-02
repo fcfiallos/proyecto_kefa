@@ -61,34 +61,6 @@
             border-bottom: 1px solid #ddd;
         }
 
-        /*button {
-            padding: 15px;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            color: white;
-            font-family: 'Arial Black', sans-serif;
-            cursor: pointer;
-            margin: 8px 4px;
-            width: calc(50% - 16px);
-        }
-
-        button:nth-of-type(1) {
-            background-color: #50c878;
-        }
-
-        button:nth-of-type(1):hover {
-            background-color: #009975;
-        }
-
-        button:nth-of-type(2) {
-            background-color: #30d5c8;
-        }
-
-        button:nth-of-type(2):hover {
-            background-color: #40E0D0;
-        }
-
         /* Media queries for responsiveness */
         .error-message {
             color: red;
@@ -137,22 +109,62 @@
 </head>
 
 <body>
-    <h2>Orden de Pago</h2>
-    <div>
-        <p>Código de Orden: ${orden.codigo}</p>
-        <p>Fecha: ${orden.fecha}</p>
-        <p>Total Orden: ${orden.totalOrden}</p>
-        <ul>
-            <li th:each="detalle : ${orden.detalleOrden}">
-                Producto: <span th:text="${detalle.producto.nombre}"></span>,
-                Cantidad: <span th:text="${detalle.cantidad}"></span>,
-                Precio Unitario: <span th:text="${detalle.precioUnitario}"></span>,
-                Descuento: <span th:text="${detalle.descuento}"></span>,
-                Impuesto: <span th:text="${detalle.impuesto}"></span>,
-                Total Producto: <span th:text="${detalle.totalProducto}"></span>
-            </li>
-        </ul>
-    </div>
+    <h1>Orden de Pago</h2>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <h5>Atributo</h5>
+                        </th>
+                        <th>
+                            <h5>Valor</h5>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Codigo de la Orden</td>
+                        <td th:text="${orden.codigo}"></td>
+                    </tr>
+                    <tr>
+                        <td>Fecha</td>
+                        <td th:text="${orden.fecha}"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Orden</td>
+                        <td th:text="${orden.totalOrden}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Descuento</th>
+                        <th>Impuesto</th>
+                        <th>Total Producto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="detalle : ${orden.detalleOrden}">
+                        <td th:text="${detalle.producto.nombre}"></td>
+                        <td th:text="${detalle.cantidad}"></td>
+                        <td th:text="${detalle.precioUnitario}"></td>
+                        <td th:text="${detalle.descuento}"></td>
+                        <td th:text="${detalle.impuesto}"></td>
+                        <td th:text="${detalle.totalProducto}"></td>
+                    </tr>
+            </table>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/kefa/carrito'">Volver</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href=''">Metodo de Pago</button>
+        </div>
 </body>
 
 </html>

@@ -46,6 +46,7 @@ public class OrdenServiceImpl implements IOrdenService {
             totalProducto = calcularTotalProducto(detalle);
             detalle.setTotalProducto(totalProducto);
 
+
             // Si el DetalleOrden ya existe, verifica si necesita ser reatachado al contexto
             // de persistencia
             if (detalle.getId() != null) {
@@ -86,6 +87,7 @@ public class OrdenServiceImpl implements IOrdenService {
           detalle.setTotalProducto(precioConDescuento.add(impuesto));
           detalle.setDescuento(descuento);
           detalle.setImpuesto(impuesto);
+          detalle.setPrecioUnitario(detalle.getProducto().getPrecio());
           //detalleOrdenRepository.actualizar(detalle);
         
         return precioConDescuento.add(impuesto);

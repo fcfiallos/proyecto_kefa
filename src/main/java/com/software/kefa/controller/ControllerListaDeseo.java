@@ -63,8 +63,9 @@ public class ControllerListaDeseo {
             session.setAttribute("miListaDeseo", miListaDeseo);
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto a la lista de deseos: " + e.getMessage());
+            return "redirect:/kefa/lista_categoria_productos";
         }
-        return "redirect:/kefa/lista_deseos";
+        return "redirect:/kefa/lista_categoria_productos";
     }
 
     @PostMapping("/lista_deseos/eliminar/{id}")
