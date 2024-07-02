@@ -34,7 +34,7 @@ public class ControllerUsuarioPerfil {
         }
     }
 
-    @GetMapping("/formulario_actualizar_perfil")
+    @GetMapping("/formulario_actualizar_perfil/{nickname}")
     public String mostrarFormularioActualizarUsuaClie(HttpSession session, Model model) {
         // Obtener el nickname de la sesión
         String nickname = (String) session.getAttribute("nickname");
@@ -49,9 +49,9 @@ public class ControllerUsuarioPerfil {
         }
     }
 
-    @PutMapping("/actualizar_perfil")
-    public String mostrarFormularioActualizar(HttpSession session, Usuario usuario, Model model) {
-        // Obtener el nickname de la sesión
+    @PutMapping("/actualizar_perfil/{nickname}")
+    public String mostrarFormularioActulizar(HttpSession session, Usuario usuario, Model model) {
+        // Obtener el nickname de la sesión @PathVariable String nickname,
         String nickname = (String) session.getAttribute("nickname");
 
         if (nickname != null) {

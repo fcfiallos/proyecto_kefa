@@ -23,12 +23,14 @@ public class ControllerOrden {
     public String redireccionarOrdenPago(HttpSession session, Model model) {
         String nickname = (String) session.getAttribute("nickname");
         CarritoCompra carrito = (CarritoCompra) session.getAttribute("carrito");
-        /*if (carrito == null) {
+        // Orden orden = carrito.getDetalleOrden().get(0).getOrden();
+        try {
+            Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
+            model.addAttribute("orden", orden);
+            return "vista_ordenPago";
+        } catch (Exception e) {
+            model.addAttribute("error", "No se pudo crear la orden de pago, intente nuevamente.");
             return "redirect:/kefa/carrito";
-        }*/
-        
-        Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
-        model.addAttribute("orden", orden);
-        return "vista_ordenPago";
+        }
     }
 }

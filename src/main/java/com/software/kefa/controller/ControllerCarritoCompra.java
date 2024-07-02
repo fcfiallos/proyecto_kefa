@@ -68,7 +68,7 @@ public class ControllerCarritoCompra {
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto al carrito: " + e.getMessage());
         }
-        return "redirect:/kefa/carrito";
+        return "redirect:/kefa/lista_categoria_productos";
     }
 
     @PostMapping("/carrito/eliminar/{id}")
