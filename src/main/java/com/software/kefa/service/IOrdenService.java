@@ -2,6 +2,7 @@ package com.software.kefa.service;
 
 import java.util.List;
 
+import com.software.kefa.repository.modelo.CarritoCompra;
 import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.repository.modelo.modelosdto.OrdenDTO;
 
@@ -12,5 +13,5 @@ public interface IOrdenService {
     public Orden buscarTodo();
     public Orden buscarPorCodigo(String codigo);
     public List<OrdenDTO> buscarTodos();
-    public Orden crearOrdenDePago(String nickname, Integer carritoId);
+    public Orden crearOrdenDePago(String nickname, CarritoCompra carrito);
 }

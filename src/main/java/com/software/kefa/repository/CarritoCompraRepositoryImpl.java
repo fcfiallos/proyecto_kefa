@@ -82,8 +82,8 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository{
     @Transactional(value = Transactional.TxType.MANDATORY)
 	public void eliminarProductoDelCarrito(Integer detalleId, String nickname) {
 		this.entityManager.createQuery(
-                "DELETE FROM DetalleOrden do WHERE do.id = :detalleId AND do.carritoCompra.usuario.nickname = :nickname")
-                .setParameter("detalleId", detalleId).setParameter("nickname", nickname).executeUpdate();
+                "DELETE FROM DetalleOrden do WHERE do.id = :detalleId ")
+                .setParameter("detalleId", detalleId).executeUpdate();
 	}
 
 }

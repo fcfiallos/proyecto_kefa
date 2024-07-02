@@ -158,7 +158,7 @@
                         <td th:text="${detalle.cantidad}"></td>
                         <td>
                             <form th:action="@{/kefa/carrito/eliminar/{id}(id=${detalle.id})}" th:method="post">
-                                <input type="hidden" id= "detalleOrdenId"name="detalleOrdenId" th:value="${detalle.id}" />
+                                <input type="hidden" id= "id"name="id" th:value="${detalle.id}" />
                                 <button type="submit" class="btn btn-danger">Eliminar</button>
                             </form>
                         </td>

@@ -13,6 +13,6 @@ public interface IListaDeseoService {
     public List<Producto> buscarTodo(Integer id);
     public List<DetalleOrden> buscarDetallePorIdLista(Integer id);
     public ListaDeseos buscarPorId(Integer id);
-    public void agregarProductoALaLista(Integer productoId,String nickname);
+    public ListaDeseos agregarProductoALaLista(Integer productoId,String nickname, ListaDeseos listaDeseo);
     public void eliminarProductoDeLista(Integer detalleOrdenId, String nickname);
 }

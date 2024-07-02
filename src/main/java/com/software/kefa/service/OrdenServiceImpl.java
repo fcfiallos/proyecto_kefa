@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.software.kefa.repository.ICarritoCompraRepository;
 import com.software.kefa.repository.IDetalleOrdenRepository;
 import com.software.kefa.repository.IOrdenRepository;
 import com.software.kefa.repository.IUsuarioRepository;
@@ -25,9 +24,6 @@ import jakarta.transaction.Transactional;
 public class OrdenServiceImpl implements IOrdenService {
 
     @Autowired
-    private ICarritoCompraRepository carritoCompraRepository;
-
-    @Autowired
     private IOrdenRepository ordenRepository;
 
     @Autowired
@@ -38,10 +34,9 @@ public class OrdenServiceImpl implements IOrdenService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public Orden crearOrdenDePago(String nickname, Integer carritoId) {
-        CarritoCompra carrito = carritoCompraRepository.seleccionarPorId(carritoId);
+    public Orden crearOrdenDePago(String nickname, CarritoCompra carrito) {
         Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
-
+        carrito = usuario.getCarritoCompra();
         BigDecimal totalOrden = BigDecimal.ZERO;
         BigDecimal costoEnvio = new BigDecimal("15.00");
         List<DetalleOrden> detallesGestionados = new ArrayList<>();
@@ -87,12 +82,12 @@ public class OrdenServiceImpl implements IOrdenService {
         BigDecimal descuento = detalle.getDescuento() != null ? detalle.getDescuento() : BigDecimal.ZERO;
         BigDecimal precioConDescuento = precioBase.subtract(descuento);
         BigDecimal impuesto = precioConDescuento.multiply(new BigDecimal("0.15")); // IVA en Ecuador
-        /*
-         * detalle.setTotalProducto(precioConDescuento.add(impuesto));
-         * detalle.setDescuento(descuento);
-         * detalle.setImpuesto(impuesto);
-         * detalleOrdenRepository.actualizar(detalle);
-         */
+        
+          detalle.setTotalProducto(precioConDescuento.add(impuesto));
+          detalle.setDescuento(descuento);
+          detalle.setImpuesto(impuesto);
+          //detalleOrdenRepository.actualizar(detalle);
+        
         return precioConDescuento.add(impuesto);
     }
 

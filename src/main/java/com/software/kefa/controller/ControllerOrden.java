@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.software.kefa.repository.modelo.CarritoCompra;
 import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.service.IOrdenService;
 
@@ -21,13 +22,12 @@ public class ControllerOrden {
     @GetMapping("/carrito/ordenPago")
     public String redireccionarOrdenPago(HttpSession session, Model model) {
         String nickname = (String) session.getAttribute("nickname");
-        Integer carritoId = (Integer) session.getAttribute("carritoId");
-        if (carritoId == null) {
+        CarritoCompra carrito = (CarritoCompra) session.getAttribute("carrito");
+        /*if (carrito == null) {
             return "redirect:/kefa/carrito";
-            
-        }
+        }*/
         
-        Orden orden = ordenPagoService.crearOrdenDePago(nickname, carritoId);
+        Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
         model.addAttribute("orden", orden);
         return "vista_ordenPago";
     }

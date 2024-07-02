@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.software.kefa.repository.modelo.CarritoCompra;
 import com.software.kefa.repository.modelo.Orden;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ public class OrdenServiceImplTest {
     void testCrearOrdenDePago() {
         // Arrange
         String nickname = "fcfch";
-        Integer carritoId = 2;
+        CarritoCompra carritoId = null;
 
         // Act
         Orden orden = ordenService.crearOrdenDePago(nickname, carritoId);

@@ -52,20 +52,22 @@ public class ListaDeseosServiceImpl implements IListaDeseoService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void agregarProductoALaLista(Integer productoId, String nickname) {
+    public ListaDeseos agregarProductoALaLista(Integer productoId, String nickname, ListaDeseos listaDeseo) {
         Producto producto = productoRepository.seleccionarPorId(productoId);
         Usuario usuario = iUsuarioRepository.seleccionarPorNickname(nickname);
-        ListaDeseos listaDeseos = usuario.getListaDeseos();
-        if (listaDeseos == null) {
-            listaDeseos = new ListaDeseos();
-            listaDeseos.setFechaSeleccionada(LocalDateTime.now());
-            listaDeseos.setUsuario(usuario);
-            listaDeseoRepository.insertar(listaDeseos);
+        listaDeseo = usuario.getListaDeseos();
+
+        if (listaDeseo == null) {
+            listaDeseo = new ListaDeseos();
+            listaDeseo.setFechaSeleccionada(LocalDateTime.now());
+            listaDeseo.setUsuario(usuario);
+            listaDeseoRepository.insertar(listaDeseo);
         }
         DetalleOrden detalleOrden = new DetalleOrden();
         detalleOrden.setProducto(producto);
-        detalleOrden.setListaDeseos(listaDeseos);
+        detalleOrden.setListaDeseos(listaDeseo);
         this.detalleOrdenRepository.insertar(detalleOrden);
+        return listaDeseo;
     }
 
     @Override

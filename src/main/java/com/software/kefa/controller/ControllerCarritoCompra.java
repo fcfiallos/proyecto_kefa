@@ -5,8 +5,8 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,7 +48,6 @@ public class ControllerCarritoCompra {
         // Asegúrate de que detalleOrdenes no sea null
         if (carrito.getDetalleOrden() == null) {
             carrito.setDetalleOrden(Collections.emptyList()); // O maneja esta situación de manera adecuada
-
         }
 
         session.setAttribute("miCarrito", carrito);
@@ -57,24 +56,14 @@ public class ControllerCarritoCompra {
         return "vista_lista_CarritoCompra";
     }
 
-    /*@GetMapping("/productos")
-    public String vistaListaProductosDisponibles(Model model, HttpSession session) {
-        Integer carritoId = (Integer) session.getAttribute("carritoId");
-
-        List<Producto> productos = iCarritoCompraService.buscarTodo(carritoId);
-        model.addAttribute("productos", productos);
-        return "vista_lista_producto";
-    }*/
-
     @PostMapping("/carrito/agregar")
     public String agregarProductoAlCarrito(@RequestParam("productoId") Integer productoId, HttpSession session,
             Model model, @RequestParam("cantidad") Integer cantidad) {
-                CarritoCompra miCarrito = new CarritoCompra();
-       
+        CarritoCompra miCarrito = new CarritoCompra();
 
         try {
             String nickname = (String) session.getAttribute("nickname");
-            miCarrito=iCarritoCompraService.agregarProductoAlCarrito(productoId, nickname, cantidad, miCarrito);
+            miCarrito = iCarritoCompraService.agregarProductoAlCarrito(productoId, nickname, cantidad, miCarrito);
             session.setAttribute("miCarrito", miCarrito);
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto al carrito: " + e.getMessage());
@@ -82,15 +71,16 @@ public class ControllerCarritoCompra {
         return "redirect:/kefa/carrito";
     }
 
-    @PostMapping("/carrito/eliminar")
-    public String eliminarProductoDelCarrito(@RequestParam("detalleOrdenId") int detalleOrdenId, HttpSession session,
+    @PostMapping("/carrito/eliminar/{id}")
+    public String eliminarProductoDelCarrito(@PathVariable Integer id, HttpSession session,
             Model model) {
-        Integer carritoId = (Integer) session.getAttribute("carritoId");
-        String nickname = (String) session.getAttribute("nickname");
-        if (carritoId != null) {
+        CarritoCompra carritoCompra = (CarritoCompra) session.getAttribute("miCarrito");
+
+        if (carritoCompra.getId() != null) {
             try {
-                iCarritoCompraService.eliminarProductoDelCarrito(detalleOrdenId, nickname);
-                model.addAttribute("mensaje", "Producto eliminado del carrito de compras exitosamente.");
+                carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == id);
+                carritoCompra.getDetalleOrden().forEach(System.out::println);
+                iCarritoCompraService.actualizar(carritoCompra);
             } catch (Exception e) {
                 model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());
             }
