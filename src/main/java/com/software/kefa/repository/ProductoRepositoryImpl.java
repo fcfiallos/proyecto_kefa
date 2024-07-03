@@ -24,12 +24,14 @@ public class ProductoRepositoryImpl implements IProductoRepository {
     @Transactional(value = TxType.NOT_SUPPORTED)
     public List<Producto> seleccionarPorCategoriaId(Integer categoriaID) {
         try {
-            return this.entityManager.createQuery("SELECT p FROM Producto p WHERE p.categoriaProducto.id = :categoriaID",
-                Producto.class).setParameter("categoriaID", categoriaID).getResultList();
+            return this.entityManager
+                    .createQuery("SELECT p FROM Producto p WHERE p.categoriaProducto.id = :categoriaID",
+                            Producto.class)
+                    .setParameter("categoriaID", categoriaID).getResultList();
         } catch (NoResultException e) {
             return null;
         }
-        
+
     }
 
     @Override
@@ -64,12 +66,19 @@ public class ProductoRepositoryImpl implements IProductoRepository {
             return this.entityManager.find(Producto.class, id);
         } catch (NoResultException e) {
             return null;
-        } 
+        }
     }
 
     @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
     public List<Producto> seleccionarTodo() {
         return this.entityManager.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
     }
+
+    @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
+    public Integer seleccionarPorCantidadProductos(Integer productoId) {
+        return this.entityManager.createQuery("SELECT p.cantidad FROM Producto p WHERE p.id = :productoId", Integer.class)
+                .setParameter("productoId", productoId).getSingleResult();}
 
 }

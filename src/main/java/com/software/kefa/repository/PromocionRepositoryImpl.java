@@ -1,6 +1,7 @@
 package com.software.kefa.repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -39,17 +40,26 @@ public class PromocionRepositoryImpl implements IPromocionRepository {
         }
     }
 
-	@Override
+    @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
-	public Promocion seleccionarPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-		try {
-            return this.entityManager.createQuery("SELECT p FROM Promocion p WHERE p.fechaInicio <= :fechaInicio AND p.fechaFin >= :fechaFin", Promocion.class)
+    public Promocion seleccionarPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        try {
+            return this.entityManager
+                    .createQuery(
+                            "SELECT p FROM Promocion p WHERE p.fechaInicio <= :fechaInicio AND p.fechaFin >= :fechaFin",
+                            Promocion.class)
                     .setParameter("fechaInicio", fechaInicio)
                     .setParameter("fechaFin", fechaFin)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
-	}
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public List<Promocion> seleccionarTodo() {
+        return this.entityManager.createQuery("SELECT p FROM Promocion p", Promocion.class).getResultList();
+    }
 
 }

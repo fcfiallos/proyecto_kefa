@@ -80,10 +80,8 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository{
 
 	@Override
     @Transactional(value = Transactional.TxType.MANDATORY)
-	public void eliminarProductoDelCarrito(Integer detalleId, String nickname) {
-		this.entityManager.createQuery(
-                "DELETE FROM DetalleOrden do WHERE do.id = :detalleId ")
-                .setParameter("detalleId", detalleId).executeUpdate();
+	public void eliminar(CarritoCompra carritoCompra) {
+        this.entityManager.remove(carritoCompra);
 	}
 
 }

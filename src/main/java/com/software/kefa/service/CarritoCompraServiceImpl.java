@@ -79,8 +79,8 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void eliminarProductoDelCarrito(Integer detalleOrdenId, String nickname) {
-        carritoCompraRepository.eliminarProductoDelCarrito(detalleOrdenId, nickname);
+    public void eliminar(CarritoCompra carritoCompra) {
+        carritoCompraRepository.eliminar(carritoCompra);
     }
 
     @Override

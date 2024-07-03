@@ -23,10 +23,7 @@ public class ControllerListaDeseo {
     @Autowired
     private IListaDeseoService iListaDeseoService;
 
-    @Autowired
-    private HttpSession session;
-
-    private ListaDeseos obtenerListaDeseos() {
+/*  private ListaDeseos obtenerListaDeseos() {
         ListaDeseos listaDeseo = (ListaDeseos) session.getAttribute("listaDeseo");
 
         if (listaDeseo == null) {
@@ -34,7 +31,7 @@ public class ControllerListaDeseo {
             session.setAttribute("listaDeseo", listaDeseo);
         }
         return listaDeseo;
-    }
+    }*/
 
     // Métodos para la lista de deseos
     @GetMapping("/lista_deseos")

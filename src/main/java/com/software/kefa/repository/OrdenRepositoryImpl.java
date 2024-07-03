@@ -1,11 +1,8 @@
 package com.software.kefa.repository;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
 import com.software.kefa.repository.modelo.Orden;
-import com.software.kefa.repository.modelo.modelosdto.OrdenDTO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -39,11 +36,6 @@ public class OrdenRepositoryImpl implements IOrdenRepository{
         return myQuery.getSingleResult();
     }
 
-    @Override
-    @Transactional (value = Transactional.TxType.NOT_SUPPORTED)
-    public List<OrdenDTO> seleccionarTodos() {
-        return null;
-    }
 
     @Override
     @Transactional (value = Transactional.TxType.NOT_SUPPORTED)

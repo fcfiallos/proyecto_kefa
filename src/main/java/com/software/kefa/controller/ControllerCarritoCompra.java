@@ -22,10 +22,7 @@ public class ControllerCarritoCompra {
     @Autowired
     private ICarritoCompraService iCarritoCompraService;
 
-    @Autowired
-    private HttpSession session;
-
-    private CarritoCompra obtenerCarrito() {
+    /*private CarritoCompra obtenerCarrito() {
         // Intenta recuperar el carrito de la sesión
         CarritoCompra carrito = (CarritoCompra) session.getAttribute("carrito");
 
@@ -35,7 +32,7 @@ public class ControllerCarritoCompra {
             session.setAttribute("carrito", carrito);
         }
         return carrito;
-    }
+    }*/
 
     @GetMapping("/carrito")
     public String vistaListaCarrito(Model model, HttpSession session) {
