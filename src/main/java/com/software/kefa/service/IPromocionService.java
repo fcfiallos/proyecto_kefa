@@ -4,9 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.software.kefa.repository.modelo.Promocion;
+import com.software.kefa.service.modelosto.PromocionTO;
 
 public interface IPromocionService {
-    public void guardar(Promocion promocion);
+    public void guardar(PromocionTO promocion);
 
     public void actualizar(Promocion promocion);
 

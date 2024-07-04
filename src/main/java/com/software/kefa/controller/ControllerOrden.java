@@ -27,11 +27,10 @@ public class ControllerOrden {
         try {
             Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
             model.addAttribute("orden", orden);
-            //return "vista_ordenPago";
+            return "vista_ordenPago";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            //return "redirect:/kefa/carrito";
+            return "redirect:/kefa/carrito";
         } 
-        return "vista_ordenPago";
     }
 }

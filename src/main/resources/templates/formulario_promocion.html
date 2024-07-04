@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promoción</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="dist/output.css" rel="stylesheet">
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://th.bing.com/th/id/OIG1.8Yhevps.BoYg35rG0nN6?w=1024&h=1024&rs=1&pid=ImgDetMain');
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+        }
+
+        .overlay {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        form {
+            /*background-color: #ffffff;*/
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /*.logo {
+            display: block;
+            margin: 20px auto;
+            width: 100px;
+        }*/
+
+        h1 {
+            text-align: center;
+            color: #009975;
+            font-family: 'Arial Black', sans-serif;
+            margin-top: 30px;
+        }
+
+        table {
+            margin: 20px auto;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #666666;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="url"] {
+            width: calc(100% - 24px);
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="url"] {
+            border-color: #30d5c8;
+            outline: none;
+        }
+
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+
+        @media (max-width: 768px) {
+            .overlay {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .overlay {
+                width: 100%;
+            }
+
+            th,
+            td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            td {
+                margin-bottom: 16px;
+            }
+
+            button[type="submit"],
+            button[type="button"] {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+        <h1>Añadir un Nueva Promoción</h1>
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+        <form id="formulario_promocion" th:action="@{/kefa/promocion/formulario_nueva_promocion/crear}"
+            th:object="${promocion}" th:method="POST">
+            <!--<input type="hidden" th:field="*{categoriaId}" />-->
+            <table>
+                <tr>
+                    <td><label>Tipo de Promoción:</label></td>
+                    <td><input type="text" class="form-control" placeholder="Escribir de la promoción"
+                            aria-label="Escribir de la promoción" th:field="${promocion.tipo}"></td>
+                </tr>
+                <tr>
+                    <td><label>Código del producto:</label></td>
+                    <td><input type="text" class="form-control" placeholder="Escribir código"
+                            aria-label="Escribir código" th:field="${promocion.codigo}"></td>
+                </tr>
+                <tr>
+                    <td><label>Descuento:</label></td>
+                    <td><input type="text" id="precio" class="form-control" placeholder="Registrar el descuento: 0.14"
+                            aria-label="Registrar el descuento: 0.14" th:field="${promocion.descuento}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Fecha Inicio de la Promoción:</label></td>
+                    <td><input type="date" th:field="${promocion.fechaInicio}"></td>
+                </tr>
+                <tr>
+                    <td><label>Fecha Fin de la Promoción:</label></td>
+                    <td><input type="date" th:field="${promocion.fechaFin}"></td>
+                </tr>
+            </table>
+            <div>
+                <button type="submit" class="btn btn-outline-secondary">Registrar</button>
+            </div>
+        </form>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="button" class="btn btn-outline-secondary"
+                onclick="window.location.href='/kefa/promocion'">Regresar</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const formulario = document.getElementById('formulario_promocion');
+            const inputPrecio = document.getElementById('precio');
+
+            formulario.addEventListener('submit', function (event) {
+                const valorPrecio = inputPrecio.value;
+                // Expresión regular para validar el formato del precio (número con dos decimales)
+                const regexPrecio = /^\d+(\.\d{2})?$/;
+                if (!regexPrecio.test(valorPrecio)) {
+                    alert('El precio ingresado no es válido. Por favor, ingrese el precio en el formato correcto, por ejemplo: 3.14');
+                    event.preventDefault(); // Evita que el formulario se envíe
+                }
+            });
+        });
+    </script>
+    <script src="../node_modules/flowbite/dist/flowbite.js"></script>
+</body>
+
+</html>

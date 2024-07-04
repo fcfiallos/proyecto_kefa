@@ -1,8 +1,10 @@
 package com.software.kefa.repository.modelo;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,11 +31,13 @@ public class Promocion {
     @Column(name = "prom_descuento")
     private BigDecimal descuento;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "prom_fecha_inicio")
-    private LocalDateTime fechaInicio;
+    private LocalDate fechaInicio;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "prom_fecha_fin")
-    private LocalDateTime fechaFin;
+    private LocalDate fechaFin;
 
     @Column(name = "prom_estado")
     private String estado;
@@ -65,22 +69,6 @@ public class Promocion {
         this.descuento = descuento;
     }
 
-    public LocalDateTime getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(LocalDateTime fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public LocalDateTime getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(LocalDateTime fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
     public String getEstado() {
         return estado;
     }
@@ -95,6 +83,22 @@ public class Promocion {
 
     public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
         this.detalleOrden = detalleOrden;
+    }
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
 }

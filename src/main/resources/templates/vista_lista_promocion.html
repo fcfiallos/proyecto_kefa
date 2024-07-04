@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Promoción</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="dist/output.css" rel="stylesheet">
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://th.bing.com/th/id/OIG1.8Yhevps.BoYg35rG0nN6?w=1024&h=1024&rs=1&pid=ImgDetMain');
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+        }
+
+        .overlay {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #009975;
+            font-family: 'Arial Black', sans-serif;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #30d5c8;
+            color: white;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        td {
+            background-color: #f9f9f9;
+            color: #333333;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            .overlay {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .overlay {
+                width: 100%;
+            }
+
+            th,
+            td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            td {
+                margin-bottom: 16px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+        <h1>Lista de Promoción</h1>
+        <table>
+            <thead>
+                <tr>
+                <tr>
+                    <th>Tipo de promoción</th>
+                    <th>Descuento</th>
+                    <th>Fecha Inicio de la Promoción</th>
+                    <th>Fecha Fin de la Promoción</th>
+                    <th>Estado</th>
+                </tr>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="promocion:${promociones}">
+                    <td th:text="${promocion.tipoPromocion}"></td>
+                    <td th:text="${promocion.descuento}"></td>
+                    <td th:text="${promocion.fechaInicio}"></td>
+                    <td th:text="${promocion.fechaFin}"></td>
+                    <td th:text="${promocion.estado}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-grid gap-2 d-md-block">
+            <button type="button" class="btn btn-outline-info"
+                onclick="window.location.href='/kefa/promocion/formulario_nueva_promocion'">Añadir</button>
+            <button type="button" class="btn btn-outline-secondary"
+                onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+        </div>
+    </div>
+</body>
+
+</html>
