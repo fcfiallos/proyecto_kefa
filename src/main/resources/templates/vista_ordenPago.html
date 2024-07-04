@@ -30,11 +30,28 @@
             max-width: 800px;
         }
 
+        .overlay_2 {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            width: 80%;
+            max-width: 1000px;
+        }
+
         h1 {
             text-align: center;
             color: #009975;
             font-family: 'Arial Black', sans-serif;
             margin-top: 30px;
+        }
+
+        h3 {
+            text-align: center;
+            color: #30e9e9;
+            font-family: 'Arial Black', sans-serif;
+            margin-top: 20px;
         }
 
         table {
@@ -109,36 +126,39 @@
 </head>
 
 <body>
-    <h1>Orden de Pago</h2>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            <h5>Atributo</h5>
-                        </th>
-                        <th>
-                            <h5>Valor</h5>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Codigo de la Orden</td>
-                        <td th:text="${orden.codigo}"></td>
-                    </tr>
-                    <tr>
-                        <td>Fecha</td>
-                        <td th:text="${orden.fecha}"></td>
-                    </tr>
-                    <tr>
-                        <td>Total Orden</td>
-                        <td th:text="${orden.totalOrden}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div>
+    <div class="overlay">
+        <h1>Orden de Pago</h2>
+            <div >
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <h5>Atributo</h5>
+                            </th>
+                            <th>
+                                <h5>Valor</h5>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Codigo de la Orden</td>
+                            <td th:text="${orden.codigo}"></td>
+                        </tr>
+                        <tr>
+                            <td>Fecha</td>
+                            <td th:text="${orden.fecha}"></td>
+                        </tr>
+                        <tr>
+                            <td>Total Orden</td>
+                            <td th:text="${orden.totalOrden}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+        <div class="overlay_2">
+            <h3>Detalles de Orden</h3>
             <table>
                 <thead>
                     <tr>
@@ -161,9 +181,9 @@
                     </tr>
             </table>
         </div>
-        <div>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/kefa/carrito'">Volver</button>
-            <button type="button" class="btn btn-primary" onclick="window.location.href=''">Metodo de Pago</button>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/kefa/carrito'">Volver</button>
+            <button type="button" class="btn btn-outline-dark" onclick="window.location.href=''">Metodo de Pago</button>
         </div>
 </body>
 

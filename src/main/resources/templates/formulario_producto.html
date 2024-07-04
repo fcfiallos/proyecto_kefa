@@ -21,17 +21,17 @@
         }
 
         .overlay {
-            background: rgba(185, 243, 240, 0.8);
+            background: rgba(255, 255, 255, 0.5);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 60%;
-            max-width: 800px;
+            max-width: 1000px;
             margin: auto;
         }
 
         form {
-            background-color: #ffffff;
+            /*background-color: #ffffff;*/
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -45,7 +45,7 @@
 
         h1 {
             text-align: center;
-            color: #091a15;
+            color: #009975;
             font-family: 'Arial Black', sans-serif;
             margin-top: 30px;
         }
@@ -65,7 +65,7 @@
         label {
             display: block;
             font-weight: bold;
-            color: #30d5c8;
+            color: #666666;
         }
 
         input[type="text"],
@@ -159,86 +159,89 @@
 </head>
 
 <body>
-    <h1>Añadir un Nuevo Producto</h1>
-    <div th:if="${error}" class="error-message" th:text="${error}"></div>
-    <form id="formulario_producto"
-        th:action="@{/kefa/categoria/{categoriaId}/lista_productos/formulario_producto/añadir(categoriaId=${categoriaId})}"
-        th:object="${productoTO}" th:method="POST">
-        <!--<input type="hidden" th:field="*{categoriaId}" />-->
-        <table>
-            <tr>
-                <td><label>Nombre del producto:</label></td>
-                <td><input type="text" class="form-control" placeholder="Escribir del producto"
-                        aria-label="Escribir del producto" th:field="${productoTO.nombre}"></td>
-            </tr>
-            <tr>
-                <td><label>Descripción:</label></td>
-                <td>
-                    <input type="text" id="large-input"
-                        class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Escribir características del producto específicas" required
-                        th:field="${productoTO.descripcion}" maxlength="250">
-                    <p id="charCount">0/250</p>
-                </td>
-            </tr>
+    <div class="overlay">
+        <h1>Añadir un Nuevo Producto</h1>
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+        <form id="formulario_producto"
+            th:action="@{/kefa/categoria/{categoriaId}/lista_productos/formulario_producto/añadir(categoriaId=${categoriaId})}"
+            th:object="${productoTO}" th:method="POST">
+            <!--<input type="hidden" th:field="*{categoriaId}" />-->
+            <table>
+                <tr>
+                    <td><label>Nombre del producto:</label></td>
+                    <td><input type="text" class="form-control" placeholder="Escribir del producto"
+                            aria-label="Escribir del producto" th:field="${productoTO.nombre}"></td>
+                </tr>
+                <tr>
+                    <td><label>Descripción:</label></td>
+                    <td>
+                        <input type="text" id="large-input"
+                            class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Escribir características del producto específicas" required
+                            th:field="${productoTO.descripcion}" maxlength="250">
+                        <p id="charCount">0/250</p>
+                    </td>
+                </tr>
 
-            <script>
-                const descripcionInput = document.getElementById('large-input');
-                const charCount = document.getElementById('charCount');
+                <script>
+                    const descripcionInput = document.getElementById('large-input');
+                    const charCount = document.getElementById('charCount');
 
-                descripcionInput.addEventListener('input', () => {
-                    const length = descripcionInput.value.length;
-                    charCount.textContent = `${length}/250`;
-                });
-            </script>
-            <tr>
-                <td><label>Nombre del proveedor:</label></td>
-                <td><input type="text" class="form-control" placeholder="Escribir el nombre del proveedor"
-                        aria-label="Escribir proveedor ya registrado" th:field="${productoTO.nombreProveedor}"></td>
-            </tr>
-            <tr>
-                <td><label>Código del producto:</label></td>
-                <td><input type="text" class="form-control" placeholder="Escribir código" aria-label="Escribir código"
-                        th:field="${productoTO.codigo}"></td>
-            </tr>
-            <tr>
-                <td><label>Precio:</label></td>
-                <td><input type="text" id="precio" class="form-control"
-                        placeholder="Registrar el precio de la siguiente manera: 3.14"
-                        aria-label="Registrar el precio de la siguiente manera: 3.14" th:field="${productoTO.precio}">
-                </td>
-            </tr>
-            <tr>
-                <td><label>Cantidad:</label></td>
-                <td><input type="number" id="number-input" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="90210" required th:field="${productoTO.cantidad}"></td>
-            </tr>
-            <tr>
-                <td><label for="website"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagen:</label></td>
-                <td><input type="url" id="website"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="ejemplo.com" required th:field="${productoTO.imagen}"></td>
-            </tr>
-            <tr>
-                <td><label>País del proveedor:</label></td>
-                <td><input type="text" class="form-control" placeholder="Escribir el país"
-                        aria-label="Escribir proveedor ya registrado" th:field="${productoTO.nombreProveedor}"></td>
-            </tr>
-            <tr>
-                <td><label>Tipo del proveedor:</label></td>
-                <td><input type="text" class="form-control" placeholder="Escribir ejemplo: ropa, electrónica, etc."
-                        aria-label="Escribir proveedor ya registrado" th:field="${productoTO.tipo}"></td>
-            </tr>
-        </table>
+                    descripcionInput.addEventListener('input', () => {
+                        const length = descripcionInput.value.length;
+                        charCount.textContent = `${length}/250`;
+                    });
+                </script>
+                <tr>
+                    <td><label>Nombre del proveedor:</label></td>
+                    <td><input type="text" class="form-control" placeholder="Escribir el nombre del proveedor"
+                            aria-label="Escribir proveedor ya registrado" th:field="${productoTO.nombreProveedor}"></td>
+                </tr>
+                <tr>
+                    <td><label>Código del producto:</label></td>
+                    <td><input type="text" class="form-control" placeholder="Escribir código"
+                            aria-label="Escribir código" th:field="${productoTO.codigo}"></td>
+                </tr>
+                <tr>
+                    <td><label>Precio:</label></td>
+                    <td><input type="text" id="precio" class="form-control"
+                            placeholder="Registrar el precio de la siguiente manera: 3.14"
+                            aria-label="Registrar el precio de la siguiente manera: 3.14"
+                            th:field="${productoTO.precio}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Cantidad:</label></td>
+                    <td><input type="number" id="number-input" aria-describedby="helper-text-explanation"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="90210" required th:field="${productoTO.cantidad}"></td>
+                </tr>
+                <tr>
+                    <td><label for="website"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagen:</label></td>
+                    <td><input type="url" id="website"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="ejemplo.com" required th:field="${productoTO.imagen}"></td>
+                </tr>
+                <tr>
+                    <td><label>País del proveedor:</label></td>
+                    <td><input type="text" class="form-control" placeholder="Escribir el país"
+                            aria-label="Escribir proveedor ya registrado" th:field="${productoTO.nombreProveedor}"></td>
+                </tr>
+                <tr>
+                    <td><label>Tipo del proveedor:</label></td>
+                    <td><input type="text" class="form-control" placeholder="Escribir ejemplo: ropa, electrónica, etc."
+                            aria-label="Escribir proveedor ya registrado" th:field="${productoTO.tipo}"></td>
+                </tr>
+            </table>
+        </form>
         <div class="d-grid gap-2 col-6 mx-auto">
             <button type="submit" class="btn btn-outline-secondary">Registrar</button>
             <!--<button type="button" onclick="window.location.href='/kefa/categoria/{categoriaId}/lista_productos'"
                 class="btn btn-outline-secondary">Regresar</button>-->
             <button type="button" class="btn btn-outline-info" id="addButton">Regresar</button>
         </div>
-    </form>
+    </div>
     <script th:inline="javascript">
         /*<![CDATA[*/
         document.addEventListener('DOMContentLoaded', (event) => {

@@ -77,7 +77,7 @@ public class ControllerCarritoCompra {
             try {
                 carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == id);
                 carritoCompra.getDetalleOrden().forEach(System.out::println);
-                iCarritoCompraService.actualizar(carritoCompra);
+                iCarritoCompraService.eliminar(carritoCompra);
             } catch (Exception e) {
                 model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());
             }
