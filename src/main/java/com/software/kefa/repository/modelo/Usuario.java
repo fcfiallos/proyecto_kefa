@@ -86,8 +86,19 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private ListaDeseos listaDeseos;
 
-    // Setter and getter
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Pago> pagos;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Factura> facturas;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Notificacion> notificaciones;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Envio> envios;
+
+    // Setter and getter methods
     public String getNickname() {
         return nickname;
     }
@@ -254,6 +265,38 @@ public class Usuario {
 
     public void setListaDeseos(ListaDeseos listaDeseos) {
         this.listaDeseos = listaDeseos;
+    }
+
+    public List<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(List<Pago> pagos) {
+        this.pagos = pagos;
+    }
+
+    public List<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    public List<Notificacion> getNotificaciones() {
+        return notificaciones;
+    }
+
+    public void setNotificaciones(List<Notificacion> notificaciones) {
+        this.notificaciones = notificaciones;
+    }
+
+    public List<Envio> getEnvios() {
+        return envios;
+    }
+
+    public void setEnvios(List<Envio> envios) {
+        this.envios = envios;
     }
 
 }

@@ -2,208 +2,181 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Categoría del Producto</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link href="dist/output.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias de Productos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* General styles */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            background: url('https://th.bing.com/th/id/OIG1.8Yhevps.BoYg35rG0nN6?w=1024&h=1024&rs=1&pid=ImgDetMain');
-            color: #333333;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-size: cover;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            color: #333;
         }
 
-        .overlay {
-            background: rgba(255, 255, 255, 0.8);
+        .sidebar {
+            width: 200px;
+            background-image: linear-gradient(#bc5cc566, #9674a3, #ee83b9, #f3b9d2);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 50px auto;
-            width: 80%;
-            max-width: 800px;
+            position: fixed;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        h1 {
-            text-align: center;
-            color: #009975;
-            font-family: 'Arial Black', sans-serif;
-            margin-top: 30px;
+        .sidebar img {
+            width: 100px;
+            height: 50px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 20px;
         }
 
-        table {
+        .sidebar .buttons {
+            flex-grow: 1;
+        }
+        .sidebar button {
+            display: block;
             width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #30d5c8;
-            color: white;
-            font-family: 'Arial Black', sans-serif;
-        }
-
-        td {
-            background-color: #f9f9f9;
-            color: #333333;
-            border-bottom: 1px solid #ddd;
-        }
-
-        /*button {
-            padding: 15px;
+            padding: 10px;
+            margin-bottom: 10px;
             border: none;
-            border-radius: 4px;
-            font-size: 18px;
+            border-radius: 15px;
+            background-color: #2b447a;
             color: white;
-            font-family: 'Arial Black', sans-serif;
+            text-align: center;
             cursor: pointer;
-            margin: 8px 4px;
-            width: calc(50% - 16px);
+            font-size: 16px;
+        }
+        .sidebar button:hover {
+            background-color: #5d7077;
         }
 
-        button:nth-of-type(1) {
-            background-color: #50c878;
+        .content {
+            margin-left: 220px;
+            padding: 20px;
         }
 
-        button:nth-of-type(1):hover {
-            background-color: #009975;
+        .content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 35px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        button:nth-of-type(2) {
-            background-color: #30d5c8;
+        .product-category {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
 
-        button:nth-of-type(2):hover {
-            background-color: #40E0D0;
+        .product-category .product {
+            display: flex;
+            /* Ajuste para usar flexbox */
+            flex-direction: column;
+            /* Los elementos se apilan verticalmente */
+            justify-content: space-between;
+            /* Distribuye el espacio uniformemente */
+            width: 200px;
+            text-align: left;
+            height: 220px;
+            /* Altura fija para mantener la consistencia */
         }
 
-        /* Media queries for responsiveness */
-        @media (max-width: 768px) {
-            .overlay {
-                width: 90%;
-            }
+        .product-category .product img {
+            width: 100px;
+            height: 100px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
         }
 
-        @media (max-width: 480px) {
-            .overlay {
-                width: 100%;
-            }
+        .product-category .add-product {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 10px 0;
+            /* Ajusta la opacidad de cada color del gradiente para hacerlo más fino 
+            background-image: linear-gradient(#bc5cc566, #9674a3, #ee83b9, #f3b9d2);*/
+        }
 
-            th,
-            td {
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-            }
+        .product-category .add-product button {
+            display: flex;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: auto;
+            padding: 10px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 10px;
+            background-color: #2b447a;
+            color: rgb(240, 232, 232);
+            font-size: 16px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
 
-            td {
-                margin-bottom: 16px;
-            }
-
-            button {
-                width: 100%;
-                padding: 12px;
-                font-size: 16px;
-            }
+        .product-category .add-product button:hover {
+            background-color: #5d7077;
         }
     </style>
 </head>
 
 <body>
-    <div class="overlay">
-        <h1>Lista de Categorías de los Productos</h1>
-        <table>
-            <thead>
-                <tr>
-                <tr>
-                    <th>Imagen</th>
-                    <th>Tipo de categoría del Producto</th>
-                    <th>Descripción</th>
-                </tr>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="categoriaProducto:${categoriaProductos}">
-                    <td>
-                        <img th:src="@{${categoriaProducto.imagen}}" width="40px" height="40px">
-                    </td>
-                    <td>
+    <div class="sidebar">
+        <img src="../static/img/LogoRobot.png" th:src="@{/img/LogoRobot.png}" alt="Logo">
+        <div class="buttons">
+            <button type="button" onclick="window.location.href='/kefa/perfil_usuario'">Cuenta</button>
+            <button type="button" onclick="window.location.href='/kefa/carrito'">Carrito de compra</button>
+            <button type="button" onclick="window.location.href='/kefa/lista_deseos'">WishList</button>
+            <button type="button" onclick="window.location.href='/kefa/formulario_otros_servicios'">Otros</button>
+            <button type="button" onclick="window.location.href='/kefa/lista_sugerencias'">Ayuda</button>
+            <button type="button" onclick="window.location.href='/kefa/promocion'">Promociones</button>
+            <button type="button" onclick="window.location.href='/ruta'">Notificaciones</button>
+        </div>
+        <button type="button" onclick="window.location.href='/kefa/cerrarSesion'">Cerrar Sesión</button>
+    </div>
+
+    <div class="content">
+        <h1>Categoría de Productos</h1>
+        <div class="product-category">
+            <div class="product-category">
+                <div class="product" th:each="categoriaProducto : ${categoriaProductos}">
+                    <div>Tipo:
                         <a th:href="@{/kefa/categoria/{id}/productos(id=${categoriaProducto.id})}"
                             th:text="${categoriaProducto.tipo}"></a>
-                    </td>
-                    <td th:text="${categoriaProducto.descripcion}"></td>
-                    
-                </tr>
-            </tbody>
-        </table>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info"
-                onclick="window.location.href='/kefa/formulario_categoria_producto'">Añadir</button>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/perfil_usuario'">Cuenta</button>
-            <!--<button type="button" class="btn btn-outline-info" data-nickname="${nickname}"
-                onclick="redirectToUserAccount()">Cuenta</button>
-            <form th:action="@{/kefa/perfil_usuario/{nickname}(nickname = ${categoriaProductos.nickname})}"
-                th:method="GET">
-                <input type="submit" class="btn btn-outline-secondary" value="Cuenta">
-            </form>-->
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href=''">Notificaciones</button>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/carrito'">Carrito de Compra</button>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/lista_deseos'">Wishlist</button>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href=''">Reportes</button>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info"
-                onclick="window.location.href='/kefa/formulario_otros_servicios'">Otros</button>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info"
-                onclick="window.location.href='/kefa/lista_sugerencias'">Ayuda</button>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info"
-                onclick="window.location.href='/kefa/promocion'">Promociones</button>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info"
-                onclick="window.location.href='/kefa/cerrarSesion'">Cerrar Sesion</button>
+                    </div>
+                    <div th:text="${categoriaProducto.descripcion}">Descripcion</div>
+                    <img th:src="@{${categoriaProducto.imagen}}" alt="Imagen de Producto" width="100" height="100">
+                </div>
+            </div>
+            <div class="product add-product">
+                <button type="button" onclick="window.location.href='/kefa/formulario_categoria_producto'">Añadir
+                    Categoria</button>
+                <button type="button" onclick="window.location.href=''">Reportes</button>
+                <button type="button" onclick="window.location.href='/kefa/promocion/formulario_nueva_promocion'">Añadir
+                    Promocion</button>
+                <button type="button" class="btn btn-outline-info"
+                    onclick="window.location.href='/kefa/formulario_añadir_nueva_ayuda'">Añadir Sugerencias</button>
+            </div>
         </div>
     </div>
-    <!--<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Supongamos que este es el nickname obtenido de alguna parte
-            var userNickname = 'elNicknameDelUsuario';
-
-            // Encuentra el botón por su clase (ajusta esto según sea necesario)
-            var button = document.querySelector('.btn-outline-info');
-
-            // Asigna el nickname como un atributo de datos
-            button.setAttribute('data-nickname', userNickname);
-
-            // Ahora el botón tiene el atributo data-nickname con el valor correcto
-        });
-    </script>-->
 </body>
 
 </html>

@@ -27,12 +27,13 @@ public class ControllerOtrosServicios {
         return "formulario_come_devo";
     }
 
-    @PostMapping("/añadir_comentario")
+    @PostMapping("/formulario_otros_servicios/añadir_comentario")
     public String añadirComentario(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
         Predicate<OtrosTO> validar = otro -> otro.getComentario() != null && !otro.getComentario().isEmpty();
         if (validar.test(otroTO)) {
             String nickname = (String) session.getAttribute("nickname");
             this.otrosService.guardarComentario(otroTO, nickname);
+            model.addAttribute("mensajeExito", "El comentario ha sido añadido exitosamente.");
             return "formulario_come_devo";
         } else {
             model.addAttribute("error",
@@ -41,12 +42,13 @@ public class ControllerOtrosServicios {
         }
     }
 
-    @PostMapping("/añadir_devolucion")
+    @PostMapping("/formulario_otros_servicios/añadir_devolucion")
     public String añadirDevolucion(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
-        if (otroTO.getEstadoDevolucion() != null && otroTO.getMotivoDevolucion() != null
-                && !otroTO.getEstadoDevolucion().isEmpty() && !otroTO.getMotivoDevolucion().isEmpty()) {
+        Predicate <OtrosTO> validar = otro -> otro.getEstadoDevolucion() != null && !otro.getEstadoDevolucion().isEmpty() && otro.getMotivoDevolucion() != null && !otro.getMotivoDevolucion().isEmpty();
+        if (validar.test(otroTO)) {
             String nickname = (String) session.getAttribute("nickname");
             this.otrosService.guardarDevolucion(otroTO, nickname);
+            model.addAttribute("mensajeExito", "La devolución ha sido añadida exitosamente.");
             return "formulario_come_devo";
         } else {
             model.addAttribute("error",

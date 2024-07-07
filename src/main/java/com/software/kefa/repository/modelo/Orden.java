@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -50,6 +51,24 @@ public class Orden {
 
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetalleOrden> detalleOrden;
+
+    @ManyToOne
+    @JoinColumn(name = "orde_id_pago")
+    private Pago pago;
+
+    @OneToOne(mappedBy = "orden", cascade = CascadeType.ALL)
+    private Factura factura;
+
+    @OneToOne(mappedBy = "orden", cascade = CascadeType.ALL)
+    private Envio envio;
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
 
     public Integer getId() {
         return id;
@@ -121,6 +140,14 @@ public class Orden {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public Pago getPago() {
+        return pago;
+    }
+
+    public void setPago(Pago pago) {
+        this.pago = pago;
     }
 
 }

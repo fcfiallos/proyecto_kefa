@@ -1,158 +1,148 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html lang="es">
+
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Ayuda</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link href="dist/output.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* General styles */
         body {
-            font-family: Arial, sans-serif;
-            background: url('https://th.bing.com/th/id/OIG1.8Yhevps.BoYg35rG0nN6?w=1024&h=1024&rs=1&pid=ImgDetMain');
-            color: #333333;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: linear-gradient(#fc3d9c71, rgba(220, 129, 248, 0.5), #fd68b271);
             background-size: cover;
+            background-attachment: fixed;
         }
 
         .overlay {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 50px auto;
-            width: 80%;
-            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            max-width: 900px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         }
 
-        h1 {
+        .content h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
             text-align: center;
-            color: #009975;
-            font-family: 'Arial Black', sans-serif;
-            margin-top: 30px;
+            color: #3498db;
         }
 
-        table {
+        .table-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .table-container table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin-bottom: 20px;
         }
 
-        th, td {
-            padding: 12px;
+        .table-container table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        .table-container th,
+        .table-container td {
+            padding: 15px;
             text-align: left;
         }
 
-        th {
-            background-color: #30d5c8;
+        .table-container th {
+            background-color: #2980b9;
             color: white;
-            font-family: 'Arial Black', sans-serif;
         }
 
-        td {
-            background-color: #f9f9f9;
-            color: #333333;
-            border-bottom: 1px solid #ddd;
+        .table-container td {
+            background-color: #ecf0f1;
+            color: #2c3e50;
         }
 
-        /*button {
-            padding: 15px;
+        .table-container button {
+            padding: 8px 16px;
             border: none;
-            border-radius: 4px;
-            font-size: 18px;
+            background-color: #3498db;
             color: white;
-            font-family: 'Arial Black', sans-serif;
             cursor: pointer;
-            margin: 8px 4px;
-            width: calc(50% - 16px);
+            border-radius: 5px;
+            font-size: 14px;
         }
 
-        button:nth-of-type(1) {
-            background-color: #50c878;
+        .table-container button:hover {
+            background-color: #e395f7;
         }
 
-        button:nth-of-type(1):hover {
-            background-color: #009975;
+        .button-container {
+            display: flex;
+            justify-content: space-between;
         }
 
-        button:nth-of-type(2) {
-            background-color: #30d5c8;
+        .button-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #504e4e;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
-        button:nth-of-type(2):hover {
-            background-color: #40E0D0;
-        }
-
-        /* Media queries for responsiveness */
-        @media (max-width: 768px) {
-            .overlay {
-                width: 90%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .overlay {
-                width: 100%;
-            }
-
-            th, td {
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            td {
-                margin-bottom: 16px;
-            }
-
-            button {
-                width: 100%;
-                padding: 12px;
-                font-size: 16px;
-            }
+        .button-container button:hover {
+            background-color: #ff9dc6;
         }
     </style>
+    <title>Preguntas Frecuentes</title>
 </head>
+
 <body>
     <div class="overlay">
-        <h1>Preguntas Frecuentes</h1>
-        <table>
-            <thead>
-                <tr>
+        <div class="content">
+            <h1>Preguntas Frecuentes</h1>
+            <div class="table-container">
+                <table>
                     <tr>
-                        <th>Categoría:</th>
-                        <th>Pregunta:</th>
-                        <th>Respuesta:</th>
-                        <th>Fecha Creada:</th>
+                        <th>Categoría</th>
+                        <th>Pregunta</th>
+                        <th>Respuesta</th>
+                        <th>Fecha Creada</th>
+                        <th>Acción</th>
                     </tr>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="preguntaFrecuente:${preguntasFrecuentes}">
-                    <td th:text="${preguntaFrecuente.categoria}"></td>
-                    <td th:text="${preguntaFrecuente.pregunta}"></td>
-                    <td th:text="${preguntaFrecuente.respuesta}"></td>
-                    <td th:text="${preguntaFrecuente.fecha_creacion}"></td>
-                    <td>
-                        <form
-                            th:action="@{/kefa/formulario_actualizar_sugerencia/{codigo}(codigo = ${preguntaFrecuente.id})}"
-                            th:method="GET">
-                            <input type="submit" class="btn btn-outline-secondary" value="Editar">
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="d-grid gap-2 d-md-block">
-           <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/formulario_añadir_nueva_ayuda'">Añadir</button> 
+                    <tr th:each="preguntaFrecuente:${preguntasFrecuentes}">
+                        <td th:text="${preguntaFrecuente.categoria}"></td>
+                        <td th:text="${preguntaFrecuente.pregunta}"></td>
+                        <td th:text="${preguntaFrecuente.respuesta}"></td>
+                        <td th:text="${preguntaFrecuente.fecha_creacion}"></td>
+                        <td>
+                            <form
+                                th:action="@{/kefa/formulario_actualizar_sugerencia/{codigo}(codigo = ${preguntaFrecuente.id})}"
+                                th:method="GET">
+                                <button type="submit">Editar</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                <div class="button-container">
+                    <button type="button"
+                        onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+                </div>
+            </div>
         </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button> 
-         </div>
     </div>
 </body>
+
 </html>

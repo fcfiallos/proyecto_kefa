@@ -21,7 +21,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 10%;
-            background: linear-gradient(90deg, #00e6e6, #33ffb1);
+            background-image: linear-gradient(#bc5cc566, #8e7996, #ee83b9, #f3b9d2);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
@@ -139,10 +139,8 @@
 <body>
     <header>
         <div class="logo">
-            <img src="../static/img/logo_transparente.png" alt="KEFA">
+            <img src="../static/img/LogoRobot.png" th:src="@{/img/LogoRobot.png}" alt="Logo">
         </div>
-
-
         <div class="buttons">
             <button class="btn-register" onclick="window.location.href='/kefa/formulario_registro'">Registrarse</button>
             <button class="btn-login" onclick="window.location.href='/kefa/formulario_iniciar_sesion'">Ingresar</button>
@@ -152,6 +150,9 @@
         <div class="hero-text">
             <h1>Bienvenido a KEFA</h1>
             <p>Tu tienda en línea de productos tecnológicos de alta calidad.</p>
+        </div>
+        <div class="hero-image">
+            <img src="../static/img/images_kd.jpg" th:src="@{/img/images_kd.jpg}" alt="KEFA">
         </div>
     </section>
     <section class="content">
@@ -169,11 +170,11 @@
     </section>
     <section class="creators">
         <div class="creator">
-            <img src="foto-creador1.jpg" alt="Creador 1">
+            <img src="../static/img/images.jpg" th:src="@{/img/images.jpg}" alt="Creador 1">
             <h3>Fatima Fiallos</h3>
         </div>
         <div class="creator">
-            <img src="foto-creador2.jpg" alt="Creador 2">
+            <img src="../static/img/images_k.jpg" th:src="@{/img/images_k.jpg}"alt="Creador 2">
             <h3>Kevin Hurtado</h3>
         </div>
     </section>
