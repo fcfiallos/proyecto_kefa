@@ -42,11 +42,11 @@ public class ProductoServiceImpl implements IProductoService {
     private IUsuarioRepository usuarioRepository;
 
     /**
-        * Busca productos por ID de categoría.
-        *
-        * @param categoriaID el ID de la categoría
-        * @return una lista de productos que pertenecen a la categoría especificada
-        */
+     * Busca productos por ID de categoría.
+     *
+     * @param categoriaID el ID de la categoría
+     * @return una lista de productos que pertenecen a la categoría especificada
+     */
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public List<Producto> buscarPorCategoriaId(Integer categoriaID) {
@@ -54,11 +54,11 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     /**
-        * Guarda un producto en la base de datos.
-        *
-        * @param producto  el producto a guardar
-        * @param nickname  el nickname del usuario que guarda el producto
-        */
+     * Guarda un producto en la base de datos.
+     *
+     * @param producto el producto a guardar
+     * @param nickname el nickname del usuario que guarda el producto
+     */
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
     public void guardar(ProductoTO producto, String nickname) {
@@ -66,8 +66,9 @@ public class ProductoServiceImpl implements IProductoService {
         Proveedor prov = new Proveedor();
         Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
         CategoriaProducto categoria = this.categoriaProductoRepository.seleccionarPorId(producto.getCategoriaId());
-        //ListaDeseos listaDeseo = this.listaDeseoRepository.seleccionarPorId(listaId);
-        //CarritoCompra carritoCompra = this.carritoCompraRepository.seleccionarPorId(carritoId);
+        // ListaDeseos listaDeseo = this.listaDeseoRepository.seleccionarPorId(listaId);
+        // CarritoCompra carritoCompra =
+        // this.carritoCompraRepository.seleccionarPorId(carritoId);
 
         if (this.existeProductoCodigo(producto.getCodigo())
                 || this.existeProveedorNombre(producto.getNombreProveedor())) {
@@ -139,11 +140,12 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     /**
-        * Busca un producto por su código.
-        *
-        * @param codigo el código del producto a buscar
-        * @return el producto encontrado, o null si no se encuentra ninguno con el código especificado
-        */
+     * Busca un producto por su código.
+     *
+     * @param codigo el código del producto a buscar
+     * @return el producto encontrado, o null si no se encuentra ninguno con el
+     *         código especificado
+     */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public Producto buscarPorCodigo(String codigo) {
@@ -151,11 +153,12 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     /**
-        * Busca un producto por su ID.
-        *
-        * @param id el ID del producto a buscar
-        * @return el producto encontrado, o null si no se encuentra ninguno con el ID especificado
-        */
+     * Busca un producto por su ID.
+     *
+     * @param id el ID del producto a buscar
+     * @return el producto encontrado, o null si no se encuentra ninguno con el ID
+     *         especificado
+     */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public Producto buscarPorId(Integer id) {
@@ -165,6 +168,27 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     public List<Producto> buscarTodo() {
         return this.productoRepository.seleccionarTodo();
+    }
+
+    /**
+     * Actualiza el stock de un producto.
+     *
+     * @param productoId el ID del producto a actualizar
+     * @param cantidad   la cantidad a sumar al stock actual (puede ser negativa)
+     */
+    @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
+    public void actualizarStock(Integer productoId, Integer cantidad) {
+        Producto producto = this.productoRepository.seleccionarPorId(productoId);
+        if (producto == null) {
+            throw new RuntimeException("Producto no encontrado con ID: " + productoId);
+        }
+        int nuevoStock = producto.getCantidad() + cantidad;
+        if (nuevoStock < 0) {
+            throw new RuntimeException("No hay suficiente stock para el producto: " + producto.getNombre());
+        }
+        producto.setCantidad(nuevoStock);
+        this.productoRepository.actualizar(producto);
     }
 
 }

@@ -1,15 +1,15 @@
 package com.software.kefa.repository.modelo;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -31,8 +31,8 @@ public class Pago {
     @Column(name = "pago_estado")
     private String estado;
 
-    @OneToMany(mappedBy = "pago")
-    private List<Orden> ordenes;
+    @OneToOne(mappedBy = "pago", cascade = CascadeType.ALL)
+    private Orden orden;
 
     @ManyToOne
     private Usuario usuario;
@@ -69,12 +69,12 @@ public class Pago {
         this.estado = estado;
     }
 
-    public List<Orden> getOrdenes() {
-        return ordenes;
+    public Orden getOrden() {
+        return orden;
     }
 
-    public void setOrdenes(List<Orden> ordenes) {
-        this.ordenes = ordenes;
+    public void setOrden(Orden orden) {
+        this.orden = orden;
     }
 
     public Usuario getUsuario() {

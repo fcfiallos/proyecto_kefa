@@ -14,4 +14,5 @@ public interface IProductoService {
     public boolean existeProveedorNombre(String nombre);
     public Producto buscarPorCodigo(String codigo);
     public Producto buscarPorId(Integer id);
+    public void actualizarStock(Integer productoId, Integer cantidad);
 }

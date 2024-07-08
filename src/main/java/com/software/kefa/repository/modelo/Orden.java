@@ -52,7 +52,7 @@ public class Orden {
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetalleOrden> detalleOrden;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "orde_id_pago")
     private Pago pago;
 
