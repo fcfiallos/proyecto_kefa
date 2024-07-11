@@ -37,15 +37,19 @@ public class ControllerCarritoCompra {
     @GetMapping("/carrito")
     public String vistaListaCarrito(Model model, HttpSession session) {
         CarritoCompra carrito = (CarritoCompra) session.getAttribute("miCarrito");
-
-        if (carrito == null) {
+        try {
+             if (carrito == null) {
             carrito = new CarritoCompra(); // O maneja esta situación de manera adecuada
         }
 
         // Asegúrate de que detalleOrdenes no sea null
         if (carrito.getDetalleOrden() == null) {
             carrito.setDetalleOrden(Collections.emptyList()); // O maneja esta situación de manera adecuada
+        } 
+        } catch (Exception e) {
+            return "redirect:/kefa/lista_categoria_productos";
         }
+       
 
         session.setAttribute("miCarrito", carrito);
 

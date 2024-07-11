@@ -1,7 +1,6 @@
 package com.software.kefa.service;
 
 import java.time.LocalDateTime;
-import java.util.Random;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -12,7 +11,6 @@ import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.IMetodoPagoRepository;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.CarritoCompra;
-import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.repository.modelo.Pago;
 import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.modelosto.MetodoPagoTO;
@@ -33,25 +31,8 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void guardar(Pago pago, MetodoPagoTO metodoPagoTO, String nickname, CarritoCompra carritoCompra) {
-        if (carritoCompra == null) {
-            throw new MensajeExisteExcepcion("No existe carrito de compra");
-        }
-        
-        if (validarTarjeta(metodoPagoTO)) {
-            Usuario usuario = usuarioRepository.seleccionarPorNickname(nickname);
-            pago.setUsuario(usuario);
-            String comprobante = UUID.randomUUID().toString();
-            pago.setComprobante(comprobante);
-            pago.setEstado("Pagado");
-            pago.setFecha(LocalDateTime.now());
-            Orden orden = carritoCompra.getDetalleOrden().get(0).getOrden();
-            pago.setOrden(orden);
-            this.metodoPagoRepository.insertar(pago);
-            actualizarCantidadProducto(pago);
-        } else {
-            throw new MensajeExisteExcepcion("No se realizó la transacción");
-        }
+    public void guardar(Pago pago) {
+        this.metodoPagoRepository.insertar(pago);
     }
 
     private boolean validarTarjeta(MetodoPagoTO metodoPagoTO) {
@@ -59,9 +40,8 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
             Predicate<MetodoPagoTO> validarTarjeta = tarjeta -> !tarjeta.getNumeroTarjeta().isEmpty()
                     && !tarjeta.getNombreTarjeta().isEmpty() && !tarjeta.getFechaVencimiento().isEmpty()
                     && !tarjeta.getCvv().isEmpty();
-            Random random = new Random();
             if (validarTarjeta.test(metodoPagoTO)) {
-                return random.nextBoolean();
+                return true;
             }
         } catch (MensajeExisteExcepcion e) {
             throw new MensajeExisteExcepcion("Tarjeta no válida. Intente nuevamente.");
@@ -69,14 +49,18 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
         return false;
     }
 
-    private void actualizarCantidadProducto(Pago pago) {
-        pago.getOrden().getDetalleOrden().forEach(detalle -> {
-            try {
-                productoService.actualizarStock(detalle.getProducto().getId(), -detalle.getCantidad());
-            } catch (Exception e) {
-                throw new MensajeExisteExcepcion("No se pudo actualizar el stock del producto");
-            }  
-        });
+    private void actualizarCantidadProducto(CarritoCompra carritoCompra) {
+        if (carritoCompra.getId() != null) {
+            carritoCompra.getDetalleOrden().forEach(detalle -> {
+                try {
+                    productoService.actualizarStock(detalle.getProducto().getId(), -detalle.getCantidad());
+                } catch (MensajeExisteExcepcion e) {
+                    throw new MensajeExisteExcepcion("No se pudo actualizar el stock del producto");
+                }
+            });
+        } else {
+            throw new IllegalStateException("Pago o la orden del pago es nulo");
+        }
     }
 
     @Override
@@ -95,6 +79,28 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void actualizar(Pago pago) {
         this.metodoPagoRepository.actualizar(pago);
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public void enviarValidacion(MetodoPagoTO metodoPagoTO, String nickname, CarritoCompra carritoCompra) {
+        Pago pago = new Pago();
+        if (carritoCompra == null) {
+            throw new MensajeExisteExcepcion("No existe carrito de compra");
+        }
+
+        if (validarTarjeta(metodoPagoTO)) {
+            Usuario usuario = usuarioRepository.seleccionarPorNickname(nickname);
+            pago.setUsuario(usuario);
+            String comprobante = UUID.randomUUID().toString();
+            pago.setComprobante(comprobante);
+            pago.setEstado("Pagado");
+            pago.setFecha(LocalDateTime.now());
+            actualizarCantidadProducto(carritoCompra);
+            this.metodoPagoRepository.insertar(pago);
+        } else {
+            throw new MensajeExisteExcepcion("No se realizó la transacción");
+        }
     }
 
 }

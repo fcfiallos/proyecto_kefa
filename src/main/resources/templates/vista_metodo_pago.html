@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
             height: 100vh;
             margin: 0;
         }
+
         .card-form {
             background-color: #fff;
             padding: 20px;
@@ -22,18 +24,30 @@
             max-width: 400px;
             width: 100%;
         }
+
+        .card-form .error-message {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color: red;
+            font-weight: bold;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
         .card-form h2 {
             margin-bottom: 20px;
             color: #333;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         .form-group label {
             display: block;
             margin-bottom: 5px;
             color: #555;
         }
+
         .form-group input {
             width: 100%;
             padding: 10px;
@@ -41,10 +55,12 @@
             border-radius: 5px;
             font-size: 16px;
         }
+
         .form-group input:focus {
             border-color: #007bff;
             outline: none;
         }
+
         .btn {
             display: block;
             width: 100%;
@@ -56,34 +72,39 @@
             font-size: 16px;
             cursor: pointer;
         }
+
         .btn:hover {
             background-color: #8a8a8a;
         }
     </style>
 </head>
+
 <body>
-    <form class="card-form">
+    <form class="card-form" th:action="@{/kefa/carrito/metodo_pago/enviar}" th:object="${metodoPago}" th:method="POST">
         <h2>Ingreso de Tarjeta de Crédito</h2>
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <div class="form-group">
             <label for="cardNumber">Número de Tarjeta</label>
-            <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456">
+            <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" th:field="${metodoPago.numeroTarjeta}">
         </div>
         <div class="form-group">
             <label for="cardName">Nombre en la Tarjeta</label>
-            <input type="text" id="cardName" name="cardName" placeholder="Nombre Completo">
+            <input type="text" id="cardName" name="cardName" placeholder="Nombre Completo" th:field="${metodoPago.nombreTarjeta}">
         </div>
         <div class="form-group">
             <label for="expiryDate">Fecha de Expiración</label>
-            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/AA">
+            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/AA" th:field="${metodoPago.fechaVencimiento}">
         </div>
         <div class="form-group">
             <label for="cvv">CVV</label>
-            <input type="text" id="cvv" name="cvv" placeholder="123">
+            <input type="text" id="cvv" name="cvv" placeholder="123" th:field="${metodoPago.cvv}">
         </div>
         <div>
-                    <button type="submit" class="btn">Enviar</button>
-                    <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/kefa/carrito/ordenPago'">Volver</button>
+            <button type="submit" class="btn">Enviar</button>
+            <button type="button" class="btn btn-outline-dark"
+                onclick="window.location.href='/kefa/carrito/ordenPago'">Volver</button>
         </div>
     </form>
 </body>
+
 </html>
