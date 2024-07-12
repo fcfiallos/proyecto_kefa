@@ -43,4 +43,10 @@ public class FacturaRepositoryImpl implements IFacturaRepository{
         }
     }
 
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public Factura seleccionarTodo() {
+       return this.entityManager.createQuery("SELECT f FROM Factura f", Factura.class).getSingleResult();
+    }
+
 }

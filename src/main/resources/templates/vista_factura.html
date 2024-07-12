@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Facturación</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #949494;
+        }
+
+        .overlay {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            margin: 50px auto;
+        }
+
+        .overlay .contenedor-titulo-imagen {
+            display: flex;
+            /* Activa Flexbox */
+            align-items: center;
+            /* Centra los elementos verticalmente */
+            justify-content: center;
+            /* Centra los elementos horizontalmente */
+            gap: 1px;
+            /* Añade espacio entre el título y la imagen */
+        }
+
+        .overlay .contenedor-titulo-imagen h1 {
+            color: #333;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        .overlay .contenedor-titulo-imagen img {
+            width: 100px;
+            height: 50px;
+            max-width: 100%;
+            /* Asegura que la imagen sea responsiva y no exceda el ancho de su contenedor */
+            height: auto;
+            /* Mantiene la proporción de la imagen al ajustar el ancho */
+            display: block;
+            /* Elimina cualquier espacio extra debajo de la imagen */
+            margin: 20px 0;
+            /* Añade un margen superior e inferior para separar la imagen de otros elementos */
+            border-radius: 5px;
+            /* Opcional: Añade bordes redondeados a la imagen */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            text-align: center;
+            padding: 12px;
+            border-bottom: 1px solid #8d8d8d;
+        }
+        td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #8d8d8d;
+        }
+
+        th {
+            background-color: #cfcfcf;
+        }
+
+        h3,h5 {
+            text-align: center;
+            margin: 0;
+            font-weight: normal;
+            color: #5a5959;
+        }
+
+        .botones {
+            display: flex;
+            justify-content: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+        }
+
+        .botones button,
+        .botones form {
+            flex: 1;
+            /* Hace que cada elemento tenga la misma flexibilidad y, por lo tanto, la misma anchura */
+            margin: 0 10px;
+            /* Añade un margen horizontal para separar los elementos */
+        }
+
+        .botones button {
+            flex: 1;
+            /* Hace que cada botón tenga la misma flexibilidad y, por lo tanto, la misma anchura */
+            margin: 0 10px;
+            /* Añade un margen horizontal para separar los botones */
+            text-align: center;
+            font-size: 16px;
+            background-color: #007bff;
+            /* Un azul brillante */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .botones button:hover {
+            background-color: #0056b3;
+            /* Un azul un poco más oscuro para el efecto hover */
+        }
+
+        .botones form {
+            display: flex;
+            /* Hace que el formulario se comporte como un contenedor flexible */
+            justify-content: center;
+            /* Centra el contenido del formulario */
+            padding: 0;
+            /* Elimina el padding por defecto del formulario */
+            border: none;
+            /* Elimina el borde por defecto del formulario */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+        <div class="contenedor-titulo-imagen">
+            <h1>Factura: KEFA</h1>
+            <img src="../static/img/LogoRobot.png" th:src="@{/img/LogoRobot.png}" alt="Logo">
+        </div>
+        <h3>Información de la Factura</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Número de la Factura:</td>
+                    <td th:text="${factura.numero}"></td>
+                    <td>Fecha de la Factura:</td>
+                    <td th:text="${factura.fechaEmision}"></td>
+                </tr>
+                <tr>
+                    <td>Cedula del cliente:</td>
+                    <td th:text="${factura.usuario.cedula}"></td>
+                    <td>Nombre del cliente:</td>
+                    <td th:text="${factura.usuario.nombre}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="detalle : ${factura.orden.detalleOrden}">
+                    <td th:text="${detalle.producto.nombre}"></td>
+                    <td th:text="${detalle.cantidad}"></td>
+                    <td th:text="${detalle.precioUnitario}"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <th>Subtotal</th>
+                    <td th:text="${factura.orden.totalDetalleOrden}"></td>
+                </tr>
+                <tr th:each="detalle : ${factura.orden.detalleOrden}">
+                    <td></td>
+                    <th>Descuento</th>
+                    <td th:text="${detalle.descuento}"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <th>Iva 15%</th>
+                    <td th:text="${factura.impuesto}"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <th>Total</th>
+                    <td th:text="${factura.orden.totalOrden}"></td>
+                </tr>
+        </table>
+        <h5>Gracias por su compra</h5>
+    </div>
+    <div class="botones">
+        <button type="button" onclick="window.location.href='/kefa/carrito'">Volver</button>
+        <form th:action="@{/kefa/carrito/finalizar}" th:object:"${factura}" th:method="post">
+            <button type="submit">Finalizar</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -7,5 +7,5 @@ public interface IFacturaRepository {
     public void actualizar (Factura factura);
     public void eliminar (Factura factura);
     public Factura seleccionarPorId (Integer id);
-
+    public Factura seleccionarTodo();
 }

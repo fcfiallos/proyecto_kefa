@@ -11,10 +11,13 @@ import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.IMetodoPagoRepository;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.CarritoCompra;
+import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.repository.modelo.Pago;
 import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.modelosto.MetodoPagoTO;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -28,6 +31,9 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
 
     @Autowired
     private IUsuarioRepository usuarioRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
@@ -83,10 +89,10 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void enviarValidacion(MetodoPagoTO metodoPagoTO, String nickname, CarritoCompra carritoCompra) {
+    public void enviarValidacion(MetodoPagoTO metodoPagoTO, String nickname, CarritoCompra carritoCompra, Orden orden) {
         Pago pago = new Pago();
-        if (carritoCompra == null) {
-            throw new MensajeExisteExcepcion("No existe carrito de compra");
+        if (carritoCompra == null || orden == null) {
+            throw new MensajeExisteExcepcion("No existe carrito de compra u orden de pago");
         }
 
         if (validarTarjeta(metodoPagoTO)) {
@@ -96,6 +102,10 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
             pago.setComprobante(comprobante);
             pago.setEstado("Pagado");
             pago.setFecha(LocalDateTime.now());
+
+            Orden ordenActualizada = this.entityManager.merge(orden);
+
+            pago.setOrden(ordenActualizada);
             actualizarCantidadProducto(carritoCompra);
             this.metodoPagoRepository.insertar(pago);
         } else {

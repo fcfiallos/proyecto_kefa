@@ -110,5 +110,12 @@ public class Factura {
         this.usuario = usuario;
     }
 
+    @Override
+    public String toString() {
+        return "Factura [id=" + id + ", numero=" + numero + ", fechaEmision=" + fechaEmision + ", total=" + total
+                + ", impuesto=" + impuesto + ", subtotal=" + subtotal + ", orden=" + orden + ", usuario=" + usuario
+                + "]";
+    }
+
     
 }

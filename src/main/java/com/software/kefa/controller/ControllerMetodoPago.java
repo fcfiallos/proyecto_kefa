@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.modelo.CarritoCompra;
+import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.service.IMetodoPagoService;
 import com.software.kefa.service.modelosto.MetodoPagoTO;
 
@@ -40,8 +41,9 @@ public class ControllerMetodoPago {
             try {
                 String nickname = (String) session.getAttribute("nickname");
                 CarritoCompra carritoCompra = (CarritoCompra) session.getAttribute("miCarrito");
-                this.metodoPagoService.enviarValidacion(metodoPagoTO, nickname, carritoCompra);
-                return "redirect:/kefa/lista_categoria_productos";
+                Orden orden = (Orden) session.getAttribute("miOrden");
+                this.metodoPagoService.enviarValidacion(metodoPagoTO, nickname, carritoCompra, orden);
+                return "redirect:/kefa/carrito/factura";
             } catch (MensajeExisteExcepcion e) {
                 model.addAttribute("error", e.getMessage());
                 return "vista_metodo_pago";

@@ -26,6 +26,7 @@ public class ControllerOrden {
         // Orden orden = carrito.getDetalleOrden().get(0).getOrden();
         try {
             Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
+            session.setAttribute("miOrden", orden);
             model.addAttribute("orden", orden);
             return "vista_ordenPago";
         } catch (Exception e) {
