@@ -8,35 +8,67 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link href="dist/output.css" rel="stylesheet">
+
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            background: url('https://th.bing.com/th/id/OIG1.zMGj9kwrEdMRJn5jfweY?w=1024&h=1024&rs=1&pid=ImgDetMain');
-            color: #333333;
+            font-family: 'Open Sans', sans-serif;
+            background-image: linear-gradient(rgba(190, 79, 255, 0.5), rgba(248, 99, 186, 0.5), rgba(250, 120, 222, 0.5));
             margin: 0;
             padding: 0;
             background-size: cover;
         }
 
-        .logo {
-            display: block;
-            margin: 20px auto;
-            width: 100px;
+        .formulario-contenedor {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            margin: 50px auto;
         }
 
-        h1 {
+
+
+        .formulario-contenedor .contenedor-titulo-imagen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+        }
+
+        .formulario-contenedor .contenedor-titulo-imagen .logo {
+            display: block;
+            margin: auto;
+            align-items: center;
+        }
+
+        .formulario-contenedor .contenedor-titulo-imagen .logo img {
+            width: 100px;
+            height: 50px;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: auto;
+            border-radius: 5px;
+        }
+
+        .formulario-contenedor .contenedor-titulo-imagen h1 {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 40px;
             text-align: center;
-            color: #009975;
-            font-family: Arial Black, sans-serif;
+            color: #797979;
             margin-top: 25px;
+            margin: auto;
         }
 
         /* Form styles */
         form {
-            width: 60%;
+            width: 100%;
             margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(221, 221, 221, 0.5);
             /* Fondo blanco con transparencia */
             padding: 20px;
             border-radius: 8px;
@@ -57,7 +89,7 @@
         label {
             display: block;
             font-weight: bold;
-            color: #30d5c8;
+            color: #023dff;
         }
 
         input[type="text"],
@@ -81,265 +113,179 @@
             outline: none;
         }
 
-        /*button[type="submit"],
-        button[type="button"] {
-            width: calc(50% - 12px);
-            padding: 15px;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            color: white;
-            font-family: Arial Black, sans-serif;
-            cursor: pointer;
-            margin: 8px 6px;
-        }
-
-        button[type="submit"] {
-            background-color: #50c878;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #009975;
-        }
-
-        button[type="button"] {
-            background-color: #30d5c8;
-        }
-
-        button[type="button"]:hover {
-            background-color: #40E0D0;
-        }*/
-
-        .error-message {
+        .formulario-contenedor .error-message {
             color: red;
             font-weight: bold;
             margin-bottom: 22px;
             text-align: center;
         }
 
-        /* Custom style for role section */
-        /*select {
-            width: calc(100% - 24px);
-            padding: 10px;
-            margin-top: 8px;
-            margin-bottom: 16px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        .formulario-contenedor .botones {
+            display: flex;
+            justify-content: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+        }
+
+        .formulario-contenedor .botones button {
+            flex: 1;
+            margin: 0 10px;
+            text-align: center;
             font-size: 16px;
-            color: #333;
-            background-color: #f9f9f9;
-            -webkit-appearance: none; /* For Safari 
-            -moz-appearance: none; /* For Firefox 
-            appearance: none; /* For modern browsers 
+            background-color: #00aeff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
         }
 
-        .select-wrapper {
-            position: relative;
-        }
-
-        .select-wrapper::after {
-            content: '\25BC'; /* Downward arrow 
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: #30d5c8;
-        }*/
-
-        /* Media queries for responsiveness */
-        @media (max-width: 768px) {
-            form {
-                width: 90%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            form {
-                width: 100%;
-            }
-
-            th,
-            td {
-                display: block;
-                width: 100%;
-            }
-
-            td {
-                margin-bottom: 16px;
-            }
-
-            button[type="submit"],
-            button[type="button"] {
-                width: 100%;
-                padding: 12px;
-                font-size: 16px;
-            }
+        .formulario-contenedor .botones button:hover {
+            background-color: #004a99;
         }
     </style>
 </head>
 
 <body>
-    <h1
-        class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-        Crear Cuenta Personal</h1>
-    <img src="src\main\resources\static\Escritorio.jpg" class="rounded mx-auto d-block">
-    <form id="formulario_registro" th:action="@{/kefa/registrar}" th:object="${usuarioRegistroTO}" th:method="POST">
-        <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <table class="grid gap-6 mb-6 md:grid-cols-2">
-            <tr>
-                <td><label for="first_name"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label></td>
-                <td><input type="text" id="first_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="John Mario" required th:field="${usuarioRegistroTO.nombre}"></td>
-            </tr>
-            <tr>
-                <td><label>Apellido:</label></td>
-                <td><input type="text" id="first_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Castillo Fernandez" required th:field="${usuarioRegistroTO.apellido}"></td>
-            </tr>
-            <tr>
-                <td><label>Cedula:</label></td>
-                <td>
-                    <input type="text" id="cedula"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="1753341311" required th:field="${usuarioRegistroTO.cedula}"
-                        onblur="verificarCedula()">
-                </td>
-            </tr>
-            <tr>
-                <td><label>Género:</label></td>
-                <td>
-                    <select id="countries"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        th:field="${usuarioRegistroTO.genero}">
-                        <option value=" ">Seleccione un Genero</option>
-                        <option value="Femenino">Femenino</option>
-                        <option value="Masculino">Masculino</option>
-                        <option value="Otro">Otro</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td><label>Celular:</label></td>
-                <td>
-                    <input type="text" id="celular"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="0996006155" required th:field="${usuarioRegistroTO.telefono}" pattern="09[0-9]{8}"
-                        title="Ingrese un número de celular válido. Ejemplo: 0996006155" onblur="validarCelular()">
-                    <span id="errorCelular" style="color:red; display:none;">Número de celular no válido. Asegúrese de
-                        que tenga 10 dígitos y comience con 09.</span>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo
-                        electrónico:</label></td>
-                <td><input type="text" id="email"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="john.doe@company.com" required th:field="${usuarioRegistroTO.correoElectronico}">
-                </td>
-            </tr>
-            <tr>
-                <td><label>Provincia:</label></td>
-                <td>
-                    <select id="provinces"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        th:field="${usuarioRegistroTO.provincia}">
-                        <option value="--------">Seleccione una provincia</option>
-                        <option value="Azuay">Azuay</option>
-                        <option value="Bolivar">Bolivar</option>
-                        <option value="Cañar">Cañar</option>
-                        <option value="Carchi">Carchi</option>
-                        <option value="Chimborazo">Chimborazo</option>
-                        <option value="Cotopaxi">Cotopaxi</option>
-                        <option value="El_oro">El oro</option>
-                        <option value="Esmeraldas">Esmeraldas</option>
-                        <option value="Galápagos">Galápagos</option>
-                        <option value="Guayas">Guayas</option>
-                        <option value="Imbabura">Imbabura</option>
-                        <option value="Loja">Loja</option>
-                        <option value="Los_ríos">Los Ríos</option>
-                        <option value="Manabi">Manabi</option>
-                        <option value="Morona_Santiago">Morona Santiago</option>
-                        <option value="Napo">Napo</option>
-                        <option value="Orellana">Orellana</option>
-                        <option value="Pastaza">Pastaza</option>
-                        <option value="Pichincha">Pichincha</option>
-                        <option value="Santa_Elena">Santa Elena</option>
-                        <option value="Santo_Domingo">Santo Domingo</option>
-                        <option value="Sucumbios">Sucumbios</option>
-                        <option value="Tungurahua">Tungurahua</option>
-                        <option value="Zamora_Chinchipe">Zamora Chinchipe</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td><label>Ciudad:</label></td>
-                <td>
-                    <select id="cities"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        th:field="${usuarioRegistroTO.ciudad}">
-                        <option value="">Seleccione una ciudad</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td><label>Dirección Domiciliaria:</label></td>
-                <td><input type="text" id="first_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Alfonso Mora E21-12 y S2G" required th:field="${usuarioRegistroTO.direccion}"></td>
-            </tr>
-            <tr>
-                <td><label>Código Postal:</label></td>
-                <td><input type="text" id="codigo_postal"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="170145" required th:field="${usuarioRegistroTO.codigoPostal}"></td>
-            </tr>
-            <tr>
-                <td><label>Usuario:</label></td>
-                <td><input type="text" id="website-admin"
-                        class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="elonmusk" th:field="${usuarioRegistroTO.nickname}"></td>
-            </tr>
-            <tr>
-                <td><label>Contraseña:</label></td>
-                <td><input type="password" id="password"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="•••••••••" required th:field="${usuarioRegistroTO.constrasenia}"></td>
-            </tr>
-            <tr>
-                <td><label>Repetir Contraseña:</label></td>
-                <td><input type="password" id="password"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="•••••••••" required th:field="${usuarioRegistroTO.constraseniaRepetir}"></td>
-            </tr>
-            <tr>
-                <td><label>¿Cuál es su color favorito?</label></td>
-                <td><input type="text" id="first_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Amarillo" required th:field="${usuarioRegistroTO.preguntaUno}"></td>
-            </tr>
-            <tr>
-                <td><label>¿Cuál es el apellido de su abuela?</label></td>
-                <td><input type="text" id="first_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Pérez" required th:field="${usuarioRegistroTO.preguntaDos}"></td>
-            </tr>
-            <tr>
-                <td><label>¿Cuál es su canción favorita?</label></td>
-                <td><input type="text" id="first_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Presiento" required th:field="${usuarioRegistroTO.preguntaTres}"></td>
-            </tr>
-        </table>
-        <div class="d-grid gap-2 col-6 mx-auto">
-            <button type="submit" class="btn btn-outline-info">Registrar</button>
-            <button type="button" onclick="window.location.href='/kefa/presentacion'"
-                class="btn btn-outline-info">Regresar</button>
+    <div class="formulario-contenedor">
+        <div class="contenedor-titulo-imagen">
+            <h1>Crear Cuenta Personal</h1>
+            <div class="logo">
+                <img src="../static/img/LogoRobot.png" th:src="@{/img/LogoRobot.png}" alt="Logo">
+            </div>
         </div>
-    </form>
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+        <form id="formulario_registro" th:action="@{/kefa/registrar}" th:object="${usuarioRegistroTO}" th:method="POST"> 
+            <table>
+                <tr>
+                    <td><label>Nombre y Apellido:</label></td>
+                    <td><input type="text" placeholder="John Castillo" required th:field="${usuarioRegistroTO.nombreYApellido}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Cedula:</label></td>
+                    <td>
+                        <input type="text" id="cedula" placeholder="1753341311" required
+                            th:field="${usuarioRegistroTO.cedula}" onblur="verificarCedula()">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Género:</label></td>
+                    <td>
+                        <select id="countries" th:field="${usuarioRegistroTO.genero}">
+                            <option value=" ">Seleccione un Genero</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Celular:</label></td>
+                    <td>
+                        <input type="text" id="celular" placeholder="0996006155" required
+                            th:field="${usuarioRegistroTO.telefono}" pattern="09[0-9]{8}"
+                            title="Ingrese un número de celular válido. Ejemplo: 0996006155" onblur="validarCelular()">
+                        <span id="errorCelular" style="color:red; display:none;">Número de celular no válido. Asegúrese
+                            de que tenga 10 dígitos y comience con 09.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="email">Correo
+                            electrónico:</label></td>
+                    <td><input type="text" id="email" placeholder="john.doe@company.com" required
+                            th:field="${usuarioRegistroTO.correoElectronico}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Provincia:</label></td>
+                    <td>
+                        <select id="provinces" th:field="${usuarioRegistroTO.provincia}">
+                            <option value="Seleccione">Seleccione una provincia</option>
+                            <option value="Azuay">Azuay</option>
+                            <option value="Bolivar">Bolivar</option>
+                            <option value="Cañar">Cañar</option>
+                            <option value="Carchi">Carchi</option>
+                            <option value="Chimborazo">Chimborazo</option>
+                            <option value="Cotopaxi">Cotopaxi</option>
+                            <option value="El_oro">El oro</option>
+                            <option value="Esmeraldas">Esmeraldas</option>
+                            <option value="Galápagos">Galápagos</option>
+                            <option value="Guayas">Guayas</option>
+                            <option value="Imbabura">Imbabura</option>
+                            <option value="Loja">Loja</option>
+                            <option value="Los_ríos">Los Ríos</option>
+                            <option value="Manabi">Manabi</option>
+                            <option value="Morona_Santiago">Morona Santiago</option>
+                            <option value="Napo">Napo</option>
+                            <option value="Orellana">Orellana</option>
+                            <option value="Pastaza">Pastaza</option>
+                            <option value="Pichincha">Pichincha</option>
+                            <option value="Santa_Elena">Santa Elena</option>
+                            <option value="Santo_Domingo">Santo Domingo</option>
+                            <option value="Sucumbios">Sucumbios</option>
+                            <option value="Tungurahua">Tungurahua</option>
+                            <option value="Zamora_Chinchipe">Zamora Chinchipe</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Ciudad:</label></td>
+                    <td>
+                        <select id="cities" th:field="${usuarioRegistroTO.ciudad}">
+                            <option value="">Seleccione una ciudad</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Dirección Domiciliaria:</label></td>
+                    <td><input type="text" placeholder="Alfonso Mora E21-12 y S2G" required
+                            th:field="${usuarioRegistroTO.direccion}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Código Postal:</label></td>
+                    <td><input type="text" id="codigo_postal" placeholder="170145" required
+                            th:field="${usuarioRegistroTO.codigoPostal}"></td>
+                </tr>
+                <tr>
+                    <td><label>Usuario:</label></td>
+                    <td><input type="text" id="website-admin" placeholder="elonmusk"
+                            th:field="${usuarioRegistroTO.nickname}"></td>
+                </tr>
+                <tr>
+                    <td><label>Contraseña:</label></td>
+                    <td><input type="password" id="password" placeholder="•••••••••" required
+                            th:field="${usuarioRegistroTO.constrasenia}"></td>
+                </tr>
+                <tr>
+                    <td><label>Repetir Contraseña:</label></td>
+                    <td><input type="password" id="password" placeholder="•••••••••" required
+                            th:field="${usuarioRegistroTO.constraseniaRepetir}"></td>
+                </tr>
+                <tr>
+                    <td><label>¿Cuál es su color favorito?</label></td>
+                    <td><input type="text" placeholder="Amarillo" required th:field="${usuarioRegistroTO.preguntaUno}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>¿Cuál es el apellido de su abuela?</label></td>
+                    <td><input type="text" placeholder="Pérez" required th:field="${usuarioRegistroTO.preguntaDos}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>¿Cuál es su canción favorita?</label></td>
+                    <td><input type="text" placeholder="Presiento" required
+                            th:field="${usuarioRegistroTO.preguntaTres}"></td>
+                </tr>
+            </table>
+            <div class="botones">
+                <button type="submit">Registrar</button>
+                <button type="button" onclick="window.location.href='/kefa/presentacion'">Regresar</button>
+            </div>
+        </form>
+    </div>
+
     <!--
         This script validates the email input field when it loses focus.
         It checks if the entered email is in a valid format using a regular expression.
@@ -394,8 +340,6 @@
                 alert('La cédula ingresada no es válida.');
                 return false;
             }
-            alert('La cédula es válida.');
-            // Aquí puedes continuar con el envío del formulario o cualquier otra operación.
         }
     </script>
     <!--
@@ -414,12 +358,12 @@
         function validarCelular() {
             var celular = document.getElementById('celular').value;
             var mensajeError = document.getElementById('errorCelular');
-            var patron = /^09[0-9]{8}$/; // Regular expression to validate a phone number
+            var patron = /^09[0-9]{8}$/;
 
             if (!patron.test(celular)) {
-                mensajeError.style.display = 'block'; // Show the error message if the number is invalid
+                mensajeError.style.display = 'block';
             } else {
-                mensajeError.style.display = 'none'; // Hide the error message if the number is valid
+                mensajeError.style.display = 'none';
             }
         }
     </script>
@@ -493,7 +437,6 @@
             });
         });
     </script>
-    <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 </body>
 
 </html>

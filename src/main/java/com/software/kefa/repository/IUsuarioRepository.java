@@ -9,5 +9,6 @@ public interface IUsuarioRepository {
     public Usuario seleccionarPorCedula (String cedula);
     public Usuario seleccionarPorNickname (String nickname);
     public Usuario seleccionarPorContrasenia (String contrasenia);
+    public Usuario seleccionarPorEmail (String email);
     public UsuarioPerfilDTO seleccionarInformacion (String nickname);
 }

@@ -63,7 +63,7 @@ public class UsuarioServiceImple implements IUsuarioService {
             throw new IllegalArgumentException("Las contraseñas no coinciden");
         }
         Usuario usuario = new Usuario();
-        usuario.setApellido(usuarioTO.getApellido());
+        usuario.setApellido(usuarioTO.getNombreYApellido());
         usuario.setCedula(usuarioTO.getCedula());
 
         // Encriptación de contraseña del usuario
@@ -73,9 +73,9 @@ public class UsuarioServiceImple implements IUsuarioService {
         usuario.setCorreoElectronico(usuarioTO.getCorreoElectronico());
         usuario.setGenero(usuarioTO.getGenero());
         usuario.setNickname(usuarioTO.getNickname());
-        usuario.setNombre(usuarioTO.getNombre());
+        usuario.setNombre(usuarioTO.getNombreYApellido());
 
-        // Encriptacion de Preguntas de Seguridad
+        // Encriptacion de Respuestas de Seguridad
         String encriptadaPreDos = passwordEncoder.encode(usuarioTO.getPreguntaDos());
         usuario.setPreguntaDos(encriptadaPreDos);
         String encriptadaPreTres = passwordEncoder.encode(usuarioTO.getPreguntaTres());
@@ -142,6 +142,12 @@ public class UsuarioServiceImple implements IUsuarioService {
         return usuario != null;
     }
 
+    /**
+        * Checks if a user with the given nickname exists.
+        *
+        * @param nickname the nickname of the user to check
+        * @return true if a user with the given nickname exists, false otherwise
+        */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public boolean existeUsuarioNickname(String nickname) {
@@ -149,12 +155,24 @@ public class UsuarioServiceImple implements IUsuarioService {
         return usuario != null;
     }
 
+    /**
+        * Busca un usuario por su nickname.
+        *
+        * @param nickname el nickname del usuario a buscar
+        * @return el usuario encontrado, o null si no se encuentra ninguno con el nickname dado
+        */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public Usuario buscarPorNickname(String nickname) {
         return this.repositoryImpl.seleccionarPorNickname(nickname);
     }
 
+    /**
+     * Busca la información de un usuario por su nickname.
+     *
+     * @param nickname el nickname del usuario a buscar
+     * @return un objeto UsuarioPerfilDTO que contiene la información del usuario
+     */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public UsuarioPerfilDTO buscarInformacion(String nickname) {
@@ -206,4 +224,75 @@ public class UsuarioServiceImple implements IUsuarioService {
 
     }
 
+    /**
+        * Busca un usuario por su dirección de correo electrónico.
+        *
+        * @param email la dirección de correo electrónico del usuario a buscar
+        * @return el usuario encontrado, o null si no se encuentra ninguno con el correo electrónico especificado
+        */
+    @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
+    public Usuario buscarPorEmail(String email) {
+        return this.repositoryImpl.seleccionarPorEmail(email);
+    }
+
+    /**
+     * Validates the password recovery process for a given email and user information.
+     *
+     * @param email The email of the user.
+     * @param usuarioTO The user information containing the answers to security questions.
+     * @return True if the answers to the security questions are correct, false otherwise.
+     * @throws MensajeExisteExcepcion If the user email does not exist.
+     * @throws IllegalArgumentException If any of the answers to the security questions is incorrect.
+     */
+    @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
+    public boolean validarRecuperarContrasenia(String email, UsuarioRegistroTO usuarioTO) {
+        Usuario usuario = this.buscarPorEmail(email);
+
+        if (usuario == null) {
+            throw new MensajeExisteExcepcion("El email del usuario no existe");
+        }
+        if (!passwordEncoder.matches(usuarioTO.getPreguntaUno(), usuario.getPreguntaUno())) {
+            throw new IllegalArgumentException("La respuesta a la pregunta de seguridad 1 es incorrecta");
+        }
+        if (!passwordEncoder.matches(usuarioTO.getPreguntaDos(), usuario.getPreguntaDos())) {
+            throw new IllegalArgumentException("La respuesta a la pregunta de seguridad 2 es incorrecta");
+        }
+        if (!passwordEncoder.matches(usuarioTO.getPreguntaTres(), usuario.getPreguntaTres())) {
+            throw new IllegalArgumentException("La respuesta a la pregunta de seguridad 3 es incorrecta");
+        }
+
+        return true;
+    }
+
+    /**
+     * Recovers the password for a user with the given email.
+     * 
+     * @param email The email of the user.
+     * @param usuarioTO The UsuarioRegistroTO object containing the new password.
+     * @throws MensajeExisteExcepcion If the email does not exist.
+     * @throws IllegalArgumentException If the passwords do not match.
+     * @throws MensajeExisteExcepcion If the password update fails.
+     */
+    @Override
+    @Transactional(value = TxType.REQUIRES_NEW)
+    public void recuperarContrasenia(String email, UsuarioRegistroTO usuarioTO) {
+        Usuario usuario = this.buscarPorEmail(email);
+        if (usuario == null) {
+            throw new MensajeExisteExcepcion("El email del usuario no existe");
+        }
+
+        if (!usuarioTO.getConstrasenia().equals(usuarioTO.getConstraseniaRepetir())) {
+            throw new IllegalArgumentException("Las contraseñas no coinciden");
+        }
+
+        try {
+                usuario.setConstrasenia(passwordEncoder.encode(usuarioTO.getConstrasenia()));
+                this.actualizar(usuario);
+        } catch (MensajeExisteExcepcion e) {
+            throw new MensajeExisteExcepcion("No se pudo actualizar la contraseña");
+        }
+
+    }
 }

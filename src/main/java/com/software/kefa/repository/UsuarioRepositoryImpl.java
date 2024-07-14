@@ -46,6 +46,7 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
     }
 
     @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
     public Usuario seleccionarPorNickname(String nickname) {
         try {
             TypedQuery<Usuario> query = this.entityManager
@@ -59,6 +60,7 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
     }
 
     @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
     public Usuario seleccionarPorContrasenia(String contrasenia) {
         TypedQuery<Usuario> query = this.entityManager
                 .createQuery("SELECT u FROM Usuario u WHERE u.contrasenia= :contrasenia", Usuario.class);
@@ -67,6 +69,7 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
     }
 
     @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
     public UsuarioPerfilDTO seleccionarInformacion(String nickname) {
         TypedQuery<UsuarioPerfilDTO> myQuery = this.entityManager.createQuery(
                 "SELECT NEW com.software.kefa.repository.modelo.modelosdto.UsuarioPerfilDTO (u.nombre, u.apellido, u.cedula, u.correoElectronico, u.telefono, u.genero, u.ubicacion.codigoPostal, u.ubicacion.ciudad, u.ubicacion.provincia, u.ubicacion.direccion, u.nickname) FROM Usuario u WHERE u.nickname = :nickname",
@@ -75,4 +78,14 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
         return myQuery.getSingleResult();
     }
 
+    @Override
+    @Transactional(value = TxType.NOT_SUPPORTED)
+    public Usuario seleccionarPorEmail(String email) {
+        try {
+            return this.entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correoElectronico = :email",
+                    Usuario.class).setParameter("email", email).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

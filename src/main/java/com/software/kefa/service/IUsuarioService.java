@@ -16,5 +16,8 @@ public interface IUsuarioService {
     public UsuarioPerfilDTO buscarInformacion(String nickname);
     public void iniciarSesion(String nickname, String contrasenia);
     public void cerrarSesion(String nickname);
+    public Usuario buscarPorEmail (String email);
+    public boolean validarRecuperarContrasenia(String email, UsuarioRegistroTO usuarioTO);
+    public void recuperarContrasenia(String email, UsuarioRegistroTO usuarioTO);
 
 }

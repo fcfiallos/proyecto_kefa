@@ -2,8 +2,7 @@ package com.software.kefa.service.modelosto;
 
 public class UsuarioRegistroTO {
     private String nickname;
-    private String nombre;
-    private String apellido;
+    private String nombreYApellido;
     private String cedula;
     private String genero;
     private String telefono;
@@ -22,13 +21,12 @@ public class UsuarioRegistroTO {
         
     }
 
-    public UsuarioRegistroTO(String nickname, String nombre, String apellido, String cedula, String genero,
+    public UsuarioRegistroTO(String nickname, String nombreyApellido, String cedula, String genero,
             String telefono, String correoElectronico, String constrasenia, String constraseniaRepetir,
             String preguntaUno, String preguntaDos, String preguntaTres, String codigoPostal, String ciudad,
             String provincia, String direccion) {
         this.nickname = nickname;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.nombreYApellido = nombreyApellido;
         this.cedula = cedula;
         this.genero = genero;
         this.telefono = telefono;
@@ -54,20 +52,12 @@ public class UsuarioRegistroTO {
         this.nickname = nickname;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreYApellido() {
+        return nombreYApellido;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setNombreYApellido(String nombre) {
+        this.nombreYApellido = nombre;
     }
 
     public String getCedula() {
