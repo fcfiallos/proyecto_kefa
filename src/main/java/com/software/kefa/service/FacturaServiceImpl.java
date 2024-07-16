@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.IFacturaRepository;
+import com.software.kefa.repository.INotificacionRepository;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.CarritoCompra;
 import com.software.kefa.repository.modelo.Factura;
+import com.software.kefa.repository.modelo.Notificacion;
 import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.repository.modelo.Usuario;
 
@@ -25,6 +27,9 @@ public class FacturaServiceImpl implements IFacturaService {
 
     @Autowired
     private IUsuarioRepository usuarioRepository;
+
+    @Autowired
+    private INotificacionRepository notificacionRepository;
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
@@ -79,6 +84,13 @@ public class FacturaServiceImpl implements IFacturaService {
 
         Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
         factura.setUsuario(usuario);
+
+        Notificacion notificacion = new Notificacion();
+        notificacion.setFecha(LocalDateTime.now());
+        notificacion.setMensaje("Se ha generado una nueva factura con número " + numeroFactura);
+        notificacion.setTipo("Factura");
+        notificacion.setUsuario(usuario);
+        this.notificacionRepository.insertar(notificacion);
 
         this.facturaRepository.insertar(factura);
         return factura;

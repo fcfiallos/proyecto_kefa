@@ -16,6 +16,8 @@ import com.software.kefa.repository.modelo.Promocion;
 import com.software.kefa.service.IPromocionService;
 import com.software.kefa.service.modelosto.PromocionTO;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/kefa")
 public class ControllerPromocion {
@@ -37,12 +39,13 @@ public class ControllerPromocion {
     }
 
     @PostMapping("/promocion/formulario_nueva_promocion/crear")
-    String crearPromocion(@ModelAttribute("promocion") PromocionTO promocionTO, Model model) {
+    String crearPromocion(@ModelAttribute("promocion") PromocionTO promocionTO, Model model, HttpSession session) {
         Predicate<PromocionTO> promocionValida = promocion -> !promocion.getDescuento().isEmpty()
                 && !promocion.getTipo().isEmpty();
         if (promocionValida.test(promocionTO)) {
             try {
-                promocionService.guardar(promocionTO);
+                String nickname = (String) session.getAttribute("nickname");
+                promocionService.guardar(promocionTO, nickname);
                 return "redirect:/kefa/promocion";
             } catch (MensajeExisteExcepcion e) {
                 model.addAttribute("error", e.getMessage());
@@ -50,7 +53,7 @@ public class ControllerPromocion {
             }
         } else {
             model.addAttribute("error",
-                    "Validación de la promocion fallo.");
+                    "Validación de la promoción fallo.");
             return "formulario_promocion";
         }
 

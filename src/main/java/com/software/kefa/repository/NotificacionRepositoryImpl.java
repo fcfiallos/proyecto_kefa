@@ -1,5 +1,7 @@
 package com.software.kefa.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.software.kefa.repository.modelo.Notificacion;
@@ -11,10 +13,10 @@ import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional
-public class NotificacionRepositoryImpl implements INotificacionRepository{
+public class NotificacionRepositoryImpl implements INotificacionRepository {
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     @Override
     @Transactional(value = Transactional.TxType.MANDATORY)
     public void insertar(Notificacion notificacion) {
@@ -37,11 +39,17 @@ public class NotificacionRepositoryImpl implements INotificacionRepository{
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
     public Notificacion seleccionarPorId(Integer id) {
         try {
-            return this.entityManager.find(Notificacion.class, id); 
+            return this.entityManager.find(Notificacion.class, id);
         } catch (NoResultException e) {
             return null;
         }
-       
+
+    }
+
+    @Override
+    @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
+    public List<Notificacion> seleccionarTodo() {
+        return this.entityManager.createQuery("SELECT n FROM Notificacion n", Notificacion.class).getResultList();
     }
 
 }
