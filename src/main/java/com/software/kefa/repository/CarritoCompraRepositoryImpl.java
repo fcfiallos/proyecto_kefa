@@ -78,11 +78,20 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository{
         }
     }
 
-	@Override
+    @Override
     @Transactional(value = Transactional.TxType.MANDATORY)
-	public void eliminar(CarritoCompra carritoCompra) {
-        this.entityManager.remove(carritoCompra);
-	}
+    public void eliminar(Integer id) {
+       try {
+        CarritoCompra carritoCompra = this.seleccionarPorId(id);
+        if (carritoCompra != null) {
+            this.entityManager.remove(carritoCompra);
+        }
+       } catch (Exception e) {
+              e.printStackTrace();
+       }
+    }
+
+	
 
 }
 

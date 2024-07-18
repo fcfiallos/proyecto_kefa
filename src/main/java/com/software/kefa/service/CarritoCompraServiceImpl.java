@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.ICarritoCompraRepository;
 import com.software.kefa.repository.IDetalleOrdenRepository;
 import com.software.kefa.repository.IProductoRepository;
@@ -55,20 +56,65 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
         return this.carritoCompraRepository.seleccionarTodo(idCarritoCompra);
     }
 
+    /*
+     * @Override
+     * 
+     * @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+     * public CarritoCompra agregarProductoAlCarrito(Integer productoId, String
+     * nickname,
+     * Integer cantidad, CarritoCompra carritoCompra) {
+     * Producto producto = this.productoRepository.seleccionarPorId(productoId);
+     * Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
+     * if (usuario == null) {
+     * throw new MensajeExisteExcepcion("El usuario no existe");
+     * }
+     * carritoCompra = usuario.getCarritoCompra();
+     * 
+     * /*if (carritoCompra.getId() == null) {
+     * //carritoCompra = new CarritoCompra();
+     * carritoCompra.setFechaSeleccionada(LocalDateTime.now());
+     * carritoCompra.setUsuario(usuario);
+     * carritoCompra.setCantidad(cantidad);
+     * carritoCompraRepository.insertar(carritoCompra);
+     * }
+     * if (carritoCompra == null) {
+     * carritoCompra = new CarritoCompra();
+     * carritoCompra.setFechaSeleccionada(LocalDateTime.now());
+     * carritoCompra.setUsuario(usuario);
+     * carritoCompra.setCantidad(cantidad);
+     * carritoCompraRepository.insertar(carritoCompra);
+     * } else if (carritoCompra.getId() == null) {
+     * carritoCompra.setFechaSeleccionada(LocalDateTime.now());
+     * carritoCompra.setUsuario(usuario);
+     * carritoCompra.setCantidad(cantidad);
+     * carritoCompraRepository.insertar(carritoCompra);
+     * }
+     * 
+     * DetalleOrden detalleOrden = new DetalleOrden();
+     * detalleOrden.setProducto(producto);
+     * detalleOrden.setCantidad(cantidad);
+     * detalleOrden.setCarritoCompra(carritoCompra);
+     * detalleOrdenRepository.insertar(detalleOrden);
+     * return carritoCompra;
+     * }
+     */
+
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public CarritoCompra agregarProductoAlCarrito(Integer productoId, String nickname,
-            Integer cantidad, CarritoCompra carritoCompra) {
+    public CarritoCompra agregarProductoAlCarrito(Integer productoId, String nickname, Integer cantidad,
+            CarritoCompra carritoCompra) {
         Producto producto = this.productoRepository.seleccionarPorId(productoId);
-        Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
-        carritoCompra = usuario.getCarritoCompra();
-        if (carritoCompra == null) {
-            carritoCompra = new CarritoCompra();
-            carritoCompra.setFechaSeleccionada(LocalDateTime.now());
-            carritoCompra.setUsuario(usuario);
-            carritoCompra.setCantidad(cantidad);
-            carritoCompraRepository.insertar(carritoCompra);
+        if (producto == null) {
+            throw new MensajeExisteExcepcion("El producto no existe");
         }
+        Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
+        if (usuario == null) {
+            throw new MensajeExisteExcepcion("El usuario no existe");
+        }
+        if (carritoCompra == null || carritoCompra.getId() == null) {
+            carritoCompra = crearOActualizarCarrito(usuario, cantidad);
+        }
+
         DetalleOrden detalleOrden = new DetalleOrden();
         detalleOrden.setProducto(producto);
         detalleOrden.setCantidad(cantidad);
@@ -77,10 +123,28 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
         return carritoCompra;
     }
 
+    private CarritoCompra crearOActualizarCarrito(Usuario usuario, Integer cantidad) {
+        CarritoCompra carritoCompra = new CarritoCompra();
+        carritoCompra.setFechaSeleccionada(LocalDateTime.now());
+        carritoCompra.setUsuario(usuario);
+        carritoCompra.setCantidad(cantidad);
+        carritoCompraRepository.insertar(carritoCompra);
+        return carritoCompra;
+    }
+
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void eliminar(CarritoCompra carritoCompra) {
-        carritoCompraRepository.eliminar(carritoCompra);
+    public void eliminar(CarritoCompra carritoCompra, Integer id) {
+        try {
+            if (carritoCompra == null) {
+                throw new MensajeExisteExcepcion("No se pudo eliminar el producto seleccionado");
+            }
+            carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == id);
+            carritoCompra.getDetalleOrden().forEach(System.out::println);
+            this.carritoCompraRepository.eliminar(carritoCompra.getId());
+        } catch (MensajeExisteExcepcion e) {
+            throw new MensajeExisteExcepcion("No se pudo eliminar el carrito de compra");
+        }
     }
 
     @Override

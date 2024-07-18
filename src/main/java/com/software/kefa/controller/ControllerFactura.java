@@ -14,7 +14,6 @@ import com.software.kefa.repository.modelo.Factura;
 import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.service.ICarritoCompraService;
 import com.software.kefa.service.IFacturaService;
-import com.software.kefa.service.IOrdenService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,8 +24,6 @@ public class ControllerFactura {
     private IFacturaService facturaService;
     @Autowired
     private ICarritoCompraService carritoCompraService;
-    @Autowired
-    private IOrdenService ordenService;
 
     @GetMapping("/carrito/factura")
     public String redireccionarFactura(HttpSession session, Model model) {
@@ -50,21 +47,14 @@ public class ControllerFactura {
     public String finalizarSesionCarritoOrden(HttpSession session, @ModelAttribute("factura") Factura factura,
             Model model) {
         try {
-            //CarritoCompra carritoCompra = (CarritoCompra) session.getAttribute("miCarrito");
-            //this.carritoCompraService.eliminar(carritoCompra);
+            CarritoCompra carritoCompra = (CarritoCompra) session.getAttribute("miCarrito");
+            this.carritoCompraService.eliminar(carritoCompra, carritoCompra.getId());
             session.removeAttribute("miCarrito");
-
-            //Orden orden = (Orden) session.getAttribute("miOrden");  
-
             session.removeAttribute("miOrden");
             return "redirect:/kefa/lista_categoria_productos";
         } catch (Exception e) {
             model.addAttribute("error", "Error al finalizar la sesión del carrito y la orden");
             return "vista_factura";
-        } finally {
-            session.removeAttribute("miCarrito");
-            session.removeAttribute("miOrden");
-        }
-
+        } 
     }
 }

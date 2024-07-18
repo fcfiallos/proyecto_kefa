@@ -22,34 +22,20 @@ public class ControllerCarritoCompra {
     @Autowired
     private ICarritoCompraService iCarritoCompraService;
 
-    /*private CarritoCompra obtenerCarrito() {
-        // Intenta recuperar el carrito de la sesión
-        CarritoCompra carrito = (CarritoCompra) session.getAttribute("carrito");
-
-        // Si no existe un carrito en la sesión, crea uno nuevo y lo agrega a la sesión
-        if (carrito == null) {
-            carrito = new CarritoCompra();
-            session.setAttribute("carrito", carrito);
-        }
-        return carrito;
-    }*/
-
     @GetMapping("/carrito")
     public String vistaListaCarrito(Model model, HttpSession session) {
         CarritoCompra carrito = (CarritoCompra) session.getAttribute("miCarrito");
         try {
-             if (carrito == null) {
-            carrito = new CarritoCompra(); // O maneja esta situación de manera adecuada
-        }
+            if (carrito == null) {
+                carrito = new CarritoCompra();
+            }
 
-        // Asegúrate de que detalleOrdenes no sea null
-        if (carrito.getDetalleOrden() == null) {
-            carrito.setDetalleOrden(Collections.emptyList()); // O maneja esta situación de manera adecuada
-        } 
+            if (carrito.getDetalleOrden() == null) {
+                carrito.setDetalleOrden(Collections.emptyList());
+            }
         } catch (Exception e) {
             return "redirect:/kefa/lista_categoria_productos";
         }
-       
 
         session.setAttribute("miCarrito", carrito);
 
@@ -60,16 +46,51 @@ public class ControllerCarritoCompra {
     @PostMapping("/carrito/agregar")
     public String agregarProductoAlCarrito(@RequestParam("productoId") Integer productoId, HttpSession session,
             Model model, @RequestParam("cantidad") Integer cantidad) {
-        CarritoCompra miCarrito = new CarritoCompra();
+        /*
+         * CarritoCompra miCarrito = (CarritoCompra) session.getAttribute("miCarrito");
+         * 
+         * if (miCarrito == null) {
+         * miCarrito = new CarritoCompra();
+         * }
+         * 
+         * CarritoCompra miCarrito = new CarritoCompra();
+         */
 
+        CarritoCompra miCarrito = (CarritoCompra) session.getAttribute("miCarrito");
+
+        if (miCarrito == null) {
+            // Intenta recuperar un carrito existente de la base de datos para el usuario
+            // String nickname = (String) session.getAttribute("nickname");
+            miCarrito = iCarritoCompraService.buscarPorId(miCarrito.getId());
+
+            if (miCarrito == null) {
+                // Si no hay un carrito existente, crea uno nuevo
+                miCarrito = new CarritoCompra();
+                // Aquí podrías establecer propiedades adicionales al carrito, como el usuario
+                // asociado
+            }
+        } else {
+            // Si miCarrito ya existe, verifica si necesita ser recuperado de la base de
+            // datos para estar gestionado por Hibernate
+            if (miCarrito.getId() != null) {
+                // Recupera el carrito de la base de datos para asegurarte de que esté
+                // gestionado por Hibernate
+                miCarrito = iCarritoCompraService.buscarPorId(miCarrito.getId());
+            }
+            // Si el carrito no tiene un ID, significa que es nuevo y aún no está
+            // persistido, así que puedes usarlo directamente
+
+        }
         try {
             String nickname = (String) session.getAttribute("nickname");
             miCarrito = iCarritoCompraService.agregarProductoAlCarrito(productoId, nickname, cantidad, miCarrito);
             session.setAttribute("miCarrito", miCarrito);
+            return "redirect:/kefa/lista_categoria_productos";
         } catch (Exception e) {
             model.addAttribute("error", "Error al agregar producto al carrito: " + e.getMessage());
+            e.printStackTrace();
+            return "vista_lista_CarritoCompra";
         }
-        return "redirect:/kefa/lista_categoria_productos";
     }
 
     @PostMapping("/carrito/eliminar/{id}")
@@ -79,9 +100,11 @@ public class ControllerCarritoCompra {
 
         if (carritoCompra.getId() != null) {
             try {
-                carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == id);
-                carritoCompra.getDetalleOrden().forEach(System.out::println);
-                iCarritoCompraService.eliminar(carritoCompra);
+                /*
+                 * carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == id);
+                 * carritoCompra.getDetalleOrden().forEach(System.out::println);
+                 */
+                iCarritoCompraService.eliminar(carritoCompra, id);
             } catch (Exception e) {
                 model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());
             }

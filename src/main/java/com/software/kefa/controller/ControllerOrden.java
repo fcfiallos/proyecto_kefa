@@ -23,14 +23,18 @@ public class ControllerOrden {
     public String redireccionarOrdenPago(HttpSession session, Model model) {
         String nickname = (String) session.getAttribute("nickname");
         CarritoCompra carrito = (CarritoCompra) session.getAttribute("miCarrito");
-        // Orden orden = carrito.getDetalleOrden().get(0).getOrden();
         try {
+            if (carrito == null) {
+                return "redirect:/kefa/lista_categoria_productos";
+            }
+            
             Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
             session.setAttribute("miOrden", orden);
             model.addAttribute("orden", orden);
             return "vista_ordenPago";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
+            session.removeAttribute("miOrden");
             return "redirect:/kefa/carrito";
         } 
     }

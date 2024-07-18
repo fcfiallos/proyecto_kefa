@@ -73,7 +73,9 @@ public class FacturaServiceImpl implements IFacturaService {
         factura.setImpuesto(impuesto);
 
         factura.setTotal(orden.getTotalOrden());
-        factura.setSubtotal(orden.getTotalDetalleOrden());
+
+        BigDecimal subtotal=orden.getTotalOrden().subtract(impuesto);
+        factura.setSubtotal(subtotal);
         factura.setOrden(orden);
 
         long timestamp = System.currentTimeMillis();
@@ -87,7 +89,7 @@ public class FacturaServiceImpl implements IFacturaService {
 
         Notificacion notificacion = new Notificacion();
         notificacion.setFecha(LocalDateTime.now());
-        notificacion.setMensaje("Se ha generado una nueva factura con número " + numeroFactura);
+        notificacion.setMensaje("Se ha generado una nueva factura con número: [" + numeroFactura + "]");
         notificacion.setTipo("Factura");
         notificacion.setUsuario(usuario);
         this.notificacionRepository.insertar(notificacion);

@@ -158,6 +158,7 @@ public class ControllerProducto {
             prodAux.setNombre(producto.getNombre());
             prodAux.setImagen(producto.getImagen());
             prodAux.setDescripcion(producto.getDescripcion());
+            this.iProductoService.actualizar(prodAux);
             return "redirect:/kefa/categoria/" + categoriaId + "/lista_productos";
         } else {
             model.addAttribute("error", "No se actualizaron los datos del producto, intente nuevamente");

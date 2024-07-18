@@ -23,5 +23,5 @@ public interface ICarritoCompraService {
 
     public CarritoCompra agregarProductoAlCarrito(Integer productoId, String nickname, Integer cantidad, CarritoCompra carritoCompra);
 
-    public void eliminar(CarritoCompra carritoCompra);
+    public void eliminar(CarritoCompra carritoCompra, Integer id);
 }

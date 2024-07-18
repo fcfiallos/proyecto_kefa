@@ -63,7 +63,7 @@
         }
 
         /* Media queries for responsiveness */
-        .error-message {
+        .overlay .error-message {
             color: red;
             font-weight: bold;
             margin-bottom: 22px;
@@ -79,14 +79,13 @@
         }
 
 
-        .botones {
+        .overlay .botones {
             display: flex;
             justify-content: center;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            font-size: 16px;
+            
         }
 
-        .botones button {
+        .overlay .botones button {
             flex: 1;
             margin: 0 10px;
             background-color: #002fff;
@@ -95,9 +94,11 @@
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 16px;
         }
 
-        .botones button:hover {
+        .overlay .botones button:hover {
             background-color: #777777;
         }
     </style>
@@ -106,10 +107,11 @@
 <body>
     <div class="overlay">
         <h1>Orden de Pago</h2>
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
             <table>
                 <tbody>
                     <tr>
-                        <td>Codigo de la Orden</td>
+                        <td>Código de la Orden</td>
                         <td th:text="${orden.codigo}"></td>
                     </tr>
                     <tr>
@@ -121,7 +123,7 @@
                         <td th:text="${orden.costoEnvio}"></td>
                     </tr>
                     <tr>
-                        <td>Total Orden</td>
+                        <td>Total de la Orden</td>
                         <td th:text="${orden.totalOrden}"></td>
                     </tr>
 
@@ -148,11 +150,12 @@
                         <td th:text="${detalle.totalProducto}"></td>
                     </tr>
             </table>
+            <div class="botones">
+                <button type="button" onclick="window.location.href='/kefa/carrito'">Volver</button>
+                <button type="button" onclick="window.location.href='/kefa/carrito/metodo_pago'">Metodo de Pago</button>
+            </div>
     </div>
-    <div class="botones">
-        <button type="button" onclick="window.location.href='/kefa/carrito'">Volver</button>
-        <button type="button" onclick="window.location.href='/kefa/carrito/metodo_pago'">Metodo de Pago</button>
-    </div>
+
 </body>
 
 </html>
