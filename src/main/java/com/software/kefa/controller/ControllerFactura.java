@@ -12,9 +12,7 @@ import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.modelo.CarritoCompra;
 import com.software.kefa.repository.modelo.Factura;
 import com.software.kefa.repository.modelo.Orden;
-import com.software.kefa.service.ICarritoCompraService;
 import com.software.kefa.service.IFacturaService;
-import com.software.kefa.service.IOrdenService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,10 +21,10 @@ import jakarta.servlet.http.HttpSession;
 public class ControllerFactura {
     @Autowired
     private IFacturaService facturaService;
-    @Autowired
+    /*@Autowired
     private ICarritoCompraService carritoCompraService;
     @Autowired
-    private IOrdenService ordenService;
+    private IOrdenService ordenService;*/
 
     @GetMapping("/carrito/factura")
     public String redireccionarFactura(HttpSession session, Model model) {
