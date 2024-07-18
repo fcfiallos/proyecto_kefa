@@ -66,10 +66,12 @@ public class ControllerCarritoCompra {
             String nickname = (String) session.getAttribute("nickname");
             miCarrito = iCarritoCompraService.agregarProductoAlCarrito(productoId, nickname, cantidad, miCarrito);
             session.setAttribute("miCarrito", miCarrito);
+            return "redirect:/kefa/lista_categoria_productos";
         } catch (Exception e) {
-            model.addAttribute("error", "Error al agregar producto al carrito: " + e.getMessage());
+            model.addAttribute("error", e.getMessage());
+            e.printStackTrace();
+            return "vista_lista_CarritoCompra";
         }
-        return "redirect:/kefa/lista_categoria_productos";
     }
 
     @PostMapping("/carrito/eliminar/{id}")

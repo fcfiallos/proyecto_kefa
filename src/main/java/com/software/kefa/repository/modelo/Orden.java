@@ -150,4 +150,12 @@ public class Orden {
         this.pago = pago;
     }
 
+    public Envio getEnvio() {
+        return envio;
+    }
+
+    public void setEnvio(Envio envio) {
+        this.envio = envio;
+    }
+
 }

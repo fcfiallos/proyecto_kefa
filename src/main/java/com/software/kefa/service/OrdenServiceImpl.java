@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.IDetalleOrdenRepository;
+import com.software.kefa.repository.IEnvioRepository;
 import com.software.kefa.repository.IOrdenRepository;
 import com.software.kefa.repository.IProductoRepository;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.CarritoCompra;
 import com.software.kefa.repository.modelo.DetalleOrden;
+import com.software.kefa.repository.modelo.Envio;
 import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.repository.modelo.Usuario;
 
@@ -35,6 +37,9 @@ public class OrdenServiceImpl implements IOrdenService {
 
     @Autowired
     private IProductoRepository productoRepository;
+
+    @Autowired
+    private IEnvioRepository envioRepository;
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
@@ -77,15 +82,28 @@ public class OrdenServiceImpl implements IOrdenService {
             totalOrden = totalOrden.add(totalProducto).add(costoEnvio);
         }
 
+        Envio envio = new Envio();
+        envio.setDireccion(usuario.getUbicacion().getDireccion());
+        envio.setEstado("ENVIADO");
+        envio.setFecha(LocalDateTime.now());
+        envio.setTipo("DOMICILIO");
+        envio.setUsuario(usuario);
+
         orden.setFecha(LocalDateTime.now());
         orden.setEstado("PENDIENTE");
         orden.setTotalOrden(totalOrden);
         orden.setTotalDetalleOrden(totalProducto);
         orden.setCostoEnvio(costoEnvio);
+
         String codigoUnico = UUID.randomUUID().toString();
         orden.setCodigo(codigoUnico);
+
         orden.setDetalleOrden(detallesGestionados);
         orden.setUsuario(usuario);
+        envio.setOrden(orden);
+
+        
+        this.envioRepository.insertar(envio);
         ordenRepository.insertar(orden);
 
         return orden;

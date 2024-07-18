@@ -15,6 +15,7 @@ import com.software.kefa.repository.modelo.DetalleOrden;
 import com.software.kefa.repository.modelo.Producto;
 import com.software.kefa.repository.modelo.Usuario;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 /**
@@ -36,6 +37,9 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
 
     @Autowired
     private IDetalleOrdenRepository detalleOrdenRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
@@ -61,14 +65,22 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
             Integer cantidad, CarritoCompra carritoCompra) {
         Producto producto = this.productoRepository.seleccionarPorId(productoId);
         Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
-        carritoCompra = usuario.getCarritoCompra();
+        // Suponiendo que usuario es una instancia desanexada de la entidad Usuario
+Usuario usuarioActualizado = entityManager.merge(usuario);
+        carritoCompra = usuarioActualizado.getCarritoCompra();
+        
+        if (producto == null) {
+            throw new RuntimeException("Producto no encontrado");
+        }
+
         if (carritoCompra == null) {
             carritoCompra = new CarritoCompra();
             carritoCompra.setFechaSeleccionada(LocalDateTime.now());
-            carritoCompra.setUsuario(usuario);
+            carritoCompra.setUsuario(usuarioActualizado);
             carritoCompra.setCantidad(cantidad);
             carritoCompraRepository.insertar(carritoCompra);
         }
+
         DetalleOrden detalleOrden = new DetalleOrden();
         detalleOrden.setProducto(producto);
         detalleOrden.setCantidad(cantidad);

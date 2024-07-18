@@ -25,13 +25,16 @@ public class ControllerOrden {
         CarritoCompra carrito = (CarritoCompra) session.getAttribute("miCarrito");
         // Orden orden = carrito.getDetalleOrden().get(0).getOrden();
         try {
-            Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
-            session.setAttribute("miOrden", orden);
-            model.addAttribute("orden", orden);
+            if (carrito != null) {
+                Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
+                session.setAttribute("miOrden", orden);
+                model.addAttribute("orden", orden);
+            }
             return "vista_ordenPago";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "redirect:/kefa/carrito";
-        } 
+            e.printStackTrace();
+            return "vista_ordenPago";
+        }
     }
 }

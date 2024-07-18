@@ -52,7 +52,7 @@
         }
 
         th {
-            background-color: #808080;
+            background-color: #333333;
             color: white;
         }
 
@@ -106,7 +106,14 @@
 <body>
     <div class="overlay">
         <h1>Orden de Pago</h2>
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
             <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td>Codigo de la Orden</td>
@@ -148,11 +155,12 @@
                         <td th:text="${detalle.totalProducto}"></td>
                     </tr>
             </table>
+            <div class="botones">
+                <button type="button" onclick="window.location.href='/kefa/carrito'">Volver</button>
+                <button type="button" onclick="window.location.href='/kefa/carrito/metodo_pago'">Metodo de Pago</button>
+            </div>
     </div>
-    <div class="botones">
-        <button type="button" onclick="window.location.href='/kefa/carrito'">Volver</button>
-        <button type="button" onclick="window.location.href='/kefa/carrito/metodo_pago'">Metodo de Pago</button>
-    </div>
+    
 </body>
 
 </html>
