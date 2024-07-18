@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.modelo.CarritoCompra;
 import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.service.IOrdenService;
@@ -27,11 +28,13 @@ public class ControllerOrden {
         try {
             if (carrito != null) {
                 Orden orden = ordenPagoService.crearOrdenDePago(nickname, carrito);
-                session.setAttribute("miOrden", orden);
-                model.addAttribute("orden", orden);
+                if (orden != null) {
+                    session.setAttribute("miOrden", orden);
+                    model.addAttribute("orden", orden);
+                }
             }
             return "vista_ordenPago";
-        } catch (Exception e) {
+        } catch (MensajeExisteExcepcion e) {
             model.addAttribute("error", e.getMessage());
             e.printStackTrace();
             return "vista_ordenPago";

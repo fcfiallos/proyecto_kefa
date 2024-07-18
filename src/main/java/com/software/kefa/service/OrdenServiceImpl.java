@@ -44,6 +44,10 @@ public class OrdenServiceImpl implements IOrdenService {
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public Orden crearOrdenDePago(String nickname, CarritoCompra carrito) {
+        if (carrito == null) {
+            throw new MensajeExisteExcepcion("No se puede crear una orden de pago sin un carrito de compra");     
+        }
+
         Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
         carrito = usuario.getCarritoCompra();
         BigDecimal totalOrden = BigDecimal.ZERO;
@@ -51,6 +55,8 @@ public class OrdenServiceImpl implements IOrdenService {
         List<DetalleOrden> detallesGestionados = new ArrayList<>();
         BigDecimal totalProducto = BigDecimal.ZERO;
         Orden orden = new Orden();
+
+        ordenRepository.insertar(orden);
         for (DetalleOrden detalle : carrito.getDetalleOrden()) {
 
             // Verificar si la cantidad producto existe
@@ -102,9 +108,8 @@ public class OrdenServiceImpl implements IOrdenService {
         orden.setUsuario(usuario);
         envio.setOrden(orden);
 
-        
+
         this.envioRepository.insertar(envio);
-        ordenRepository.insertar(orden);
 
         return orden;
     }
