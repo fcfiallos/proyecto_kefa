@@ -6,62 +6,60 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Carrito de Compra</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link href="dist/output.css" rel="stylesheet">
     <style>
-        /* General styles */
         body {
-            font-family: Arial, sans-serif;
-            background: url('https://th.bing.com/th/id/OIG1.8Yhevps.BoYg35rG0nN6?w=1024&h=1024&rs=1&pid=ImgDetMain');
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-image: linear-gradient(#fc3d9c71, rgba(220, 129, 248, 0.5), #fd68b271);
             color: #333333;
             margin: 0;
             padding: 0;
             background-size: cover;
         }
 
-        .overlay {
-            background: rgba(255, 255, 255, 0.8);
+        .carrito {
+            background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 50px auto;
-            width: 80%;
-            max-width: 800px;
+            width: auto;
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
         }
 
-        h1 {
+        .contenedor-titulo-imagen {
+            display: flex;
+            /* Activa Flexbox */
+            align-items: center;
+            /* Centra los elementos verticalmente */
+            justify-content: center;
+            /* Centra los elementos horizontalmente */
+            gap: 1px;
+            /* Añade espacio entre el título y la imagen */
+        }
+
+        .contenedor-titulo-imagen h1{
+            color: #333;
+            font-size: 40px;
             text-align: center;
-            color: #009975;
-            font-family: 'Arial Black', sans-serif;
-            margin-top: 30px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+       .contenedor-titulo-imagen img{
+            width: 100px;
+            height: 50px;
+            max-width: 100%;
+            height: auto;
+            display: block;
             margin: 20px 0;
+            border-radius: 5px;
         }
 
-        th,
-        td {
-            padding: 12px;
-            text-align: left;
+        p {
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
         }
 
-        th {
-            background-color: #30d5c8;
-            color: #333333;
-            font-family: 'Arial Black', sans-serif;
-        }
-
-        td {
-            background-color: #94bbb8;
-            color: #615f5f;
-            border-bottom: 1px solid #ddd;
-        }
-
-        /* Media queries for responsiveness */
         .error-message {
             color: red;
             font-weight: bold;
@@ -69,102 +67,122 @@
             text-align: center;
         }
 
+        .producto {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            width: auto;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
 
-        .mensaje-message {
-            color: greenyellow;
-            font-weight: bold;
-            margin-bottom: 22px;
-            text-align: center;
+        .producto-imagen {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .producto-info {
+            flex-grow: 1;
+        }
+
+        .producto-info p {
+            text-align: left;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        .producto-nombre,
+        .producto-cantidad,
+        .producto-precio {
+            margin: 0;
+            padding: 2px 0;
+        }
+
+        .producto-eliminar {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .producto-eliminar:hover {
+            background-color: #cc0000;
+        }
+
+        .btn {
+
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary {
+            background-color: #0400fc;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .d-grid .btn {
+            width: 100%;
+            margin-bottom: 10px;
         }
 
         @media (max-width: 768px) {
-            .overlay {
-                width: 90%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .overlay {
-                width: 100%;
-            }
-
-            th,
-            td {
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            td {
-                margin-bottom: 16px;
-            }
-
-            button {
-                width: 100%;
-                padding: 12px;
-                font-size: 16px;
+            .d-grid .btn {
+                padding: 15px 20px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="overlay">
-        <h1>Carrito de Compra</h1>
+    <div class="carrito">
+        <div class="contenedor-titulo-imagen">
+            <img src="../static/img/carrito_logo.png" th:src="@{/img/carrito_logo.png}" alt="Logo">
+           <h1>Carrito de Compra</h1> 
+        </div>
+        
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <!--<div id="mensajeError" class="error-message" style="display: none;">
             No se pudo generar la orden de pago. Por favor, inténtalo de nuevo.
         </div>-->
         <div th:if="${#lists.isEmpty(carrito)}">
-            <p>No hay productos en tu lista de deseos.</p>
+            <p>No hay productos en carrito de Compra.</p>
         </div>
         <div th:if="${not #lists.isEmpty(carrito)}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="detalle:${carrito.detalleOrden}">
-                        <td th:text="${detalle.producto.nombre}"></td>
-                        <td th:text="${detalle.cantidad}"></td>
-                        <td>
-                            <form th:action="@{/kefa/carrito/eliminar/{id}(id=${detalle.id})}" th:method="post">
-                                <input type="hidden" id="id" name="id" th:value="${detalle.id}" />
-                                <button type="submit" class="btn btn-outline-secondary">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="producto" th:each="detalle:${carrito.detalleOrden}">
+                <img th:src="@{${detalle.producto.imagen}}" alt="Producto" class="producto-imagen">
+                <div class="producto-info">
+                    <h4 class="producto-nombre" th:text="'Nombre del Producto: ' + ${detalle.producto.nombre}">Nombre
+                        del Producto: ----------</h4>
+                    <p class="producto-cantidad" th:text="'Cantidad:' + ${detalle.cantidad}">Cantidad: ----------</p>
+                    <p class="producto-precio" th:text="'Precio: ' + ${detalle.producto.precio}">Precio: ----------</p>
+                </div>
+                <form th:action="@{/kefa/carrito/eliminar/{id}(id=${detalle.id})}" th:method="post">
+                    <input type="hidden" id="id" name="id" th:value="${detalle.id}" />
+                    <button type="submit" class="producto-eliminar">Eliminar</button>
+                </form>
+            </div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="button" class="btn btn-secondary"
+                onclick="window.location.href='/kefa/carrito/ordenPago'">Orden de Pago</button>
+            <button type="button" class="btn btn-secondary"
+                onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
         </div>
     </div>
-    <div class="d-grid gap-2 col-6 mx-auto">
-        <button type="button" class="btn btn-secondary"
-            onclick="window.location.href='/kefa/carrito/ordenPago'">Orden de
-            Pago</button>
-        <button type="button" class="btn btn-secondary"
-            onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
-    </div>
-
-    <!-- <script>
-        function intentarGenerarOrdenPago() {
-            // Simula la lógica para generar la orden de pago
-            // Por ejemplo, una petición a un servidor o una verificación de condiciones
-            var pudoGenerarOrden = false; // Cambia esto según la lógica de tu aplicación
-        
-            if (!pudoGenerarOrden) {
-                // Si no se pudo generar la orden, muestra el mensaje de error
-                document.getElementById('mensajeError').style.display = 'block';
-            } else {
-                // Aquí iría la lógica para redirigir al usuario o realizar otra acción en caso de éxito
-                window.location.href = '/kefa/carrito/ordenPago';
-            }
-        }
-        </script>-->
 </body>
 
 </html>
