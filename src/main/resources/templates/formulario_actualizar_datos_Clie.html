@@ -166,11 +166,14 @@
                 </tr>
                 <tr>
                     <td><label>Correo Electrónico</label></td>
-                    <td><input type="text" th:field="${usuario.correoElectronico}"></td>
+                    <td><input type="text" id="email" th:field="${usuario.correoElectronico}"></td>
                 </tr>
                 <tr>
-                    <td><label>Teléfono</label></td>
-                    <td><input type="text" th:field="${usuario.telefono}"></td>
+                    <td><label>Celular</label></td>
+                    <td><input type="text" id="celular" th:field="${usuario.telefono}" pattern="09[0-9]{8}"
+                            title="Ingrese un número de celular válido. Ejemplo: 0996006155" onblur="validarCelular()">
+                        <span id="errorCelular" style="color:red; display:none;">Número de celular no válido.</span>
+                    </td>
                 </tr>
                 <tr>
                     <td><label>Género</label></td>
@@ -184,7 +187,30 @@
             </div>
         </form>
     </div>
+    <script>
+        const emailInput = document.getElementById('email');
+        emailInput.addEventListener('blur', function () {
+            const email = emailInput.value;
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!regex.test(email)) {
+                alert('Por favor, ingresa un correo electrónico válido.');
+            }
+        });
+    </script>
 
+    <script>
+        function validarCelular() {
+            var celular = document.getElementById('celular').value;
+            var mensajeError = document.getElementById('errorCelular');
+            var patron = /^09[0-9]{8}$/;
+
+            if (!patron.test(celular)) {
+                mensajeError.style.display = 'block';
+            } else {
+                mensajeError.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>

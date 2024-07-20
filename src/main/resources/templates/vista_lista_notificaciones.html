@@ -8,29 +8,64 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
             background-image: linear-gradient(rgba(161, 84, 206, 0.5), rgba(207, 83, 155, 0.5));
         }
 
         .content {
-            max-width: 600px;
+            max-width: 750px;
             margin: auto;
             background: white;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .content .contenedor-titulo-imagen {
+            display: flex;
+            /* Activa Flexbox */
+            align-items: center;
+            /* Centra los elementos verticalmente */
+            justify-content: center;
+            /* Centra los elementos horizontalmente */
+            gap: 1px;
+            /* Añade espacio entre el título y la imagen */
+        }
+
+        .content .contenedor-titulo-imagen h1 {
+            color: #333;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        .content .contenedor-titulo-imagen img {
+            width: 100px;
+            height: 50px;
+            max-width: 100%;
+            /* Asegura que la imagen sea responsiva y no exceda el ancho de su contenedor */
+            height: auto;
+            /* Mantiene la proporción de la imagen al ajustar el ancho */
+            display: block;
+            /* Elimina cualquier espacio extra debajo de la imagen */
+            margin: 20px 0;
+            /* Añade un margen superior e inferior para separar la imagen de otros elementos */
+            border-radius: 5px;
+            /* Opcional: Añade bordes redondeados a la imagen */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+
         }
 
         table,
         th,
         td {
-            border: 1px solid #ddd;
+            border: 1.5px solid #ddd;
+
         }
 
         th,
@@ -40,8 +75,8 @@
         }
 
         th {
-            background-color: #d494f8;
-            color: white;
+            background-color: #94f8be;
+            color: rgb(73, 73, 73);
         }
 
         tr:nth-child(even) {
@@ -49,7 +84,7 @@
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #5f24ff;
             color: white;
             padding: 10px 20px;
             margin-top: 20px;
@@ -58,12 +93,18 @@
             cursor: pointer;
         }
 
+        button:hover {
+            background-color: #696969;
+        }
     </style>
 </head>
 
 <body>
     <div class='content'>
-        <h1>Notificaciones</h1>
+        <div class="contenedor-titulo-imagen">
+            <img src="../static/img/notificaciones.png" th:src="@{/img/notificaciones.png}" alt="Logo">
+            <h1>Notificaciones</h1>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -83,4 +124,5 @@
         <button type="button" onclick="window.location.href='/kefa/lista_categoria_productos'">Volver</button>
     </div>
 </body>
+
 </html>

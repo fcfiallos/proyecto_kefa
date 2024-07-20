@@ -20,21 +20,17 @@
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            width: auto;
+            width: 900px;
             display: flex;
             flex-direction: column;
-            margin: 20px;
+            margin: 20px auto;
         }
 
         .contenedor-titulo-imagen {
             display: flex;
-            /* Activa Flexbox */
             align-items: center;
-            /* Centra los elementos verticalmente */
             justify-content: center;
-            /* Centra los elementos horizontalmente */
             gap: 1px;
-            /* Añade espacio entre el título y la imagen */
         }
 
         .contenedor-titulo-imagen h1{
@@ -70,8 +66,8 @@
         .producto {
             display: flex;
             align-items: center;
-            border-bottom: 1px solid #ccc;
-            width: auto;
+            border-bottom: 3px solid #ccc;
+            width: 100%;
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
@@ -101,9 +97,10 @@
         }
 
         .producto-eliminar {
-            background-color: #ff4444;
+            background-color: #990000;
             color: white;
             border: none;
+            width: 100%;
             border-radius: 5px;
             padding: 10px 20px;
             cursor: pointer;
@@ -111,11 +108,10 @@
         }
 
         .producto-eliminar:hover {
-            background-color: #cc0000;
+            background-color: #525252;
         }
 
         .btn {
-
             padding: 10px 20px;
             border: none;
             cursor: pointer;
@@ -152,12 +148,8 @@
         <div class="contenedor-titulo-imagen">
             <img src="../static/img/carrito_logo.png" th:src="@{/img/carrito_logo.png}" alt="Logo">
            <h1>Carrito de Compra</h1> 
-        </div>
-        
+        </div>        
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <!--<div id="mensajeError" class="error-message" style="display: none;">
-            No se pudo generar la orden de pago. Por favor, inténtalo de nuevo.
-        </div>-->
         <div th:if="${#lists.isEmpty(carrito)}">
             <p>No hay productos en carrito de Compra.</p>
         </div>

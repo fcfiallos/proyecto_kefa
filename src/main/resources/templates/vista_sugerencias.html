@@ -24,17 +24,37 @@
         .overlay {
             background-color: rgba(255, 255, 255, 0.9);
             padding: 30px;
-            max-width: 900px;
+            width: 1000px;
             margin: 20px auto;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         }
 
-        .content h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
+        .overlay .contenedor-titulo-imagen {
+            display: flex;
+            /* Activa Flexbox */
+            align-items: center;
+            /* Centra los elementos verticalmente */
+            justify-content: center;
+            /* Centra los elementos horizontalmente */
+            gap: 1px;
+            /* Añade espacio entre el título y la imagen */
+        }
+
+        .overlay .contenedor-titulo-imagen h1 {
+            color: #333;
+            font-size: 30px;
             text-align: center;
-            color: #3498db;
+        }
+
+        .overlay .contenedor-titulo-imagen img {
+            width: 100px;
+            height: 50px;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+            border-radius: 5px;
         }
 
         .table-container {
@@ -64,8 +84,8 @@
         }
 
         .table-container th {
-            background-color: #2980b9;
-            color: white;
+            background-color: #2b6b30;
+            color: rgb(255, 255, 255);
         }
 
         .table-container td {
@@ -75,8 +95,9 @@
 
         .table-container button {
             padding: 8px 16px;
+            width: 100%;
             border: none;
-            background-color: #3498db;
+            background-color: #12777a;
             color: white;
             cursor: pointer;
             border-radius: 5px;
@@ -84,7 +105,7 @@
         }
 
         .table-container button:hover {
-            background-color: #e395f7;
+            background-color: #838383;
         }
 
         .button-container {
@@ -95,7 +116,7 @@
         .button-container button {
             padding: 10px 20px;
             border: none;
-            background-color: #504e4e;
+            background-color: #0004ff;
             color: white;
             cursor: pointer;
             border-radius: 5px;
@@ -103,7 +124,7 @@
         }
 
         .button-container button:hover {
-            background-color: #ff9dc6;
+            background-color: #707070;
         }
     </style>
     <title>Preguntas Frecuentes</title>
@@ -111,35 +132,36 @@
 
 <body>
     <div class="overlay">
-        <div class="content">
+        <div class="contenedor-titulo-imagen">
+            <img src="../static/img/preguntas.png" th:src="@{/img/preguntas.png}" alt="Logo">
             <h1>Preguntas Frecuentes</h1>
-            <div class="table-container">
-                <table>
-                    <tr>
-                        <th>Categoría</th>
-                        <th>Pregunta</th>
-                        <th>Respuesta</th>
-                        <th>Fecha Creada</th>
-                        <th>Acción</th>
-                    </tr>
-                    <tr th:each="preguntaFrecuente:${preguntasFrecuentes}">
-                        <td th:text="${preguntaFrecuente.categoria}"></td>
-                        <td th:text="${preguntaFrecuente.pregunta}"></td>
-                        <td th:text="${preguntaFrecuente.respuesta}"></td>
-                        <td th:text="${preguntaFrecuente.fecha_creacion}"></td>
-                        <td>
-                            <form
-                                th:action="@{/kefa/formulario_actualizar_sugerencia/{codigo}(codigo = ${preguntaFrecuente.id})}"
-                                th:method="GET">
-                                <button type="submit">Editar</button>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-                <div class="button-container">
-                    <button type="button"
-                        onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
-                </div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Pregunta</th>
+                    <th>Respuesta</th>
+                    <th>Fecha Creada</th>
+                    <th>Acción</th>
+                </tr>
+                <tr th:each="preguntaFrecuente:${preguntasFrecuentes}">
+                    <td th:text="${preguntaFrecuente.categoria}"></td>
+                    <td th:text="${preguntaFrecuente.pregunta}"></td>
+                    <td th:text="${preguntaFrecuente.respuesta}"></td>
+                    <td th:text="${preguntaFrecuente.fecha_creacion}"></td>
+                    <td>
+                        <form
+                            th:action="@{/kefa/formulario_actualizar_sugerencia/{codigo}(codigo = ${preguntaFrecuente.id})}"
+                            th:method="GET">
+                            <button type="submit">Editar</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <div class="button-container">
+                <button type="button" onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
             </div>
         </div>
     </div>
