@@ -41,6 +41,14 @@ public class OrdenServiceImpl implements IOrdenService {
     @Autowired
     private IEnvioRepository envioRepository;
 
+    /**
+     * Creates an order of payment for a given user and shopping cart.
+     *
+     * @param nickname The nickname of the user.
+     * @param carrito The shopping cart containing the items to be ordered.
+     * @return The created order of payment.
+     * @throws MensajeExisteExcepcion If the shopping cart is null or if there is insufficient stock for a product.
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public Orden crearOrdenDePago(String nickname, CarritoCompra carrito) {
@@ -114,8 +122,13 @@ public class OrdenServiceImpl implements IOrdenService {
         return orden;
     }
 
+    /**
+     * Calculates the total price of a product in an order, taking into account the quantity, base price, discount, and tax.
+     * 
+     * @param detalle The order detail containing the product, quantity, discount, and tax information.
+     * @return The total price of the product, including any applicable taxes.
+     */
     private BigDecimal calcularTotalProducto(DetalleOrden detalle) {
-        // detalle = this.detalleOrdenRepository.seleccionarPorIdCarrito(carritoId);
         BigDecimal precioBase = detalle.getProducto().getPrecio().multiply(new BigDecimal(detalle.getCantidad()));
         BigDecimal descuento = detalle.getDescuento() != null ? detalle.getDescuento() : BigDecimal.ZERO;
         BigDecimal precioConDescuento = precioBase.subtract(descuento);
@@ -132,13 +145,6 @@ public class OrdenServiceImpl implements IOrdenService {
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(Orden orden) {
-        /*
-         * if (orden.getDetalleOrden() != null) {
-         * for (DetalleOrden detalle : orden.getDetalleOrden()) {
-         * detalle.setOrden(orden); // Establece la relación bidireccional
-         * }
-         * }
-         */
         this.ordenRepository.insertar(orden);
     }
 
@@ -154,16 +160,5 @@ public class OrdenServiceImpl implements IOrdenService {
         return this.ordenRepository.seleccionarPorId(id);
     }
 
-    @Override
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public Orden buscarTodo() {
-        return this.ordenRepository.seleccionarTodo();
-    }
-
-    @Override
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public Orden buscarPorCodigo(String codigo) {
-        return this.ordenRepository.seleccionarPorCodigo(codigo);
-    }
 
 }
