@@ -25,7 +25,7 @@ public class Comentario {
     private String comentario;
 
     @Column(name = "come_fecha_publicacion")
-    private LocalDateTime fecha_publicacion;
+    private LocalDateTime fechaPublicacion;
 
     @ManyToOne
     @JoinColumn(name = "come_id_usuario")
@@ -47,12 +47,12 @@ public class Comentario {
         this.comentario = comentario;
     }
 
-    public LocalDateTime getFecha_publicacion() {
-        return fecha_publicacion;
+    public LocalDateTime getFechaPublicacion() {
+        return fechaPublicacion;
     }
 
-    public void setFecha_publicacion(LocalDateTime fecha_publicacion) {
-        this.fecha_publicacion = fecha_publicacion;
+    public void setFechaPublicacion(LocalDateTime fecha_publicacion) {
+        this.fechaPublicacion = fecha_publicacion;
     }
 
     public Usuario getUsuario() {

@@ -117,37 +117,45 @@
         <div th:if="${mensajeExito}" class="mensaje-exito">
             <p th:text="${mensajeExito}"></p>
         </div>
-        <form class="form-section" th:action="@{/kefa/formulario_otros_servicios/añadir_comentario}" th:object="${otroTO}" th:method="POST">
-            <h2>Comentario</h2>
-            <div class="form-group">
-                <label for="comentario">Comentario:</label>
-                <textarea type="text" id="comentario" rows="4" th:value="${otroTO.comentario}"></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit">Enviar</button>
-            </div>
-        </form>
 
-        <form class="form-section" th:action="@{/kefa/formulario_otros_servicios/añadir_devolucion}" th:object="${otroTO}" th:method="POST">
-            <h2>Devolución de Producto</h2>
-            <div class="form-group">
-                <label for="estadoProducto">Estado del producto:</label>
-                <select id="estadoProducto" th:field="${otroTO.estadoDevolucion}">
-                    <option value="">Seleccione un Estado del Producto</option>
-                    <option value="abierto">Abierto</option>
-                    <option value="con_daños">Con daños</option>
-                    <option value="caducado">Caducado</option>
-                    <option value="otros_motivos">Otros motivos</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="motivoDevolucion">Motivo de la Devolución:</label>
-                <textarea type="text" id="motivoDevolucion" rows="4" th:value="${otroTO.motivoDevolucion}"></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit">Enviar</button>
-            </div>
-        </form>
+        <section>
+            <form class="form-section" th:action="@{/kefa/formulario_otros_servicio/añadir_comentario}"
+                th:object="${otroTO}" th:method="POST">
+                <h2>Comentario</h2>
+                <div class="form-group">
+                    <label for="comentario">Comentario:</label>
+                    <textarea type="text" id="comentario" rows="4" th:value="${otroTO.comentario}"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
+        </section>
+        <section>
+            <form class="form-section" th:action="@{/kefa/formulario_otros_servicio/añadir_devolucion}"
+                th:object="${otroTO}" th:method="POST">
+                <h2>Devolución de Producto</h2>
+                <div class="form-group">
+                    <label for="estadoProducto">Estado del producto:</label>
+                    <select id="estadoProducto" th:field="${otroTO.estadoDevolucion}">
+                        <option value="">Seleccione un Estado del Producto</option>
+                        <option value="abierto">Abierto</option>
+                        <option value="con_daños">Con daños</option>
+                        <option value="caducado">Caducado</option>
+                        <option value="otros_motivos">Otros motivos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="motivoDevolucion">Motivo de la Devolución:</label>
+                    <textarea type="text" id="motivoDevolucion" rows="4"
+                        th:value="${otroTO.motivoDevolucion}"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
+        </section>
+
 
         <div class="form-group">
             <button class="back-button" onclick="window.history.back()">Regresar</button>

@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "devolucion")
-public class Devolucion {
+public class Devoluciones {
 @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_devolucion")
     @SequenceGenerator(name = "seq_devolucion", sequenceName = "seq_devolucion", allocationSize = 1)
@@ -28,7 +28,7 @@ public class Devolucion {
     private String estado_del_producto;
 
     @Column(name = "devo_fecha_devolucion")
-    private LocalDateTime fecha_devolucion;
+    private LocalDateTime fechaDevolucion;
 
     @ManyToOne
     @JoinColumn(name = "devo_id_usuario")
@@ -58,12 +58,12 @@ public class Devolucion {
         this.estado_del_producto = estado_del_producto;
     }
 
-    public LocalDateTime getFecha_devolucion() {
-        return fecha_devolucion;
+    public LocalDateTime getFechaDevolucion() {
+        return fechaDevolucion;
     }
 
-    public void setFecha_devolucion(LocalDateTime fecha_devolucion) {
-        this.fecha_devolucion = fecha_devolucion;
+    public void setFechaDevolucion(LocalDateTime fecha_devolucion) {
+        this.fechaDevolucion = fecha_devolucion;
     }
 
     public Usuario getUsuario() {

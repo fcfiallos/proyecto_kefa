@@ -2,7 +2,7 @@ package com.software.kefa.repository;
 
 import org.springframework.stereotype.Repository;
 
-import com.software.kefa.repository.modelo.Devolucion;
+import com.software.kefa.repository.modelo.Devoluciones;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ public class DevolucionesRepositoryImpl implements IDevolucionesRepository{
 
     @Override
     @Transactional (value = Transactional.TxType.MANDATORY)
-    public void insertar(Devolucion devolucion) {
+    public void insertar(Devoluciones devolucion) {
         this.entityManager.persist(devolucion);
     }
 

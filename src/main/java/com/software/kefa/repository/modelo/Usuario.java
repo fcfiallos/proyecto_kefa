@@ -69,7 +69,7 @@ public class Usuario {
     private List<Comentario> comentarios;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Devolucion> devoluciones;
+    private List<Devoluciones> devoluciones;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<PreguntaFrecuente> preguntasFrecuentes;
@@ -219,11 +219,11 @@ public class Usuario {
         this.comentarios = comentarios;
     }
 
-    public List<Devolucion> getDevoluciones() {
+    public List<Devoluciones> getDevoluciones() {
         return devoluciones;
     }
 
-    public void setDevoluciones(List<Devolucion> devoluciones) {
+    public void setDevoluciones(List<Devoluciones> devoluciones) {
         this.devoluciones = devoluciones;
     }
 

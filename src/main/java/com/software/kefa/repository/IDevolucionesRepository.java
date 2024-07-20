@@ -1,7 +1,7 @@
 package com.software.kefa.repository;
 
-import com.software.kefa.repository.modelo.Devolucion;
+import com.software.kefa.repository.modelo.Devoluciones;
 
 public interface IDevolucionesRepository {
-    public void insertar(Devolucion devolucion);
+    public void insertar(Devoluciones devolucion);
 }

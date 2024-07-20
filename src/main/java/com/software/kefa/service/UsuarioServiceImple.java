@@ -251,7 +251,7 @@ public class UsuarioServiceImple implements IUsuarioService {
         Usuario usuario = this.buscarPorEmail(email);
 
         if (usuario == null) {
-            throw new MensajeExisteExcepcion("El email del usuario no existe");
+            throw new IllegalArgumentException("El email del usuario no existe");
         }
         if (!passwordEncoder.matches(usuarioTO.getPreguntaUno(), usuario.getPreguntaUno())) {
             throw new IllegalArgumentException("La respuesta a la pregunta de seguridad 1 es incorrecta");

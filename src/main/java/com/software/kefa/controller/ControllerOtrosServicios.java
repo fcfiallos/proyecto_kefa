@@ -21,13 +21,13 @@ public class ControllerOtrosServicios {
     @Autowired
     private IOtrosService otrosService;
 
-    @GetMapping("/formulario_otros_servicios")
+    @GetMapping("/formulario_otros_servicio")
     public String mostrarFormularioUsuaClie(Model model) {
         model.addAttribute("otroTO", new OtrosTO());
         return "formulario_come_devo";
     }
 
-    @PostMapping("/formulario_otros_servicios/añadir_comentario")
+    @PostMapping("/formulario_otros_servicio/añadir_comentario")
     public String añadirComentario(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
         Predicate<OtrosTO> validar = otro -> otro.getComentario() != null && !otro.getComentario().isEmpty();
         if (validar.test(otroTO)) {
@@ -42,9 +42,10 @@ public class ControllerOtrosServicios {
         }
     }
 
-    @PostMapping("/formulario_otros_servicios/añadir_devolucion")
+    @PostMapping("/formulario_otros_servicio/añadir_devolucion")
     public String añadirDevolucion(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
-        Predicate <OtrosTO> validar = otro -> otro.getEstadoDevolucion() != null && !otro.getEstadoDevolucion().isEmpty() && otro.getMotivoDevolucion() != null && !otro.getMotivoDevolucion().isEmpty();
+        Predicate<OtrosTO> validar = otro -> otro.getEstadoDevolucion() != null && !otro.getEstadoDevolucion().isEmpty()
+                && otro.getMotivoDevolucion() != null && !otro.getMotivoDevolucion().isEmpty();
         if (validar.test(otroTO)) {
             String nickname = (String) session.getAttribute("nickname");
             this.otrosService.guardarDevolucion(otroTO, nickname);

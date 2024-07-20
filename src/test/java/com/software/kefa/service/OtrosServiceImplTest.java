@@ -13,17 +13,17 @@ public class OtrosServiceImplTest {
 
     @Test
     void testGuardar() {
-        OtrosTO otros = new OtrosTO();
-        otros.setComentario("Comentario 1");
-        otrosServiceImpl.guardarComentario(otros,"fcfch");
+        OtrosTO comentario = new OtrosTO();
+        comentario.setComentario("Comentario 1");
+        otrosServiceImpl.guardarComentario(comentario, "fcfch");
     }
 
     @Test
     void testGuardarDevolucion() {
-        OtrosTO otros = new OtrosTO();
-        otros.setEstadoDevolucion("Bueno");
-        otros.setMotivoDevolucion("Motivo 1");
-        otrosServiceImpl.guardarDevolucion(otros,"fcfch");
+        OtrosTO devolucion = new OtrosTO();
+        devolucion.setEstadoDevolucion("Bueno");
+        devolucion.setMotivoDevolucion("Motivo 1");
+        otrosServiceImpl.guardarDevolucion(devolucion, "fcfch");
     }
 
 }
