@@ -30,7 +30,12 @@
             margin: 50px auto;
         }
 
-
+        .formulario-contenedor .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 22px;
+            text-align: center;
+        }
 
         .formulario-contenedor .contenedor-titulo-imagen {
             display: flex;
@@ -114,12 +119,7 @@
             outline: none;
         }
 
-        .formulario-contenedor .error-message {
-            color: red;
-            font-weight: bold;
-            margin-bottom: 22px;
-            text-align: center;
-        }
+
 
         .formulario-contenedor .botones {
             display: flex;
@@ -156,11 +156,12 @@
             </div>
         </div>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <form id="formulario_registro" th:action="@{/kefa/registrar}" th:object="${usuarioRegistroTO}" th:method="POST"> 
+        <form id="formulario_registro" th:action="@{/kefa/registrar}" th:object="${usuarioRegistroTO}" th:method="POST">
             <table>
                 <tr>
                     <td><label>Nombre y Apellido:</label></td>
-                    <td><input type="text" placeholder="John Castillo" required th:field="${usuarioRegistroTO.nombreYApellido}">
+                    <td><input type="text" placeholder="John Castillo" required
+                            th:field="${usuarioRegistroTO.nombreYApellido}">
                     </td>
                 </tr>
                 <tr>
@@ -261,7 +262,7 @@
                 </tr>
                 <tr>
                     <td><label>Repetir Contraseña:</label></td>
-                    <td><input type="password" id="password" placeholder="•••••••••" required
+                    <td><input type="password" id="passwordRepetir" placeholder="•••••••••" required
                             th:field="${usuarioRegistroTO.constraseniaRepetir}"></td>
                 </tr>
                 <tr>
@@ -300,6 +301,40 @@
             if (!regex.test(email)) {
                 alert('Por favor, ingresa un correo electrónico válido.');
             }
+        });
+    </script>
+    <!--
+        This script is responsible for validating the password input in a registration form.
+        It ensures that the password meets the following criteria:
+        - At least 8 characters long
+        - Contains at least one uppercase letter
+        - Contains at least one lowercase letter
+        - Contains at least one digit
+        - Contains at least one special character
+
+        If the password does not meet the criteria, an alert message is displayed and the form submission is prevented.
+        If the password and the repeated password do not match, an alert message is displayed and the form submission is prevented.
+
+        Usage:
+        - Include this script in the HTML file containing the registration form.
+        - The form element should have an id of "password" for the password input field and "passwordRepetir" for the repeated password input field.
+    -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var formulario = document.querySelector("form");
+            formulario.addEventListener("submit", function (event) {
+                var password = document.getElementById("password").value;
+                var passwordRepetir = document.getElementById("passwordRepetir").value;
+                var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+                if (!regex.test(password)) {
+                    alert("La contraseña debe tener al menos 8 caracteres, incluyendo un número, una letra mayúscula, una letra minúscula y un carácter especial.");
+                    event.preventDefault();
+                } else if (password !== passwordRepetir) {
+                    alert("Las contraseñas no coinciden.");
+                    event.preventDefault();
+                }
+            });
         });
     </script>
     <script>

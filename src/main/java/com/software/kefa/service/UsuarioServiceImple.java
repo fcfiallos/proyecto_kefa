@@ -124,7 +124,7 @@ public class UsuarioServiceImple implements IUsuarioService {
         if (usuarioEfi != null) {
             usuarioEfi.parallelStream().forEach(this::guardar);
         } else {
-            System.out.println("no se puedo registrar usuario");
+            throw new IllegalArgumentException("La lista de usuarios no puede ser nula");
         }
 
     }
