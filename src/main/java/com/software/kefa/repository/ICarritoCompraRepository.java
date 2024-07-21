@@ -14,5 +14,6 @@ public interface ICarritoCompraRepository {
     public List<Producto> seleccionarTodo(Integer id);
     public CarritoCompra seleccionarPorUsuarioNickname(String nickname);
     public List<DetalleOrden> seleccionarDetalleOrdenPorCarritoCompraId(Integer id);
-    public void eliminar(CarritoCompra carritoCompra);
+    public void eliminar(Integer carritoCompra);
+    public List<CarritoCompra> seleccionarPorNickname( String nickname);
 }

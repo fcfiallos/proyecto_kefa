@@ -22,34 +22,22 @@ public class ControllerCarritoCompra {
     @Autowired
     private ICarritoCompraService iCarritoCompraService;
 
-    /*private CarritoCompra obtenerCarrito() {
-        // Intenta recuperar el carrito de la sesión
-        CarritoCompra carrito = (CarritoCompra) session.getAttribute("carrito");
-
-        // Si no existe un carrito en la sesión, crea uno nuevo y lo agrega a la sesión
-        if (carrito == null) {
-            carrito = new CarritoCompra();
-            session.setAttribute("carrito", carrito);
-        }
-        return carrito;
-    }*/
-
     @GetMapping("/carrito")
     public String vistaListaCarrito(Model model, HttpSession session) {
         CarritoCompra carrito = (CarritoCompra) session.getAttribute("miCarrito");
-        try {
-             if (carrito == null) {
-            carrito = new CarritoCompra(); // O maneja esta situación de manera adecuada
-        }
 
-        // Asegúrate de que detalleOrdenes no sea null
-        if (carrito.getDetalleOrden() == null) {
-            carrito.setDetalleOrden(Collections.emptyList()); // O maneja esta situación de manera adecuada
-        } 
+        try {
+            if (carrito == null) {
+                carrito = new CarritoCompra(); // O maneja esta situación de manera adecuada
+            }
+
+            // Asegúrate de que detalleOrdenes no sea null
+            if (carrito.getDetalleOrden() == null) {
+                carrito.setDetalleOrden(Collections.emptyList()); // O maneja esta situación de manera adecuada
+            }
         } catch (Exception e) {
-            return "redirect:/kefa/lista_categoria_productos";
+            return "vista_lista_CarritoCompra";
         }
-       
 
         session.setAttribute("miCarrito", carrito);
 
@@ -79,16 +67,17 @@ public class ControllerCarritoCompra {
             Model model) {
         CarritoCompra carritoCompra = (CarritoCompra) session.getAttribute("miCarrito");
 
-        if (carritoCompra.getId() != null) {
-            try {
-                carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == id);
-                carritoCompra.getDetalleOrden().forEach(System.out::println);
-                iCarritoCompraService.eliminar(carritoCompra);
-            } catch (Exception e) {
-                model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());
+        try {
+            if (carritoCompra != null) {
+                iCarritoCompraService.actualizar(carritoCompra, id);
+                session.setAttribute("miCarrito", carritoCompra);
             }
+            return "redirect:/kefa/carrito";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());
+            return "vista_lista_CarritoCompra";
         }
-        return "redirect:/kefa/carrito";
+
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.ICarritoCompraRepository;
 import com.software.kefa.repository.IDetalleOrdenRepository;
 import com.software.kefa.repository.IProductoRepository;
@@ -43,8 +44,18 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void actualizar(CarritoCompra carritoCompra) {
-        this.carritoCompraRepository.actualizar(carritoCompra);
+    public void actualizar(CarritoCompra carritoCompra, Integer detalleId) {
+        try {
+            if (carritoCompra == null) {
+                throw new IllegalArgumentException("No se pudo eliminar el producto seleccionado");
+            }
+            carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == detalleId);
+            carritoCompra.getDetalleOrden().forEach(System.out::println);
+            this.carritoCompraRepository.actualizar(carritoCompra);
+        } catch (MensajeExisteExcepcion e) {
+            throw new MensajeExisteExcepcion("No se pudo eliminar el carrito de compra");
+        }
+
     }
 
     @Override
@@ -59,16 +70,25 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
         return this.carritoCompraRepository.seleccionarTodo(idCarritoCompra);
     }
 
+    /**
+     * Adds a product to the shopping cart for a given user.
+     *
+     * @param productoId    The ID of the product to be added.
+     * @param nickname      The nickname of the user.
+     * @param cantidad      The quantity of the product to be added.
+     * @param carritoCompra The shopping cart object.
+     * @return The updated shopping cart object.
+     * @throws RuntimeException If the product is not found.
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public CarritoCompra agregarProductoAlCarrito(Integer productoId, String nickname,
             Integer cantidad, CarritoCompra carritoCompra) {
         Producto producto = this.productoRepository.seleccionarPorId(productoId);
         Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
-        // Suponiendo que usuario es una instancia desanexada de la entidad Usuario
-Usuario usuarioActualizado = entityManager.merge(usuario);
+        Usuario usuarioActualizado = entityManager.merge(usuario);
         carritoCompra = usuarioActualizado.getCarritoCompra();
-        
+
         if (producto == null) {
             throw new RuntimeException("Producto no encontrado");
         }
@@ -91,8 +111,17 @@ Usuario usuarioActualizado = entityManager.merge(usuario);
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void eliminar(CarritoCompra carritoCompra) {
-        carritoCompraRepository.eliminar(carritoCompra);
+    public void eliminar(CarritoCompra carritoCompra, Integer detalleId) {
+        try {
+            if (carritoCompra == null) {
+                throw new IllegalArgumentException("No se pudo eliminar el producto seleccionado");
+            }
+            carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == detalleId);
+            carritoCompra.getDetalleOrden().forEach(System.out::println);
+            this.carritoCompraRepository.eliminar(carritoCompra.getId());
+        } catch (MensajeExisteExcepcion e) {
+            throw new MensajeExisteExcepcion("No se pudo eliminar el carrito de compra");
+        }
     }
 
     @Override
@@ -103,14 +132,8 @@ Usuario usuarioActualizado = entityManager.merge(usuario);
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public CarritoCompra buscarPorNickname(String nickname) {
-        return this.carritoCompraRepository.seleccionarPorUsuarioNickname(nickname);
-    }
-
-    @Override
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public List<DetalleOrden> buscarDetallePorIdCarrito(Integer idCarritoCompra) {
-        return this.carritoCompraRepository.seleccionarDetalleOrdenPorCarritoCompraId(idCarritoCompra);
+    public List<CarritoCompra> buscarPorNickname(String nickname) {
+        return this.carritoCompraRepository.seleccionarPorNickname(nickname);
     }
 
 }

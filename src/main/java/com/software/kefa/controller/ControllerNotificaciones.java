@@ -23,7 +23,7 @@ public class ControllerNotificaciones {
     @GetMapping("/notificaciones")
     String mostrarListaNotificaciones(Model model, HttpSession session) {
         String nickname = (String) session.getAttribute("nickname");
-        List<Notificacion> notificaciones = notificacionService.buscarTodo();
+        List<Notificacion> notificaciones = notificacionService.buscarTodoPorNickname(nickname);
         model.addAttribute("notificaciones", notificaciones);
         return "vista_lista_notificaciones";
     }

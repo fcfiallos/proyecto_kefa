@@ -48,8 +48,9 @@ public class NotificacionRepositoryImpl implements INotificacionRepository {
 
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
-    public List<Notificacion> seleccionarTodo() {
-        return this.entityManager.createQuery("SELECT n FROM Notificacion n", Notificacion.class).getResultList();
+    public List<Notificacion> seleccionarTodoPorNickname(String nickname) {
+        return this.entityManager.createQuery("SELECT n FROM Notificacion n WHERE n.usuario.nickname = :nickname",
+                Notificacion.class).setParameter("nickname", nickname).getResultList();
     }
 
 }

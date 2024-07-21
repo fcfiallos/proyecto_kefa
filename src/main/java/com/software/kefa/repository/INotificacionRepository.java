@@ -9,6 +9,6 @@ public interface INotificacionRepository {
     public void actualizar (Notificacion notificacion);
     public void eliminar (Notificacion notificacion);
     public Notificacion seleccionarPorId (Integer id);
-    public List<Notificacion> seleccionarTodo();
+    public List<Notificacion> seleccionarTodoPorNickname(String nickname);
 
 }

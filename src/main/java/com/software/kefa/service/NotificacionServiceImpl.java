@@ -35,8 +35,8 @@ public class NotificacionServiceImpl implements INotificacionService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public List<Notificacion> buscarTodo() {
-        return this.notificacionRepository.seleccionarTodo();
+    public List<Notificacion> buscarTodoPorNickname(String nickname) {
+        return this.notificacionRepository.seleccionarTodoPorNickname(nickname);
     }
 
 }

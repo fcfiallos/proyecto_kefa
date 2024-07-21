@@ -47,10 +47,10 @@ public class ControllerMetodoPago {
             } catch (MensajeExisteExcepcion e) {
                 model.addAttribute("error", e.getMessage());
                 return "vista_metodo_pago";
-            } /*catch (Exception e) {
+            } catch (Exception e) {
                 model.addAttribute("error", "Error al procesar la transacción");
                 return "vista_metodo_pago";
-            }*/
+            }
         } else {
             model.addAttribute("error", "Datos de tarjeta inválidos");
             return "vista_metodo_pago";

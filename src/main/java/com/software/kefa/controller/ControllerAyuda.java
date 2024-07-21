@@ -62,7 +62,7 @@ public class ControllerAyuda {
 
     @PutMapping("/actualizar_sugerencia/{codigo}")
     public String mostrarFormularioActulizar(@PathVariable("codigo") Integer codigo, PreguntaFrecuente preguntaFrecuente, Model model) {
-        PreguntaFrecuente prFrAux = this.preguntaFrecuenteService.buscarPorId(preguntaFrecuente.getId());
+        PreguntaFrecuente prFrAux = this.preguntaFrecuenteService.buscarPorId(codigo);
         if (prFrAux != null && prFrAux.getId().equals(codigo)) {
             prFrAux.setCategoria(preguntaFrecuente.getCategoria());
             prFrAux.setPregunta(preguntaFrecuente.getPregunta());
