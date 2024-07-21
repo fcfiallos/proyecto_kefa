@@ -106,61 +106,67 @@
 <body>
     <div class="overlay">
         <h1>Orden de Pago</h2>
-            <div th:if="${error}" class="error-message" th:text="${error}"></div>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Codigo de la Orden</td>
-                        <td th:text="${orden.codigo}"></td>
-                    </tr>
-                    <tr>
-                        <td>Fecha</td>
-                        <td th:text="${orden.fecha}"></td>
-                    </tr>
-                    <tr>
-                        <td>Costo de envió</td>
-                        <td th:text="${orden.costoEnvio}"></td>
-                    </tr>
-                    <tr>
-                        <td>Total Orden</td>
-                        <td th:text="${orden.totalOrden}"></td>
-                    </tr>
+            <div th:if="${error}" class="error-message">
+                <p>No hay Orden generada.</p>
+                <p th:text="${error}"></p>
+            </div>
+            <div th:unless="${error}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Codigo de la Orden</td>
+                            <td th:text="${orden.codigo}"></td>
+                        </tr>
+                        <tr>
+                            <td>Fecha</td>
+                            <td th:text="${orden.fecha}"></td>
+                        </tr>
+                        <tr>
+                            <td>Costo de envió</td>
+                            <td th:text="${orden.costoEnvio}"></td>
+                        </tr>
+                        <tr>
+                            <td>Total Orden</td>
+                            <td th:text="${orden.totalOrden}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Descuento</th>
+                            <th>Impuesto</th>
+                            <th>Total Producto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="detalle : ${orden.detalleOrden}">
+                            <td th:text="${detalle.producto.nombre}"></td>
+                            <td th:text="${detalle.cantidad}"></td>
+                            <td th:text="${detalle.precioUnitario}"></td>
+                            <td th:text="${detalle.descuento}"></td>
+                            <td th:text="${detalle.impuesto}"></td>
+                            <td th:text="${detalle.totalProducto}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Descuento</th>
-                        <th>Impuesto</th>
-                        <th>Total Producto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="detalle : ${orden.detalleOrden}">
-                        <td th:text="${detalle.producto.nombre}"></td>
-                        <td th:text="${detalle.cantidad}"></td>
-                        <td th:text="${detalle.precioUnitario}"></td>
-                        <td th:text="${detalle.descuento}"></td>
-                        <td th:text="${detalle.impuesto}"></td>
-                        <td th:text="${detalle.totalProducto}"></td>
-                    </tr>
-            </table>
             <div class="botones">
                 <button type="button" onclick="window.location.href='/kefa/carrito'">Volver</button>
                 <button type="button" onclick="window.location.href='/kefa/carrito/metodo_pago'">Metodo de Pago</button>
             </div>
     </div>
-    
+
 </body>
 
 </html>

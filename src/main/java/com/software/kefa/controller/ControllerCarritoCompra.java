@@ -30,8 +30,6 @@ public class ControllerCarritoCompra {
             if (carrito == null) {
                 carrito = new CarritoCompra(); // O maneja esta situación de manera adecuada
             }
-
-            // Asegúrate de que detalleOrdenes no sea null
             if (carrito.getDetalleOrden() == null) {
                 carrito.setDetalleOrden(Collections.emptyList()); // O maneja esta situación de manera adecuada
             }
@@ -69,12 +67,13 @@ public class ControllerCarritoCompra {
 
         try {
             if (carritoCompra != null) {
-                iCarritoCompraService.actualizar(carritoCompra, id);
+                carritoCompra = iCarritoCompraService.actualizar(carritoCompra, id);
                 session.setAttribute("miCarrito", carritoCompra);
             }
             return "redirect:/kefa/carrito";
         } catch (Exception e) {
             model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());
+            e.printStackTrace();
             return "vista_lista_CarritoCompra";
         }
 

@@ -16,4 +16,5 @@ public interface ICarritoCompraRepository {
     public List<DetalleOrden> seleccionarDetalleOrdenPorCarritoCompraId(Integer id);
     public void eliminar(Integer carritoCompra);
     public List<CarritoCompra> seleccionarPorNickname( String nickname);
+    public CarritoCompra unir(CarritoCompra carritoCompra);
 }

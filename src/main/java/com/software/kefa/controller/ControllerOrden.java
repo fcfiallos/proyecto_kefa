@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.modelo.CarritoCompra;
 import com.software.kefa.repository.modelo.Orden;
 import com.software.kefa.service.IOrdenService;
@@ -31,10 +30,14 @@ public class ControllerOrden {
                 if (orden != null) {
                     session.setAttribute("miOrden", orden);
                     model.addAttribute("orden", orden);
+                } else {
+                    model.addAttribute("error", "Error al crear la orden de pago");
                 }
+            } else {
+                model.addAttribute("error", "Error al crear la orden de pago, carrito vacío");
             }
             return "vista_ordenPago";
-        } catch (MensajeExisteExcepcion e) {
+        } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             e.printStackTrace();
             return "vista_ordenPago";

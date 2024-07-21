@@ -53,8 +53,8 @@ public class FacturaServiceImpl implements IFacturaService {
      * Envía una factura para un carrito de compra y una orden específica.
      * 
      * @param carritoCompra el carrito de compra asociado a la factura
-     * @param nickname el nickname del usuario que realiza la compra
-     * @param orden la orden asociada a la factura
+     * @param nickname      el nickname del usuario que realiza la compra
+     * @param orden         la orden asociada a la factura
      * @return la factura generada y enviada
      * @throws MensajeExisteExcepcion si el carrito de compra o la orden son nulos
      */
@@ -62,8 +62,12 @@ public class FacturaServiceImpl implements IFacturaService {
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public Factura enviarFactura(CarritoCompra carritoCompra, String nickname, Orden orden) {
         Factura factura = new Factura();
+        Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
+        if (usuario == null) {
+            throw new IllegalArgumentException("No se puede enviar la factura, el usuario no existe");
+        }
 
-        if (carritoCompra == null || orden == null){
+        if (carritoCompra == null || orden == null) {
             throw new MensajeExisteExcepcion("No se puede enviar la factura, carrito o orden nulos");
         }
 
@@ -82,7 +86,6 @@ public class FacturaServiceImpl implements IFacturaService {
         String numeroFactura = String.format("%d-%04d", timestamp, randomNumber);
         factura.setNumero(numeroFactura);
 
-        Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
         factura.setUsuario(usuario);
 
         Notificacion notificacion = new Notificacion();

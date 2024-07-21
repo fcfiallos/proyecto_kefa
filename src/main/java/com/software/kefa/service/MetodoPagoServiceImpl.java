@@ -115,13 +115,18 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void enviarValidacion(MetodoPagoTO metodoPagoTO, String nickname, CarritoCompra carritoCompra, Orden orden) {
+
+        Usuario usuario = usuarioRepository.seleccionarPorNickname(nickname);
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+
         Pago pago = new Pago();
         if (carritoCompra == null || orden == null) {
             throw new MensajeExisteExcepcion("No existe carrito de compra u orden de pago");
         }
 
         if (validarTarjeta(metodoPagoTO)) {
-            Usuario usuario = usuarioRepository.seleccionarPorNickname(nickname);
             pago.setUsuario(usuario);
             String comprobante = UUID.randomUUID().toString();
             pago.setComprobante(comprobante);

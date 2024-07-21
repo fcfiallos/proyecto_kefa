@@ -45,18 +45,24 @@ public class OrdenServiceImpl implements IOrdenService {
      * Creates an order of payment for a given user and shopping cart.
      *
      * @param nickname The nickname of the user.
-     * @param carrito The shopping cart containing the items to be ordered.
+     * @param carrito  The shopping cart containing the items to be ordered.
      * @return The created order of payment.
-     * @throws MensajeExisteExcepcion If the shopping cart is null or if there is insufficient stock for a product.
+     * @throws MensajeExisteExcepcion If the shopping cart is null or if there is
+     *                                insufficient stock for a product.
      */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public Orden crearOrdenDePago(String nickname, CarritoCompra carrito) {
         if (carrito == null) {
-            throw new MensajeExisteExcepcion("No se puede crear una orden de pago sin un carrito de compra");     
+            throw new MensajeExisteExcepcion("No se puede crear una orden de pago sin un carrito de compra");
         }
 
         Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
+
+        if (usuario == null) {
+            throw new IllegalArgumentException("No se puede crear una orden de pago para un usuario inexistente");
+        }
+
         carrito = usuario.getCarritoCompra();
         BigDecimal totalOrden = BigDecimal.ZERO;
         BigDecimal costoEnvio = new BigDecimal("15.00");
@@ -116,16 +122,17 @@ public class OrdenServiceImpl implements IOrdenService {
         orden.setUsuario(usuario);
         envio.setOrden(orden);
 
-
         this.envioRepository.insertar(envio);
 
         return orden;
     }
 
     /**
-     * Calculates the total price of a product in an order, taking into account the quantity, base price, discount, and tax.
+     * Calculates the total price of a product in an order, taking into account the
+     * quantity, base price, discount, and tax.
      * 
-     * @param detalle The order detail containing the product, quantity, discount, and tax information.
+     * @param detalle The order detail containing the product, quantity, discount,
+     *                and tax information.
      * @return The total price of the product, including any applicable taxes.
      */
     private BigDecimal calcularTotalProducto(DetalleOrden detalle) {
@@ -159,6 +166,5 @@ public class OrdenServiceImpl implements IOrdenService {
     public Orden buscarPorId(Integer id) {
         return this.ordenRepository.seleccionarPorId(id);
     }
-
 
 }

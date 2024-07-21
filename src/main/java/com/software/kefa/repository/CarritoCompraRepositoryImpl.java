@@ -99,4 +99,10 @@ public class CarritoCompraRepositoryImpl implements ICarritoCompraRepository {
         }
     }
 
+    @Override
+    @Transactional(value = Transactional.TxType.MANDATORY)
+    public CarritoCompra unir(CarritoCompra carritoCompra) {
+        return this.entityManager.merge(carritoCompra);
+    }
+
 }

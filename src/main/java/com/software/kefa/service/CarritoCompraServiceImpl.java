@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.ICarritoCompraRepository;
 import com.software.kefa.repository.IDetalleOrdenRepository;
 import com.software.kefa.repository.IProductoRepository;
@@ -44,18 +43,20 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void actualizar(CarritoCompra carritoCompra, Integer detalleId) {
-        try {
-            if (carritoCompra == null) {
-                throw new IllegalArgumentException("No se pudo eliminar el producto seleccionado");
-            }
-            carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == detalleId);
-            carritoCompra.getDetalleOrden().forEach(System.out::println);
-            this.carritoCompraRepository.actualizar(carritoCompra);
-        } catch (MensajeExisteExcepcion e) {
-            throw new MensajeExisteExcepcion("No se pudo eliminar el carrito de compra");
+    public CarritoCompra actualizar(CarritoCompra carritoCompra, Integer detalleId) {
+        if (carritoCompra == null) {
+            throw new IllegalArgumentException("No se pudo eliminar el producto seleccionado");
         }
-
+        CarritoCompra actualizado = this.carritoCompraRepository.unir(carritoCompra);
+        try {
+            if (actualizado != null) {
+                actualizado.getDetalleOrden().removeIf(detalle -> detalle.getId() == detalleId);
+                actualizado.getDetalleOrden().forEach(System.out::println);
+            } 
+        } catch (Exception e) {
+            throw new IllegalArgumentException("No se pudo eliminar el carrito de compra");
+        }
+        return actualizado;
     }
 
     @Override
@@ -86,13 +87,18 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
             Integer cantidad, CarritoCompra carritoCompra) {
         Producto producto = this.productoRepository.seleccionarPorId(productoId);
         Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
+        
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+
         Usuario usuarioActualizado = entityManager.merge(usuario);
         carritoCompra = usuarioActualizado.getCarritoCompra();
 
         if (producto == null) {
-            throw new RuntimeException("Producto no encontrado");
+            throw new IllegalArgumentException("Producto no encontrado");
         }
-
+        
         if (carritoCompra == null) {
             carritoCompra = new CarritoCompra();
             carritoCompra.setFechaSeleccionada(LocalDateTime.now());
@@ -109,31 +115,11 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
         return carritoCompra;
     }
 
-    @Override
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public void eliminar(CarritoCompra carritoCompra, Integer detalleId) {
-        try {
-            if (carritoCompra == null) {
-                throw new IllegalArgumentException("No se pudo eliminar el producto seleccionado");
-            }
-            carritoCompra.getDetalleOrden().removeIf(detalle -> detalle.getId() == detalleId);
-            carritoCompra.getDetalleOrden().forEach(System.out::println);
-            this.carritoCompraRepository.eliminar(carritoCompra.getId());
-        } catch (MensajeExisteExcepcion e) {
-            throw new MensajeExisteExcepcion("No se pudo eliminar el carrito de compra");
-        }
-    }
 
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(CarritoCompra carritoCompra) {
         this.carritoCompraRepository.insertar(carritoCompra);
-    }
-
-    @Override
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
-    public List<CarritoCompra> buscarPorNickname(String nickname) {
-        return this.carritoCompraRepository.seleccionarPorNickname(nickname);
     }
 
 }

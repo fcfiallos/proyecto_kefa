@@ -9,7 +9,7 @@ public interface ICarritoCompraService {
     
     public void guardar(CarritoCompra carritoCompra);
 
-    public void actualizar(CarritoCompra carritoCompra, Integer detalleId);
+    public CarritoCompra actualizar(CarritoCompra carritoCompra, Integer detalleId);
 
     public CarritoCompra buscarPorId(Integer id);
 
@@ -17,7 +17,4 @@ public interface ICarritoCompraService {
 
     public CarritoCompra agregarProductoAlCarrito(Integer productoId, String nickname, Integer cantidad, CarritoCompra carritoCompra);
 
-    public void eliminar(CarritoCompra carritoCompra, Integer detalleId);
-
-    public List<CarritoCompra> buscarPorNickname(String nickname);
 }
