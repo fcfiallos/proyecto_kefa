@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.software.kefa.repository.modelo.Notificacion;
 import com.software.kefa.service.INotificacionService;
 
+import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 @RequestMapping("/kefa")
@@ -19,7 +21,8 @@ public class ControllerNotificaciones {
     private INotificacionService notificacionService;
     
     @GetMapping("/notificaciones")
-    String mostrarListaNotificaciones(Model model) {
+    String mostrarListaNotificaciones(Model model, HttpSession session) {
+        String nickname = (String) session.getAttribute("nickname");
         List<Notificacion> notificaciones = notificacionService.buscarTodo();
         model.addAttribute("notificaciones", notificaciones);
         return "vista_lista_notificaciones";

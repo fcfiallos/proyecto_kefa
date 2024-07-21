@@ -59,9 +59,6 @@ public class ControllerFactura {
         } catch (Exception e) {
             model.addAttribute("error", "Error al finalizar la sesión del carrito y la orden");
             return "vista_factura";
-        } finally {
-            session.removeAttribute("miCarrito");
-            session.removeAttribute("miOrden");
         }
 
     }

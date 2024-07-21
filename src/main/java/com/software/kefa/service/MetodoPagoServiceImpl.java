@@ -128,10 +128,12 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
             pago.setEstado("Pagado");
             pago.setFecha(LocalDateTime.now());
 
-            orden.setEstado("Pagado");
-            orden.setPago(pago);
+            /*orden.setEstado("Pagado");
+            orden.setPago(pago);*/
             Orden ordenActualizada = this.entityManager.merge(orden);
 
+            ordenActualizada.setPago(pago);
+            ordenActualizada.setEstado("Pagado");
             pago.setOrden(ordenActualizada);
             actualizarCantidadProducto(carritoCompra);
             this.metodoPagoRepository.insertar(pago);
