@@ -22,7 +22,7 @@ public class Proveedor {
     @Column(name = "prov_id")
     private Integer id;
 
-    @Column(name = "prov_nombre", unique = true)
+    @Column(name = "prov_nombre")
     private String nombre;
 
     @Column(name = "prov_pais")

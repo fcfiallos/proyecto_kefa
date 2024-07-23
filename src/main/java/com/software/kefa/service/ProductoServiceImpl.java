@@ -53,11 +53,14 @@ public class ProductoServiceImpl implements IProductoService {
         return this.productoRepository.seleccionarPorCategoriaId(categoriaID);
     }
 
+ 
     /**
-     * Guarda un producto en la base de datos.
+     * Saves a new product with the given details.
      *
-     * @param producto el producto a guardar
-     * @param nickname el nickname del usuario que guarda el producto
+     * @param producto   The product details to be saved.
+     * @param nickname   The nickname of the user saving the product.
+     * @throws MensajeExisteExcepcion if the product code already exists.
+     * @throws RuntimeException if the specified category does not exist.
      */
     @Transactional(value = TxType.REQUIRES_NEW)
     @Override
@@ -66,24 +69,20 @@ public class ProductoServiceImpl implements IProductoService {
         Proveedor prov = new Proveedor();
         Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
         CategoriaProducto categoria = this.categoriaProductoRepository.seleccionarPorId(producto.getCategoriaId());
-        // ListaDeseos listaDeseo = this.listaDeseoRepository.seleccionarPorId(listaId);
-        // CarritoCompra carritoCompra =
-        // this.carritoCompraRepository.seleccionarPorId(carritoId);
 
         if (this.existeProductoCodigo(producto.getCodigo())
-                || this.existeProveedorNombre(producto.getNombreProveedor())) {
-            throw new MensajeExisteExcepcion("El proveedor o el código del producto ya existe");
+                /*|| this.existeProveedorNombre(producto.getNombreProveedor())*/) {
+            throw new MensajeExisteExcepcion("El código del producto ya existe, por favor ingrese otro.");
         }
 
         if (categoria == null) {
-            throw new RuntimeException("La categoría especificada no existe.");
+            throw new RuntimeException("La categoría especificada no existe, por favor ingrese una válida.");
         }
 
         pro.setCantidad(producto.getCantidad());
         pro.setCodigo(producto.getCodigo());
         pro.setDescripcion(producto.getDescripcion());
-        pro.setEstado("Disponible"); // en la entidad orden toca manipular cuando este agotado envia ese cambio de
-                                     // estado
+        pro.setEstado("Disponible"); 
         pro.setNombre(producto.getNombre());
         pro.setImagen(producto.getImagen());
         BigDecimal precio = new BigDecimal(producto.getPrecio());
@@ -170,12 +169,16 @@ public class ProductoServiceImpl implements IProductoService {
         return this.productoRepository.seleccionarTodo();
     }
 
+   
     /**
-     * Actualiza el stock de un producto.
-     *
-     * @param productoId el ID del producto a actualizar
-     * @param cantidad   la cantidad a sumar al stock actual (puede ser negativa)
-     */
+        * Actualiza el stock de un producto dado su ID y la cantidad a agregar o restar.
+        * Si el producto no existe, se lanza una excepción.
+        * Si no hay suficiente stock para el producto, se lanza una excepción.
+        *
+        * @param productoId el ID del producto a actualizar el stock
+        * @param cantidad la cantidad a agregar o restar al stock actual
+        * @throws RuntimeException si el producto no se encuentra o no hay suficiente stock
+        */
     @Override
     @Transactional(value = TxType.REQUIRES_NEW)
     public void actualizarStock(Integer productoId, Integer cantidad) {

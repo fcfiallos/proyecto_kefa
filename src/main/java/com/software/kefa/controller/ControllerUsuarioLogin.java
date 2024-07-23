@@ -1,5 +1,7 @@
 package com.software.kefa.controller;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.modelo.Usuario;
+import com.software.kefa.seguridad.SessionListener;
 import com.software.kefa.service.IUsuarioService;
 import com.software.kefa.service.modelosto.UsuarioRegistroTO;
 
@@ -26,6 +29,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/kefa")
 public class ControllerUsuarioLogin {
+    private static final ConcurrentHashMap<String, String> sesionesActivas = new ConcurrentHashMap<>();
+
     @Autowired
     private IUsuarioService iUsuarioService;
 
@@ -121,13 +126,30 @@ public class ControllerUsuarioLogin {
      * @throws IllegalArgumentException If an invalid argument is passed or an error
      *                                  occurs during session initiation.
      */
-    @PostMapping("/iniciarSesion")
+    /*@PostMapping("/iniciarSesion")
     public String iniciarSesion(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO, Model model,
             HttpSession session) {
         try {
             // Llamada al método iniciarSesion del servicio
             this.iUsuarioService.iniciarSesion(usuarioRegistroTO.getNickname(), usuarioRegistroTO.getConstrasenia());
             session.setAttribute("nickname", usuarioRegistroTO.getNickname()); // Guardar nickname en la sesión
+            return "redirect:/kefa/lista_categoria_productos";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "formulario_inicio_sesion";
+        }
+    }*/
+    @PostMapping("/iniciarSesion")
+    public String iniciarSesion(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO, Model model, HttpSession session) {
+        try {
+            String nickname = usuarioRegistroTO.getNickname();
+            String sesionActivaId = sesionesActivas.get(nickname);
+            if (sesionActivaId != null && !sesionActivaId.equals(session.getId())) {
+                SessionListener.invalidateSessionById(sesionActivaId);
+            }
+            this.iUsuarioService.iniciarSesion(nickname, usuarioRegistroTO.getConstrasenia());
+            session.setAttribute("nickname", nickname);
+            sesionesActivas.put(nickname, session.getId());
             return "redirect:/kefa/lista_categoria_productos";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
@@ -147,17 +169,32 @@ public class ControllerUsuarioLogin {
         if (nickname != null) {
             // Llamada al método cerrarSesion del servicio
             this.iUsuarioService.cerrarSesion(nickname);
+            sesionesActivas.remove(nickname);
         }
         session.invalidate(); // Invalidar la sesión
         return "redirect:/kefa/presentacion"; // Redirigir a la página de inicio de sesión
     }
 
+    /**
+     * Retrieves the "recordar_contrasenia" page and initializes the model attribute.
+     *
+     * @param model the model object to be used for rendering the view
+     * @return the name of the view to be rendered ("formulario_recordar_contrasenia")
+     */
     @GetMapping("/recordar_contrasenia")
     public String recordarContrasenia(Model model) {
         model.addAttribute("usuarioRegistroTO", new UsuarioRegistroTO());
         return "formulario_recordar_contrasenia";
     }
 
+    /**
+     * Validates the password recovery process for a user.
+     *
+     * @param usuarioRegistroTO The user registration transfer object containing the necessary information for password recovery.
+     * @param model The model object used for adding attributes to the view.
+     * @param session The HttpSession object used for storing the user's email.
+     * @return The view name to be displayed after the validation process.
+     */
     @PostMapping("/recordar_contrasenia/validar")
     public String validarRecuperarContrasenia(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO,
             Model model, HttpSession session) {
@@ -178,6 +215,13 @@ public class ControllerUsuarioLogin {
         }
     }
 
+    /**
+     * Retrieves the user's password recovery form.
+     * 
+     * @param model   the model object to be used for rendering the view
+     * @param session the HttpSession object to retrieve the user's email from
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/recordar_contrasenia/cambiar/{correoElectronico}")
     public String recuperarContrasenia(Model model, HttpSession session) {
         String correoElectronico = (String) session.getAttribute("correoElectronico");
@@ -190,6 +234,15 @@ public class ControllerUsuarioLogin {
         return "formulario_cambiar_contrasenia";
     }
 
+    /**
+     * Changes the password for a user.
+     *
+     * @param usuarioRegistroTO The user registration transfer object containing the new password.
+     * @param model The model object for the view.
+     * @param session The HttpSession object for storing session attributes.
+     * @param usuario The user object.
+     * @return The name of the view to render.
+     */
     @PutMapping("/recordar_contrasenia/cambiar_contrasenia/{correoElectronico}")
     public String cambiarContrasenia(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO,
             Model model, HttpSession session, @ModelAttribute("usuario") Usuario usuario) {
@@ -205,10 +258,10 @@ public class ControllerUsuarioLogin {
 
         try {
             String correoElectronico = (String) session.getAttribute("correoElectronico");
-            usuario= this.iUsuarioService.buscarPorEmail(correoElectronico);
+            usuario = this.iUsuarioService.buscarPorEmail(correoElectronico);
             if (usuario != null) {
                 this.iUsuarioService.recuperarContrasenia(correoElectronico, usuarioRegistroTO);
-            return "redirect:/kefa/formulario_iniciar_sesion";
+                return "redirect:/kefa/formulario_iniciar_sesion";
             } else {
                 model.addAttribute("error", "No se encontró el correo electrónico");
                 return "formulario_cambiar_contrasenia";
