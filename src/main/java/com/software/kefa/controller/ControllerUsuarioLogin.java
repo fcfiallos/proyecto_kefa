@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.excepcion.MensajeExisteExcepcion;
+import com.software.kefa.repository.modelo.Rol;
 import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.seguridad.SessionListener;
+import com.software.kefa.service.IRolService;
 import com.software.kefa.service.IUsuarioService;
 import com.software.kefa.service.modelosto.UsuarioRegistroTO;
 
@@ -33,6 +35,9 @@ public class ControllerUsuarioLogin {
 
     @Autowired
     private IUsuarioService iUsuarioService;
+
+    @Autowired
+    private IRolService rolService;
 
     /**
      * Returns the name of the HTML file without the extension to display the login
@@ -147,6 +152,21 @@ public class ControllerUsuarioLogin {
             if (sesionActivaId != null && !sesionActivaId.equals(session.getId())) {
                 SessionListener.invalidateSessionById(sesionActivaId);
             }
+
+            Rol rol = this.rolService.buscarPorNickname(nickname);
+
+            if (rol == null) {
+                model.addAttribute("error", "El usuario no existe");
+                return "formulario_inicio_sesion";
+            }
+
+            if (rol.getNombre().equals("Empleado")) {
+               this.iUsuarioService.iniciarSesion(nickname, usuarioRegistroTO.getConstrasenia());
+               session.setAttribute("nickname", nickname);
+               return "redirect:/kefa/lista_categoria_productos/empleado";
+              
+            }
+
             this.iUsuarioService.iniciarSesion(nickname, usuarioRegistroTO.getConstrasenia());
             session.setAttribute("nickname", nickname);
             sesionesActivas.put(nickname, session.getId());

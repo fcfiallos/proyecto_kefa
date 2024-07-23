@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.repository.modelo.CategoriaProducto;
+import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.ICategoriaProductoService;
+import com.software.kefa.service.IUsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,6 +31,9 @@ public class ControllerCateProducto {
     @Autowired
     private ICategoriaProductoService categoriaProductoService;
 
+    @Autowired
+    private IUsuarioService usuarioService;
+
     /**
      * Retrieves a list of category products and adds them to the model.
      * 
@@ -40,6 +45,19 @@ public class ControllerCateProducto {
         List<CategoriaProducto> categoriaProductos = this.categoriaProductoService.buscarTodo();
         model.addAttribute("categoriaProductos", categoriaProductos);
         return "vista_lista_cate_producto";
+    }
+
+    /**
+     * Retrieves a list of category products and adds them to the model.
+     * 
+     * @param model the model object to add the category products to
+     * @return the name of the view to render
+     */
+    @GetMapping("/lista_categoria_productos/empleado")
+    public String vistaListaCateProductosEmpl(Model model) {
+        List<CategoriaProducto> categoriaProductos = this.categoriaProductoService.buscarTodo();
+        model.addAttribute("categoriaProductos", categoriaProductos);
+        return "vista_lista_cate_producto_empleado";
     }
 
     /**
@@ -87,11 +105,20 @@ public class ControllerCateProducto {
      * @return The view name to redirect to after adding the product category.
      */
     @PostMapping("/registrar_categoria_producto")
-    public String añadirProducto(@ModelAttribute("categoriaProducto") CategoriaProducto producto, Model model) {
+    public String añadirProducto(@ModelAttribute("categoriaProducto") CategoriaProducto producto, Model model,
+            HttpSession session) {
         Predicate<CategoriaProducto> validar = prod -> !prod.getDescripcion().isEmpty() && !prod.getImagen().isEmpty()
                 && !prod.getTipo().isEmpty();
 
         if (validar.test(producto)) {
+            String nickname = (String) session.getAttribute("nickname");
+            Usuario usuario = this.usuarioService.buscarPorNickname(nickname);
+
+            if (usuario == null) {
+                model.addAttribute("error", "Usuario no encontrado");
+                return "redirect:/kefa/formulario_iniciar_sesion";
+            }
+
             this.categoriaProductoService.guardar(producto);
             return "redirect:/kefa/lista_categoria_productos";
         } else {

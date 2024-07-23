@@ -36,6 +36,12 @@ public class PromocionServiceImpl implements IPromocionService {
     public void guardar(PromocionTO promocion, String nickname) {
         Promocion prom = new Promocion();
         Producto producto = this.productoRepository.seleccionarPorCodigo(promocion.getCodigo());
+        Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
+
+        if (usuario == null) {
+            throw new MensajeExisteExcepcion("El usuario no existe");
+        }
+
         if (producto != null) {
 
             prom.setFechaInicio(promocion.getFechaInicio());
@@ -46,7 +52,6 @@ public class PromocionServiceImpl implements IPromocionService {
             prom.setTipoPromocion(promocion.getTipo());
             this.promocionRepository.insertar(prom);
 
-            Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
             Notificacion notificacion = new Notificacion();
             notificacion.setFecha(LocalDateTime.now());
             notificacion.setTipo("Promoción");

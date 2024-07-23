@@ -1,14 +1,12 @@
 package com.software.kefa.repository;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
 import com.software.kefa.repository.modelo.Rol;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
 
@@ -27,15 +25,13 @@ public class RolRepositoryImpl implements IRolRepository {
 
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
-    public Rol seleccionarPorNombre(String nombre) {
-        TypedQuery<Rol> query = this.entityManager.createQuery("SELECT r FROM Rol r WHERE r.nombre= :nombre",
-                Rol.class);
-        query.setParameter("nombre", nombre);
-        List<Rol> roles = query.getResultList();
-        if (roles.isEmpty()) {
+    public Rol seleccionarPorNickname(String nickname) {
+        try {
+            return this.entityManager
+                    .createQuery("SELECT r FROM Rol r JOIN r.usuarios u WHERE u.nickname = :nickname", Rol.class)
+                    .setParameter("nickname", nickname).getSingleResult();
+        } catch (NoResultException e) {
             return null;
-        } else {
-            return roles.get(0);
         }
     }
 

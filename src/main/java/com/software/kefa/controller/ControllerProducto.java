@@ -7,20 +7,20 @@ import java.util.function.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.modelo.CategoriaProducto;
 import com.software.kefa.repository.modelo.Producto;
+import com.software.kefa.repository.modelo.Rol;
 import com.software.kefa.service.ICategoriaProductoService;
 import com.software.kefa.service.IProductoService;
+import com.software.kefa.service.IRolService;
 import com.software.kefa.service.modelosto.ProductoTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +35,9 @@ public class ControllerProducto {
     @Autowired
     private ICategoriaProductoService iCategoriaProductoService;
 
+    @Autowired
+    private IRolService rolService;
+
     /**
      * Retrieves a list of products based on the given category ID and renders the
      * view for the product list.
@@ -44,13 +47,31 @@ public class ControllerProducto {
      * @return The name of the view to be rendered.
      */
     @GetMapping("/categoria/{categoriaId}/lista_productos")
-    public String vistaListaProductosPorCategoria(@PathVariable("categoriaId") Integer categoriaId, Model model) {
-        // Buscar todos los productos relacionados con la categoría dada
+    public String vistaListaProductosPorCategoria(@PathVariable("categoriaId") Integer categoriaId, Model model,
+            HttpSession session) {
         List<Producto> productos = this.iProductoService.buscarPorCategoriaId(categoriaId);
         CategoriaProducto categoria = this.iCategoriaProductoService.buscarPorId(categoriaId);
         model.addAttribute("categoriaId", categoriaId);
         model.addAttribute("productos", productos);
         model.addAttribute("categoria", categoria);
+
+        String nickname = (String) session.getAttribute("nickname");
+        Rol rol = this.rolService.buscarPorNickname(nickname);
+
+        if (rol == null) {
+            model.addAttribute("error", "El usuario no existe");
+            return "formulario_inicio_sesion";
+        }
+
+        if (rol.getNombre().equals("Empleado")) {
+            //productos = this.iProductoService.buscarPorCategoriaId(categoriaId);
+            //categoria = this.iCategoriaProductoService.buscarPorId(categoriaId);
+            model.addAttribute("categoriaId", categoriaId);
+            model.addAttribute("productos", productos);
+            model.addAttribute("categoria", categoria);
+            return "vista_lista_producto_empleado";
+        }
+
         return "vista_lista_producto";
     }
 
@@ -164,22 +185,6 @@ public class ControllerProducto {
             model.addAttribute("error", "No se actualizaron los datos del producto, intente nuevamente");
             return "formulario_actua_producto";
         }
-    }
-
-    /**
-     * Handles the MethodArgumentTypeMismatchException by displaying an error
-     * message and returning the "formulario_producto" view.
-     * 
-     * @param e     The MethodArgumentTypeMismatchException that occurred.
-     * @param model The Model object used to pass data to the view.
-     * @return The name of the view to be rendered, in this case,
-     *         "formulario_producto".
-     */
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public String handleTypeMismatchException(MethodArgumentTypeMismatchException e, Model model) {
-        model.addAttribute("error",
-                "El valor proporcionado para el ID no es válido. Por favor, intenta con un número.");
-        return "formulario_producto"; // Reemplaza "error_page" con el nombre de tu vista de error
     }
 
 }

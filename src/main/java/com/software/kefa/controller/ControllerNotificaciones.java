@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.repository.modelo.Notificacion;
+import com.software.kefa.repository.modelo.Rol;
+import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.INotificacionService;
+import com.software.kefa.service.IRolService;
+import com.software.kefa.service.UsuarioServiceImple;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,11 +23,38 @@ import jakarta.servlet.http.HttpSession;
 public class ControllerNotificaciones {
     @Autowired
     private INotificacionService notificacionService;
+
+    @Autowired
+    private IRolService rolService;
+
+    @Autowired
+    private UsuarioServiceImple usuarioService;
     
     @GetMapping("/notificaciones")
     String mostrarListaNotificaciones(Model model, HttpSession session) {
         String nickname = (String) session.getAttribute("nickname");
         List<Notificacion> notificaciones = notificacionService.buscarTodoPorNickname(nickname);
+
+        Rol rol = this.rolService.buscarPorNickname(nickname);
+
+        Usuario usuario = this.usuarioService.buscarPorNickname(nickname);
+
+        if (usuario == null) {
+            model.addAttribute("error", "El usuario no existe");
+            return "redirect:/kefa/formulario_iniciar_sesion";
+            
+        }
+
+        if (rol == null) {
+            model.addAttribute("error", "El usuario no existe");
+            return "formulario_inicio_sesion";
+        }
+
+        if (rol.getNombre().equals("Empleado")) {
+            model.addAttribute("notificaciones", notificaciones);
+            return "vista_lista_notificaciones_empleado";
+        }
+
         model.addAttribute("notificaciones", notificaciones);
         return "vista_lista_notificaciones";
     }

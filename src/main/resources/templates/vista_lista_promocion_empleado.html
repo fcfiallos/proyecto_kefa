@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Promoción</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -16,7 +18,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: linear-gradient(#fc3d9c71, rgba(220, 129, 248, 0.5), #fd68b271);
+            background-image: linear-gradient(#ff63b171, rgba(220, 129, 248, 0.5), #ff77bb71);
             background-size: cover;
             background-attachment: fixed;
         }
@@ -84,28 +86,13 @@
         }
 
         .table-container th {
-            background-color: #2b6b30;
+            background-color: #206951;
             color: rgb(255, 255, 255);
         }
 
         .table-container td {
             background-color: #ecf0f1;
             color: #2c3e50;
-        }
-
-        .table-container button {
-            padding: 8px 16px;
-            width: 100%;
-            border: none;
-            background-color: #12777a;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .table-container button:hover {
-            background-color: #838383;
         }
 
         .button-container {
@@ -116,6 +103,7 @@
         .button-container button {
             padding: 10px 20px;
             border: none;
+            width: 100%;
             background-color: #0004ff;
             color: white;
             cursor: pointer;
@@ -127,35 +115,41 @@
             background-color: #707070;
         }
     </style>
-    <title>Preguntas Frecuentes</title>
 </head>
 
 <body>
     <div class="overlay">
         <div class="contenedor-titulo-imagen">
-            <img src="../static/img/preguntas.png" th:src="@{/img/preguntas.png}" alt="Logo">
-            <h1>Preguntas Frecuentes</h1>
+            <img src="../static/img/lista_promo.png" th:src="@{/img/lista_promo.png}" alt="Logo">
+            <h1>¡Promociones!</h1>S
         </div>
         
         <div class="table-container">
             <table>
-                <tr>
-                    <th>Categoría</th>
-                    <th>Pregunta</th>
-                    <th>Respuesta</th>
-                    <th>Fecha Creada</th>
-                    
-                </tr>
-                <tr th:each="preguntaFrecuente:${preguntasFrecuentes}">
-                    <td th:text="${preguntaFrecuente.categoria}"></td>
-                    <td th:text="${preguntaFrecuente.pregunta}"></td>
-                    <td th:text="${preguntaFrecuente.respuesta}"></td>
-                    <td th:text="${preguntaFrecuente.fecha_creacion}"></td>
-                </tr>
+                <thead>
+                    <tr>
+                    <tr>
+                        <th>Tipo de promoción</th>
+                        <th>Descuento</th>
+                        <th>Fecha Inicio de la Promoción</th>
+                        <th>Fecha Fin de la Promoción</th>
+                        <th>Estado</th>
+                    </tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="promocion:${promociones}">
+                        <td th:text="${promocion.tipoPromocion}"></td>
+                        <td th:text="${promocion.descuento}"></td>
+                        <td th:text="${promocion.fechaInicio}"></td>
+                        <td th:text="${promocion.fechaFin}"></td>
+                        <td th:text="${promocion.estado}"></td>
+                    </tr>
+                </tbody>
             </table>
-            <div class="button-container">
-                <button type="button" onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
-            </div>
+        </div>
+        <div class="button-container">
+            <button type="button" onclick="window.location.href='/kefa/lista_categoria_productos/empleado'">Regresar</button>
         </div>
     </div>
 </body>

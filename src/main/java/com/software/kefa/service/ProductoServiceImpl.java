@@ -70,6 +70,11 @@ public class ProductoServiceImpl implements IProductoService {
         Usuario usuario = this.usuarioRepository.seleccionarPorNickname(nickname);
         CategoriaProducto categoria = this.categoriaProductoRepository.seleccionarPorId(producto.getCategoriaId());
 
+        if (usuario == null) {
+            throw new MensajeExisteExcepcion("El usuario no existe");
+            
+        }
+
         if (this.existeProductoCodigo(producto.getCodigo())
                 /*|| this.existeProveedorNombre(producto.getNombreProveedor())*/) {
             throw new MensajeExisteExcepcion("El código del producto ya existe, por favor ingrese otro.");

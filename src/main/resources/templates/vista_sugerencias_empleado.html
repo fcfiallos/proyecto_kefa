@@ -144,17 +144,24 @@
                     <th>Pregunta</th>
                     <th>Respuesta</th>
                     <th>Fecha Creada</th>
-                    
+                    <th>Acción</th>
                 </tr>
                 <tr th:each="preguntaFrecuente:${preguntasFrecuentes}">
                     <td th:text="${preguntaFrecuente.categoria}"></td>
                     <td th:text="${preguntaFrecuente.pregunta}"></td>
                     <td th:text="${preguntaFrecuente.respuesta}"></td>
                     <td th:text="${preguntaFrecuente.fecha_creacion}"></td>
+                    <td>
+                        <form
+                            th:action="@{/kefa/formulario_actualizar_sugerencia/{codigo}(codigo = ${preguntaFrecuente.id})}"
+                            th:method="GET">
+                            <button type="submit">Editar</button>
+                        </form>
+                    </td>
                 </tr>
             </table>
             <div class="button-container">
-                <button type="button" onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+                <button type="button" onclick="window.location.href='/kefa/lista_categoria_productos/empleado'">Regresar</button>
             </div>
         </div>
     </div>

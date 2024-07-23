@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.software.kefa.excepcion.MensajeExisteExcepcion;
 import com.software.kefa.repository.IPreguntaFrecuenteRepository;
 import com.software.kefa.repository.IUsuarioRepository;
 import com.software.kefa.repository.modelo.PreguntaFrecuente;
@@ -36,6 +37,12 @@ public class PreguntaFrecuentreServiceImpl implements IPreguntaFrecuenteService 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(PreguntaFrecuente preguntaFrecuente, String nickname) {
         Usuario usuario = this.iUsuarioRepository.seleccionarPorNickname(nickname);
+
+        if (usuario == null) {
+            throw new MensajeExisteExcepcion("El usuario no existe");
+            
+        }
+
         preguntaFrecuente.setCategoria(preguntaFrecuente.getCategoria());
         preguntaFrecuente.setPregunta(preguntaFrecuente.getPregunta());
         preguntaFrecuente.setRespuesta(preguntaFrecuente.getRespuesta());

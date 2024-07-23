@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Cuenta</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        @font-face {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            src: url('https://fonts.gstatic.com/s/arialblack/v13/SLXHc1jY5nQ8JYjGzj_dRT8E0i7KZn-EPnyo3HZu7kw.woff2') format('woff2');
+        }
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;;
+            background-image: linear-gradient(#f899e0, #c758fa, #fca7d6a8);
+            color: #333;
+        }
+
+        .overlay {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contenedor-titulo-imagen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            background-color: #ebebeb;
+            border-radius: 15px;
+        }
+
+        .titulo {
+            padding: 30px;
+            color: #3693fd;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        .tabla-datos {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tabla-datos td {
+            text-align: center;
+            padding: 14px;
+            border-bottom: 2px solid #ddd;
+            font-size: 16px;
+        }
+ 
+        .tabla-datos tr {
+            background-color: #ffffffe5;
+            color: rgb(90, 90, 90);
+        }
+
+        .tabla-datos tr:hover {
+            background-image: linear-gradient(#ffc9e75d, #f2bfff62);
+        }
+
+        .botones {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-regresar {
+            background-color: #3835ff;
+            color: white;
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-regresar:hover {
+            background-color: #6e6e6e;
+        }
+
+        td form {
+            text-align: center;
+        }
+
+        td form button {
+            background-color: #00b7ff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        td form button:hover {
+            background-color: #606061;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+        <div class="contenedor-titulo-imagen">
+            <h1 class="titulo">Datos Personales</h1>
+            <img src="../static/img/logo_perfil.png" th:src="@{/img/logo_perfil.png}" alt="Logo">
+        </div>
+
+        <div class="tabla-contenedor">
+            <table class="tabla-datos">
+                <tr>
+                    <td>Nombres</td>
+                    <td th:text="${usuario.nombre}"></td>
+                </tr>
+                <tr>
+                    <td>Cedula</td>
+                    <td th:text="${usuario.cedula}"></td>
+                </tr>
+                <tr>
+                    <td>Correo Electrónico</td>
+                    <td th:text="${usuario.correoElectronico}"></td>
+                </tr>
+                <tr>
+                    <td>Teléfono</td>
+                    <td th:text="${usuario.telefono}"></td>
+                </tr>
+                <tr>
+                    <td>Género</td>
+                    <td th:text="${usuario.genero}"></td>
+                </tr>
+                <tr>
+                    <td>Código Postal</td>
+                    <td th:text="${usuario.codigoPostal}"></td>
+                </tr>
+                <tr>
+                    <td>Ciudad</td>
+                    <td th:text="${usuario.ciudad}"></td>
+                </tr>
+                <tr>
+                    <td>Provincia</td>
+                    <td th:text="${usuario.provincia}"></td>
+                </tr>
+                <tr>
+                    <td>Dirección</td>
+                    <td th:text="${usuario.direccion}"></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Actualizar Información</td>
+                    <td>
+                        <form
+                            th:action="@{/kefa/formulario_actualizar_perfil/{nickname}(nickname = ${usuario.nickname})}"
+                            th:method="GET">
+                            <button type="submit">Editar</button>
+                        </form>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="botones">
+            <button type="button" class="btn-regresar"
+                onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

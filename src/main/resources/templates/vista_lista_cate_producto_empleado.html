@@ -148,10 +148,8 @@
             <button type="button" onclick="window.location.href='/kefa/lista_sugerencias'">Ayuda</button>
             <button type="button" onclick="window.location.href='/kefa/promocion'">Promociones</button>
             <button type="button" onclick="window.location.href='/kefa/notificaciones'">Notificaciones</button>
-            <button type="button" onclick="window.location.href='/kefa/formulario_otros_servicio'">Otros</button>
-            <button type="button" onclick="window.location.href='/kefa/carrito'">Carrito de compra</button>
+            <button onclick="window.location.href='/kefa/cerrarSesion'">Cerrar Sesión</button>
         </div>
-        <button onclick="window.location.href='/kefa/cerrarSesion'">Cerrar Sesión</button>
     </div>
 
     <div class="content">
@@ -167,14 +165,14 @@
                     <img th:src="@{${categoriaProducto.imagen}}" alt="Imagen de Producto" width="100" height="100">
                 </div>
             </div>
-            <!--<div class="product add-product">
+            <div class="product add-product">
                 <button type="button" onclick="window.location.href='/kefa/formulario_categoria_producto'">Añadir
                     Categoria</button>
                 <button type="button" onclick="window.location.href='/kefa/promocion/formulario_nueva_promocion'">Añadir
                     Promocion</button>
                 <button type="button" class="btn btn-outline-info"
                     onclick="window.location.href='/kefa/formulario_añadir_nueva_ayuda'">Añadir Sugerencias</button>
-            </div>-->
+            </div>
         </div>
     </div>
 </body>

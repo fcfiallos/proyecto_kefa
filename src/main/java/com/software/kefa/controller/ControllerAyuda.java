@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.software.kefa.repository.modelo.PreguntaFrecuente;
+import com.software.kefa.repository.modelo.Rol;
 import com.software.kefa.service.IPreguntaFrecuenteService;
+import com.software.kefa.service.IRolService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,13 +27,30 @@ public class ControllerAyuda {
     @Autowired
     private IPreguntaFrecuenteService preguntaFrecuenteService;
 
+    @Autowired
+    private IRolService rolService;
+
     @GetMapping("/lista_sugerencias")
-    public String vistaListaProductos(Model model) {
+    public String vistaListaProductos(Model model, HttpSession session) {
+        String nickname = (String) session.getAttribute("nickname");
+        Rol rol = this.rolService.buscarPorNickname(nickname);
+
+        if (rol == null) {
+            model.addAttribute("error", "El usuario no existe");
+            return "formulario_inicio_sesion";
+        }
+
+        if (rol.getNombre().equals("Empleado")) {
+            List<PreguntaFrecuente> preguntasFrecuentes = this.preguntaFrecuenteService.buscarTodo();
+            model.addAttribute("preguntasFrecuentes", preguntasFrecuentes);
+            return "vista_sugerencias_empleado";
+        }
+
         List<PreguntaFrecuente> preguntasFrecuentes = this.preguntaFrecuenteService.buscarTodo();
         model.addAttribute("preguntasFrecuentes", preguntasFrecuentes);
         return "vista_sugerencias";
     }
-    
+
     @GetMapping("/formulario_añadir_nueva_ayuda")
     public String mostrarFormularioUsuaClie(Model model) {
         model.addAttribute("preguntaFrecuente", new PreguntaFrecuente());
@@ -39,9 +58,12 @@ public class ControllerAyuda {
     }
 
     @PostMapping("/añadir_sugerencia")
-    public String añadirComentario(@ModelAttribute("preguntaFrecuente") PreguntaFrecuente preguntaFrecuente, HttpSession session, Model model) {
-        Predicate<PreguntaFrecuente> validar = prfr -> prfr.getPregunta().length() <= 250 && !prfr.getPregunta().isEmpty()
-                && prfr.getRespuesta().length() <= 250 && !prfr.getRespuesta().isEmpty() && !prfr.getCategoria().isEmpty();
+    public String añadirComentario(@ModelAttribute("preguntaFrecuente") PreguntaFrecuente preguntaFrecuente,
+            HttpSession session, Model model) {
+        Predicate<PreguntaFrecuente> validar = prfr -> prfr.getPregunta().length() <= 250
+                && !prfr.getPregunta().isEmpty()
+                && prfr.getRespuesta().length() <= 250 && !prfr.getRespuesta().isEmpty()
+                && !prfr.getCategoria().isEmpty();
         if (validar.test(preguntaFrecuente)) {
             String nickname = (String) session.getAttribute("nickname");
             this.preguntaFrecuenteService.guardar(preguntaFrecuente, nickname);
@@ -61,7 +83,8 @@ public class ControllerAyuda {
     }
 
     @PutMapping("/actualizar_sugerencia/{codigo}")
-    public String mostrarFormularioActulizar(@PathVariable("codigo") Integer codigo, PreguntaFrecuente preguntaFrecuente, Model model) {
+    public String mostrarFormularioActulizar(@PathVariable("codigo") Integer codigo,
+            PreguntaFrecuente preguntaFrecuente, Model model) {
         PreguntaFrecuente prFrAux = this.preguntaFrecuenteService.buscarPorId(codigo);
         if (prFrAux != null && prFrAux.getId().equals(codigo)) {
             prFrAux.setCategoria(preguntaFrecuente.getCategoria());

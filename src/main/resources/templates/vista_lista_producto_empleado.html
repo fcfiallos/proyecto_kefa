@@ -218,8 +218,6 @@
             <button type="button" onclick="window.location.href='/kefa/lista_sugerencias'">Ayuda</button>
             <button type="button" onclick="window.location.href='/kefa/promocion'">Promociones</button>
             <button type="button" onclick="window.location.href='/kefa/notificaciones'">Notificaciones</button>
-            <button type="button" onclick="window.location.href='/kefa/formulario_otros_servicio'">Otros</button>
-            <button type="button" onclick="window.location.href='/kefa/carrito'">Carrito de compra</button>
         </div>
         <button onclick="window.location.href='/kefa/cerrarSesion'">Cerrar Sesión</button>
     </div>
@@ -229,10 +227,10 @@
             <div th:each="producto : ${productos}" class="product">
                 <img th:src="@{${producto.imagen}}" alt="Product Image" width="100px" height="100px">
                 <div>
-                    <form th:action="@{/kefa/carrito/agregar}" th:method="post" style="display:inline;" class="buttons">
-                        <input type="hidden" name="productoId" th:value="${producto.id}" />
-                        <input type="number" name="cantidad" th:value="${producto.cantidad}" min="1" />
-                        <input type="submit" class="add-product" value="Agregar">
+                    <form
+                        th:action="@{/kefa/categoria/{id}/lista_productos/formulario_actualizar_producto/{codigo}(id=${categoriaId}, codigo=${producto.codigo})}"
+                        th:method="GET" class="buttons">
+                        <input type="submit" class="modify-button" value="Editar">
                     </form>
                 </div>
                 <div class="details">
@@ -242,9 +240,13 @@
                     <p th:text="'Cantidad: ' + ${producto.cantidad}">Cantidad: ----------</p>
                 </div>
             </div>
+            <div class="add-products">
+                <button type="button" id="añadirProducto">Añadir</button>
+            </div>
         </div>
 
-        <button class="back-button" onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+        <button class="back-button"
+            onclick="window.location.href='/kefa/lista_categoria_productos/empleado'">Regresar</button>
     </div>
     <script th:inline="javascript">
         /*<![CDATA[*/

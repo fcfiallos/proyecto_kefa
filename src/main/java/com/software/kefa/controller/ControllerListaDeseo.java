@@ -1,7 +1,5 @@
 package com.software.kefa.controller;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,9 +39,6 @@ public class ControllerListaDeseo {
             listaDeseo = new ListaDeseos();
         }
 
-        if (listaDeseo.getDetallesOrdenes() == null) {
-            listaDeseo.setDetallesOrdenes(Collections.emptyList());
-        }
 
         session.setAttribute("miListaDeseo", listaDeseo);
         model.addAttribute("listaDeseos", listaDeseo);
@@ -71,8 +66,6 @@ public class ControllerListaDeseo {
         ListaDeseos listaDeseo = (ListaDeseos) session.getAttribute("miListaDeseo");
         if (listaDeseo.getId() != null) {
             try {
-                listaDeseo.getDetallesOrdenes().removeIf(detalleOrden -> detalleOrden.getId().equals(id));
-                listaDeseo.getDetallesOrdenes().forEach(System.out::println);
                 this.iListaDeseoService.actualizar(listaDeseo);
             } catch (Exception e) {
                 model.addAttribute("error", "Error al eliminar producto del carrito: " + e.getMessage());

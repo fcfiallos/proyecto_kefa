@@ -65,7 +65,6 @@ public class ListaDeseosServiceImpl implements IListaDeseoService {
         }
         DetalleOrden detalleOrden = new DetalleOrden();
         detalleOrden.setProducto(producto);
-        detalleOrden.setListaDeseos(listaDeseo);
         this.detalleOrdenRepository.insertar(detalleOrden);
         return listaDeseo;
     }

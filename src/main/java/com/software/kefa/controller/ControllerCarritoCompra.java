@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.software.kefa.repository.modelo.CarritoCompra;
+import com.software.kefa.repository.modelo.Usuario;
 import com.software.kefa.service.ICarritoCompraService;
+import com.software.kefa.service.IUsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,6 +23,9 @@ import jakarta.servlet.http.HttpSession;
 public class ControllerCarritoCompra {
     @Autowired
     private ICarritoCompraService iCarritoCompraService;
+
+     @Autowired
+    private IUsuarioService usuarioService;
 
     @GetMapping("/carrito")
     public String vistaListaCarrito(Model model, HttpSession session) {
@@ -50,6 +55,12 @@ public class ControllerCarritoCompra {
 
         try {
             String nickname = (String) session.getAttribute("nickname");
+
+            Usuario usuario = this.usuarioService.buscarPorNickname(nickname);
+            if (usuario == null) {
+                return "redirect:/kefa/formulario_iniciar_sesion";
+            }
+
             miCarrito = iCarritoCompraService.agregarProductoAlCarrito(productoId, nickname, cantidad, miCarrito);
             session.setAttribute("miCarrito", miCarrito);
             return "redirect:/kefa/lista_categoria_productos";
