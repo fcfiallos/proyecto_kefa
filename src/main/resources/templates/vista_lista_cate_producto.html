@@ -59,6 +59,36 @@
             background-color: #5d7077;
         }
 
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #2d8a8d;
+            border-radius: 8px;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1}
+
+        .dropdown:hover .dropdown-content {display: block;}
+
+        .dropdown:hover .dropbtn {background-color: #5d7077;}
+    
+
         .content {
             margin-left: 220px;
             padding: 20px;
@@ -99,44 +129,6 @@
             margin: 0 auto;
         }
 
-        .product-category .add-product {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            flex-direction: row;
-            flex-wrap: wrap;
-            padding: 10px 0;
-            /* Ajusta la opacidad de cada color del gradiente para hacerlo más fino 
-            background-image: linear-gradient(#bc5cc566, #9674a3, #ee83b9, #f3b9d2);*/
-        }
-
-        .product-category .add-product button {
-            display: flex;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: auto;
-            padding: 10px;
-            margin: 0 10px;
-            border: none;
-            border-radius: 10px;
-            background-color: #2b447a;
-            color: rgb(240, 232, 232);
-            font-size: 16px;
-            text-align: center;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .product-category .add-product button:hover {
-            background-color: #5d7077;
-        }
     </style>
 </head>
 
@@ -148,8 +140,14 @@
             <button type="button" onclick="window.location.href='/kefa/lista_sugerencias'">Ayuda</button>
             <button type="button" onclick="window.location.href='/kefa/promocion'">Promociones</button>
             <button type="button" onclick="window.location.href='/kefa/notificaciones'">Notificaciones</button>
-            <button type="button" onclick="window.location.href='/kefa/formulario_otros_servicio'">Otros</button>
             <button type="button" onclick="window.location.href='/kefa/carrito'">Carrito de compra</button>
+            <div class="dropdown">
+                <button class="dropbtn">Otros</button>
+                <div class="dropdown-content">
+                    <a onclick="window.location.href='/kefa/comentarios'">Comentario</a>
+                    <a onclick="window.location.href='/kefa/devoluciones'">Devolución</a>
+                </div>
+            </div>
         </div>
         <button onclick="window.location.href='/kefa/cerrarSesion'">Cerrar Sesión</button>
     </div>
@@ -167,16 +165,9 @@
                     <img th:src="@{${categoriaProducto.imagen}}" alt="Imagen de Producto" width="100" height="100">
                 </div>
             </div>
-            <!--<div class="product add-product">
-                <button type="button" onclick="window.location.href='/kefa/formulario_categoria_producto'">Añadir
-                    Categoria</button>
-                <button type="button" onclick="window.location.href='/kefa/promocion/formulario_nueva_promocion'">Añadir
-                    Promocion</button>
-                <button type="button" class="btn btn-outline-info"
-                    onclick="window.location.href='/kefa/formulario_añadir_nueva_ayuda'">Añadir Sugerencias</button>
-            </div>-->
         </div>
     </div>
+    
 </body>
 
 </html>

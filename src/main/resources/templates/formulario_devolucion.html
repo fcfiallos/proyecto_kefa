@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Comentarios y Devoluciones</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: linear-gradient(rgba(161, 84, 206, 0.5), rgba(207, 83, 155, 0.5));
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content h1 {
+            font-size: 44px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content .error-message {
+            color: #861414;
+            font-weight: bold;
+            margin-bottom: 22px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .content .mensaje-exito {
+            color: #135815;
+            font-weight: bold;
+            margin-bottom: 22px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .form-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-section h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #10638a;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group button:hover {
+            background-color: #6b6b6b;
+        }
+
+        .back-button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            border: none;
+            background-color: turquoise;
+            color: rgb(87, 87, 87);
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #838bfa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Otros Servicios al Cliente</h1>
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+        <div th:if="${mensajeExito}" class="mensaje-exito" th:text="${mensajeExito}"></div>
+        <form class="form-section" th:action="@{/kefa/devoluciones/añadir_devolucion}" th:object="${otroTO}"
+            th:method="POST">
+            <h2>Devolución de Producto</h2>
+            <div class="form-group">
+                <label for="estadoProducto">Estado del producto:</label>
+                <select id="estadoProducto" th:field="${otroTO.estadoDevolucion}">
+                    <option value="">Seleccione un Estado del Producto</option>
+                    <option value="abierto">Abierto</option>
+                    <option value="con_daños">Con daños</option>
+                    <option value="caducado">Caducado</option>
+                    <option value="otros_motivos">Otros motivos</option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label for="motivoDevolucion">Motivo de la Devolución:</label>
+                <textarea type="text" id="motivoDevolucion" rows="4" th:field="${otroTO.motivoDevolucion}"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+
+    </div>
+    <div>
+        <button class="back-button" type="button"
+            onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
+    </div>
+</body>
+
+</html>

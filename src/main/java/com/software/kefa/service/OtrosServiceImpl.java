@@ -38,14 +38,11 @@ public class OtrosServiceImpl implements IOtrosService {
             throw new IllegalArgumentException("El usuario no existe");
         }
 
-        if (comentario == null) {
-            comentario = new OtrosTO();
-            Comentario comen = new Comentario();
-            comen.setComentario(comentario.getComentario());
-            comen.setFechaPublicacion(LocalDateTime.now());
-            comen.setUsuario(usuario);
-            this.comentarioRepository.insertar(comen);
-        }
+        Comentario comen = new Comentario();
+        comen.setComentario(comentario.getComentario());
+        comen.setFechaPublicacion(LocalDateTime.now());
+        comen.setUsuario(usuario);
+        this.comentarioRepository.insertar(comen);
 
     }
 
@@ -56,15 +53,14 @@ public class OtrosServiceImpl implements IOtrosService {
         if (usuario == null) {
             throw new IllegalArgumentException("El usuario no existe");
         }
-        if (devolucion == null) {
-            devolucion = new OtrosTO();
-            Devoluciones devol = new Devoluciones();
-            devol.setMotivo(devolucion.getMotivoDevolucion());
-            devol.setEstado_del_producto(devolucion.getEstadoDevolucion());
-            devol.setFechaDevolucion(LocalDateTime.now());
-            devol.setUsuario(usuario);
-            this.devolucionesRepository.insertar(devol);
-        }
+
+        Devoluciones devol = new Devoluciones();
+        devol.setMotivo(devolucion.getMotivoDevolucion());
+        devol.setEstado_del_producto(devolucion.getEstadoDevolucion());
+        devol.setFechaDevolucion(LocalDateTime.now());
+        devol.setUsuario(usuario);
+        this.devolucionesRepository.insertar(devol);
+
     }
 
 }

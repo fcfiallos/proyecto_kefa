@@ -21,7 +21,7 @@ public class Comentario {
     @Column(name = "come_id")
     private Integer id;
 
-    @Column(name = "come_comentario")
+    @Column(name = "come_comentario", length = 500)
     private String comentario;
 
     @Column(name = "come_fecha_publicacion")

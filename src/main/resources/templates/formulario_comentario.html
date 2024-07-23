@@ -22,23 +22,25 @@
         }
 
         .content h1 {
-            font-size: 24px;
+            font-size: 44px;
             margin-bottom: 20px;
             text-align: center;
         }
 
         .content .error-message {
-            color: #ff4545;
+            color: #861414;
             font-weight: bold;
             margin-bottom: 22px;
             text-align: center;
+            font-size: 22px;
         }
 
         .content .mensaje-exito {
-            color: #4CAF50;
+            color: #135815;
             font-weight: bold;
             margin-bottom: 22px;
             text-align: center;
+            font-size: 22px;
         }
 
         .form-section {
@@ -95,8 +97,8 @@
             margin: 0 auto;
             padding: 10px 20px;
             border: none;
-            background-color: #ffbb33;
-            color: white;
+            background-color: turquoise;
+            color: rgb(87, 87, 87);
             cursor: pointer;
             border-radius: 5px;
             font-size: 16px;
@@ -104,7 +106,7 @@
         }
 
         .back-button:hover {
-            background-color: #e69500;
+            background-color: #838bfa;
         }
     </style>
     <title>Comentarios y Devoluciones</title>
@@ -114,52 +116,24 @@
     <div class="content">
         <h1>Otros Servicios al Cliente</h1>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <div th:if="${mensajeExito}" class="mensaje-exito">
-            <p th:text="${mensajeExito}"></p>
+        <div th:if="${mensajeExito}" class="mensaje-exito" th:text="${mensajeExito}">
         </div>
 
-        <section>
-            <form class="form-section" th:action="@{/kefa/formulario_otros_servicio/añadir_comentario}"
-                th:object="${otroTO}" th:method="POST">
-                <h2>Comentario</h2>
-                <div class="form-group">
-                    <label for="comentario">Comentario:</label>
-                    <textarea type="text" id="comentario" rows="4" th:value="${otroTO.comentario}"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Enviar</button>
-                </div>
-            </form>
-        </section>
-        <section>
-            <form class="form-section" th:action="@{/kefa/formulario_otros_servicio/añadir_devolucion}"
-                th:object="${otroTO}" th:method="POST">
-                <h2>Devolución de Producto</h2>
-                <div class="form-group">
-                    <label for="estadoProducto">Estado del producto:</label>
-                    <select id="estadoProducto" th:field="${otroTO.estadoDevolucion}">
-                        <option value="">Seleccione un Estado del Producto</option>
-                        <option value="abierto">Abierto</option>
-                        <option value="con_daños">Con daños</option>
-                        <option value="caducado">Caducado</option>
-                        <option value="otros_motivos">Otros motivos</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="motivoDevolucion">Motivo de la Devolución:</label>
-                    <textarea type="text" id="motivoDevolucion" rows="4"
-                        th:value="${otroTO.motivoDevolucion}"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Enviar</button>
-                </div>
-            </form>
-        </section>
-
-
-        <div class="form-group">
-            <button class="back-button" onclick="window.history.back()">Regresar</button>
-        </div>
+        <form class="form-section" th:action="@{/kefa/comentarios/añadir_comentario}" th:object="${otroTO}"
+            th:method="POST">
+            <h2>Comentario</h2>
+            <div class="form-group">
+                <label for="comentario">Comentario:</label>
+                <textarea type="text" id="comentario" rows="4" th:field="${otroTO.comentario}"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <button class="back-button" type="button"
+            onclick="window.location.href='/kefa/lista_categoria_productos'">Regresar</button>
     </div>
 </body>
 

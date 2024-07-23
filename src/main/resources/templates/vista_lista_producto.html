@@ -56,6 +56,41 @@
             background-color: #5d7077;
         }
 
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #2d8a8d;
+            border-radius: 8px;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #5d7077;
+        }
+
         .content {
             margin-left: 220px;
             padding: 20px;
@@ -218,8 +253,14 @@
             <button type="button" onclick="window.location.href='/kefa/lista_sugerencias'">Ayuda</button>
             <button type="button" onclick="window.location.href='/kefa/promocion'">Promociones</button>
             <button type="button" onclick="window.location.href='/kefa/notificaciones'">Notificaciones</button>
-            <button type="button" onclick="window.location.href='/kefa/formulario_otros_servicio'">Otros</button>
             <button type="button" onclick="window.location.href='/kefa/carrito'">Carrito de compra</button>
+            <div class="dropdown">
+                <button class="dropbtn">Otros</button>
+                <div class="dropdown-content">
+                    <a onclick="window.location.href='/kefa/comentarios'">Comentario</a>
+                    <a onclick="window.location.href='/kefa/devoluciones'">Devolución</a>
+                </div>
+            </div>
         </div>
         <button onclick="window.location.href='/kefa/cerrarSesion'">Cerrar Sesión</button>
     </div>

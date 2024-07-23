@@ -21,7 +21,7 @@ public class Devoluciones {
     @Column(name = "devo_id")
     private Integer id;
 
-    @Column(name = "devo_motivo")
+    @Column(name = "devo_motivo", length = 500)
     private String motivo;
 
     @Column(name = "devo_estado_del_producto")
