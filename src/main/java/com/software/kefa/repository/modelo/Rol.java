@@ -11,6 +11,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a role in the system.
+ */
 @Entity
 @Table(name = "rol")
 public class Rol {
@@ -26,29 +29,57 @@ public class Rol {
     @OneToMany(mappedBy = "rol")
     private List<Usuario> usuarios;
 
+    /**
+     * Gets the ID of the role.
+     * 
+     * @return The ID of the role.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the ID of the role.
+     * 
+     * @param id The ID of the role.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the name of the role.
+     * 
+     * @return The name of the role.
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Sets the name of the role.
+     * 
+     * @param nombre The name of the role.
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * Gets the list of users associated with the role.
+     * 
+     * @return The list of users associated with the role.
+     */
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
+    /**
+     * Sets the list of users associated with the role.
+     * 
+     * @param usuarios The list of users associated with the role.
+     */
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-    
 }
-

@@ -16,7 +16,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 /**
- * Representa un producto en el sistema.
+ * Represents a product in the system.
  */
 @Entity
 @Table(name = "producto")

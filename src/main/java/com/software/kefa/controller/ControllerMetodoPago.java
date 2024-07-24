@@ -17,6 +17,10 @@ import com.software.kefa.service.modelosto.MetodoPagoTO;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * This class is a controller for handling methods related to payment methods in
+ * the "kefa" application.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerMetodoPago {
@@ -24,12 +28,26 @@ public class ControllerMetodoPago {
     @Autowired
     private IMetodoPagoService metodoPagoService;
 
+    /**
+     * Redirects to the method payment view.
+     *
+     * @param model the model object to be used for rendering the view
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/carrito/metodo_pago")
     public String redireccionarMetodoPago(Model model) {
         model.addAttribute("metodoPago", new MetodoPagoTO());
         return "vista_metodo_pago";
     }
 
+    /**
+     * Sends the payment method information and processes the transaction.
+     *
+     * @param metodoPagoTO The payment method details.
+     * @param model        The model object for the view.
+     * @param session      The HttpSession object.
+     * @return The view name to redirect to.
+     */
     @PostMapping("/carrito/metodo_pago/enviar")
     public String enviarMetodoPago(@ModelAttribute("metodoPago") MetodoPagoTO metodoPagoTO, Model model,
             HttpSession session) {

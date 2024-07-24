@@ -13,6 +13,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a payment entity.
+ * This class is used to store information about a payment made by a user.
+ */
 @Entity
 @Table(name = "pago")
 public class Pago {
@@ -85,5 +89,4 @@ public class Pago {
         this.usuario = usuario;
     }
 
-    
 }

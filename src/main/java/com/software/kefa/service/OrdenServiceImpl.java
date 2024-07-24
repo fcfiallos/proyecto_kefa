@@ -164,12 +164,23 @@ public class OrdenServiceImpl implements IOrdenService {
         this.ordenRepository.insertar(orden);
     }
 
+    /**
+        * Actualiza una orden en el sistema.
+        *
+        * @param orden la orden a actualizar
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void actualizar(Orden orden) {
         this.ordenRepository.actualizar(orden);
     }
 
+    /**
+        * Busca una orden por su ID.
+        *
+        * @param id el ID de la orden a buscar
+        * @return la orden encontrada, o null si no se encuentra ninguna orden con el ID especificado
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public Orden buscarPorId(Integer id) {

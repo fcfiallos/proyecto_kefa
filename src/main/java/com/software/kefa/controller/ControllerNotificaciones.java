@@ -17,7 +17,10 @@ import com.software.kefa.service.UsuarioServiceImple;
 
 import jakarta.servlet.http.HttpSession;
 
-
+/**
+ * This class is a controller for handling notifications related requests in the
+ * Kefa application.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerNotificaciones {
@@ -29,7 +32,14 @@ public class ControllerNotificaciones {
 
     @Autowired
     private UsuarioServiceImple usuarioService;
-    
+
+    /**
+     * Retrieves and displays a list of notifications for a user.
+     * 
+     * @param model   the model object to add attributes to
+     * @param session the HttpSession object to retrieve the user's nickname from
+     * @return the view name to render based on the user's role
+     */
     @GetMapping("/notificaciones")
     String mostrarListaNotificaciones(Model model, HttpSession session) {
         String nickname = (String) session.getAttribute("nickname");
@@ -42,7 +52,7 @@ public class ControllerNotificaciones {
         if (usuario == null) {
             model.addAttribute("error", "El usuario no existe");
             return "redirect:/kefa/formulario_iniciar_sesion";
-            
+
         }
 
         if (rol == null) {

@@ -16,6 +16,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a user in the system.
+ * This class contains information about the user, such as their nickname, name, email, password, etc.
+ * It also includes relationships with other entities, such as roles, locations, comments, orders, etc.
+ */
 @Entity
 @Table(name = "usuario")
 public class Usuario {

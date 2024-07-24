@@ -11,6 +11,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a location entity.
+ * This class is used to store information about a location, including its ID, postal code, city, province, address, and associated user.
+ */
 @Entity
 @Table(name = "ubicacion")
 public class Ubicacion {
@@ -32,8 +36,8 @@ public class Ubicacion {
     @Column(name = "ubic_direccion")
     private String direccion;
 
-    @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn (name = "ubic_id_usuario")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ubic_id_usuario")
     private Usuario usuario;
 
     public Integer getId() {
@@ -83,7 +87,5 @@ public class Ubicacion {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    
 
 }

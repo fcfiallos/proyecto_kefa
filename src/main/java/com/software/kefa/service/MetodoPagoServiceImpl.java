@@ -20,6 +20,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+/**
+ * Implementation of the IMetodoPagoService interface.
+ * Provides methods for managing payment methods.
+ */
 @Service
 public class MetodoPagoServiceImpl implements IMetodoPagoService {
 
@@ -35,24 +39,45 @@ public class MetodoPagoServiceImpl implements IMetodoPagoService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+        * Guarda un objeto Pago en la base de datos.
+        * 
+        * @param pago El objeto Pago a guardar.
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(Pago pago) {
         this.metodoPagoRepository.insertar(pago);
     }
 
+    /**
+        * Deletes a payment from the system.
+        *
+        * @param pago The payment to be deleted.
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void eliminar(Pago pago) {
         this.metodoPagoRepository.eliminar(pago);
     }
 
+    /**
+        * Busca un pago por su ID.
+        *
+        * @param id el ID del pago a buscar
+        * @return el pago encontrado, o null si no se encuentra ninguno con el ID especificado
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public Pago buscarPorId(Integer id) {
         return metodoPagoRepository.seleccionarPorId(id);
     }
 
+    /**
+        * Updates the given payment information.
+        *
+        * @param pago The payment object to be updated.
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void actualizar(Pago pago) {

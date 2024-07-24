@@ -12,6 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a comment in the system.
+ */
 @Entity
 @Table(name = "comentario")
 public class Comentario {
@@ -31,37 +34,75 @@ public class Comentario {
     @JoinColumn(name = "come_id_usuario")
     private Usuario usuario;
 
+    /**
+     * Gets the ID of the comment.
+     *
+     * @return The ID of the comment.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the ID of the comment.
+     *
+     * @param id The ID of the comment.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the content of the comment.
+     *
+     * @return The content of the comment.
+     */
     public String getComentario() {
         return comentario;
     }
 
+    /**
+     * Sets the content of the comment.
+     *
+     * @param comentario The content of the comment.
+     */
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
 
+    /**
+     * Gets the publication date of the comment.
+     *
+     * @return The publication date of the comment.
+     */
     public LocalDateTime getFechaPublicacion() {
         return fechaPublicacion;
     }
 
-    public void setFechaPublicacion(LocalDateTime fecha_publicacion) {
-        this.fechaPublicacion = fecha_publicacion;
+    /**
+     * Sets the publication date of the comment.
+     *
+     * @param fechaPublicacion The publication date of the comment.
+     */
+    public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
     }
 
+    /**
+     * Gets the user who made the comment.
+     *
+     * @return The user who made the comment.
+     */
     public Usuario getUsuario() {
         return usuario;
     }
 
+    /**
+     * Sets the user who made the comment.
+     *
+     * @param usuario The user who made the comment.
+     */
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    
 }

@@ -12,6 +12,10 @@ import com.software.kefa.service.IOrdenService;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * This class is a controller for handling order-related operations in the KEFA
+ * application.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerOrden {
@@ -19,6 +23,13 @@ public class ControllerOrden {
     @Autowired
     private IOrdenService ordenPagoService;
 
+    /**
+     * Redirects to the order payment page.
+     * 
+     * @param session the HttpSession object for storing session attributes
+     * @param model   the Model object for adding attributes to the view
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/carrito/ordenPago")
     public String redireccionarOrdenPago(HttpSession session, Model model) {
         String nickname = (String) session.getAttribute("nickname");

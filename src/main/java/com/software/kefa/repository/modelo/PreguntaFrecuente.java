@@ -37,54 +37,112 @@ public class PreguntaFrecuente {
     @JoinColumn(name = "prfr_id_usuario")
     private Usuario usuario;
 
+    /**
+     * Gets the ID of the pregunta frecuente.
+     *
+     * @return the ID of the pregunta frecuente
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the ID of the pregunta frecuente.
+     *
+     * @param id the ID of the pregunta frecuente
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the pregunta.
+     *
+     * @return the pregunta
+     */
     public String getPregunta() {
         return pregunta;
     }
 
+    /**
+     * Sets the pregunta.
+     *
+     * @param pregunta the pregunta
+     */
     public void setPregunta(String pregunta) {
         this.pregunta = pregunta;
     }
 
+    /**
+     * Gets the respuesta.
+     *
+     * @return the respuesta
+     */
     public String getRespuesta() {
         return respuesta;
     }
 
+    /**
+     * Sets the respuesta.
+     *
+     * @param respuesta the respuesta
+     */
     public void setRespuesta(String respuesta) {
         this.respuesta = respuesta;
     }
 
+    /**
+     * Gets the categoria.
+     *
+     * @return the categoria
+     */
     public String getCategoria() {
         return categoria;
     }
 
+    /**
+     * Sets the categoria.
+     *
+     * @param categoria the categoria
+     */
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
+    /**
+     * Gets the fecha de creacion.
+     *
+     * @return the fecha de creacion
+     */
     public LocalDateTime getFecha_creacion() {
         return fecha_creacion;
     }
 
+    /**
+     * Sets the fecha de creacion.
+     *
+     * @param fecha_creacion the fecha de creacion
+     */
     public void setFecha_creacion(LocalDateTime fecha_creacion) {
         this.fecha_creacion = fecha_creacion;
     }
 
+    /**
+     * Gets the usuario.
+     *
+     * @return the usuario
+     */
     public Usuario getUsuario() {
         return usuario;
     }
 
+    /**
+     * Sets the usuario.
+     *
+     * @param usuario the usuario
+     */
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    
 
 }

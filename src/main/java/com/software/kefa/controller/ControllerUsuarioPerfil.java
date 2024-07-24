@@ -15,6 +15,18 @@ import com.software.kefa.service.IUsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Controller class for managing user profiles.
+ * 
+ * This class handles requests related to user profiles, such as displaying the
+ * user profile form,
+ * updating user profile information, and retrieving user information from the
+ * session.
+ * It is responsible for fetching user information from the service layer and
+ * adding it to the model.
+ * The class also handles session management and redirects users to the login
+ * form if necessary.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerUsuarioPerfil {
@@ -27,13 +39,16 @@ public class ControllerUsuarioPerfil {
     /**
      * Retrieves the user profile form.
      * 
-     * This method is responsible for displaying the user profile form. It retrieves the user's nickname from the session
-     * and uses it to fetch the user's information. If the nickname is available, the user information is added to the model
-     * and the "vista_perfil_usuario" view is returned. If there is no session or nickname available, the user is redirected
+     * This method is responsible for displaying the user profile form. It retrieves
+     * the user's nickname from the session
+     * and uses it to fetch the user's information. If the nickname is available,
+     * the user information is added to the model
+     * and the "vista_perfil_usuario" view is returned. If there is no session or
+     * nickname available, the user is redirected
      * to the login form.
      * 
      * @param session the HttpSession object to retrieve the user's nickname from
-     * @param model the Model object to add the user information to
+     * @param model   the Model object to add the user information to
      * @return the view name to render
      */
     @GetMapping("/perfil_usuario")
@@ -45,12 +60,12 @@ public class ControllerUsuarioPerfil {
             UsuarioPerfilDTO usuario = this.iUsuarioService.buscarInformacion(nickname);
 
             Rol rol = this.rolService.buscarPorNickname(nickname);
-    
+
             if (rol == null) {
                 model.addAttribute("error", "El usuario no existe");
                 return "formulario_inicio_sesion";
             }
-    
+
             if (rol.getNombre().equals("Empleado")) {
                 model.addAttribute("usuario", usuario);
                 return "vista_perfil_usuario_empleado";
@@ -68,7 +83,7 @@ public class ControllerUsuarioPerfil {
      * Displays the form for updating user profile.
      * 
      * @param session the HttpSession object for accessing session attributes
-     * @param model the Model object for adding attributes to the view
+     * @param model   the Model object for adding attributes to the view
      * @return the name of the view to be rendered
      */
     @GetMapping("/formulario_actualizar_perfil/{nickname}")

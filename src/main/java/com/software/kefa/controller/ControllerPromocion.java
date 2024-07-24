@@ -22,6 +22,12 @@ import com.software.kefa.service.modelosto.PromocionTO;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * This class is a controller for managing promotions in the Kefa software
+ * project.
+ * It handles HTTP requests related to promotions and interacts with the
+ * corresponding services.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerPromocion {
@@ -35,6 +41,14 @@ public class ControllerPromocion {
     @Autowired
     private IRolService rolService;
 
+    /**
+     * Retrieves a list of promotions and displays them based on the user's role.
+     * 
+     * @param model   the model object for the view
+     * @param session the HttpSession object for storing and retrieving session
+     *                attributes
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/promocion")
     String mostrarListaPromociones(Model model, HttpSession session) {
         List<Promocion> promociones = promocionService.buscarTodo();
@@ -55,12 +69,27 @@ public class ControllerPromocion {
         return "vista_lista_promocion";
     }
 
+    /**
+     * Displays the form for creating a new promotion.
+     *
+     * @param model the model object to be used for rendering the view
+     * @return the name of the view template to be rendered
+     */
     @GetMapping("/promocion/formulario_nueva_promocion")
     String mostrarFormularioNuevaPromocion(Model model) {
         model.addAttribute("promocion", new PromocionTO());
         return "formulario_promocion";
     }
 
+    /**
+     * Creates a new promotion based on the provided PromocionTO object.
+     * 
+     * @param promocionTO The PromocionTO object containing the promotion details.
+     * @param model       The Model object used for adding attributes to the view.
+     * @param session     The HttpSession object used for retrieving the user's
+     *                    session information.
+     * @return The view name to redirect to after creating the promotion.
+     */
     @PostMapping("/promocion/formulario_nueva_promocion/crear")
     String crearPromocion(@ModelAttribute("promocion") PromocionTO promocionTO, Model model, HttpSession session) {
         Predicate<PromocionTO> promocionValida = promocion -> !promocion.getDescuento().isEmpty()

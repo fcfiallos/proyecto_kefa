@@ -12,24 +12,44 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+/**
+ * Implementation of the IPromocionRepository interface that provides
+ * database operations for the Promocion entity.
+ */
 @Repository
 @Transactional
 public class PromocionRepositoryImpl implements IPromocionRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Inserts a new Promocion entity into the database.
+     *
+     * @param promocion The Promocion entity to insert.
+     */
     @Override
     @Transactional(value = Transactional.TxType.MANDATORY)
     public void insertar(Promocion promocion) {
         this.entityManager.persist(promocion);
     }
 
+    /**
+     * Updates an existing Promocion entity in the database.
+     *
+     * @param promocion The Promocion entity to update.
+     */
     @Override
     @Transactional(value = Transactional.TxType.MANDATORY)
     public void actualizar(Promocion promocion) {
         this.entityManager.merge(promocion);
     }
 
+    /**
+     * Retrieves a Promocion entity from the database based on its ID.
+     *
+     * @param id The ID of the Promocion entity to retrieve.
+     * @return The retrieved Promocion entity, or null if not found.
+     */
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
     public Promocion seleccionarPorId(Integer id) {
@@ -40,6 +60,13 @@ public class PromocionRepositoryImpl implements IPromocionRepository {
         }
     }
 
+    /**
+     * Retrieves a Promocion entity from the database based on its start and end dates.
+     *
+     * @param fechaInicio The start date of the Promocion entity.
+     * @param fechaFin    The end date of the Promocion entity.
+     * @return The retrieved Promocion entity, or null if not found.
+     */
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
     public Promocion seleccionarPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
@@ -56,6 +83,11 @@ public class PromocionRepositoryImpl implements IPromocionRepository {
         }
     }
 
+    /**
+     * Retrieves all Promocion entities from the database.
+     *
+     * @return A list of all Promocion entities.
+     */
     @Override
     @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
     public List<Promocion> seleccionarTodo() {

@@ -12,10 +12,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a Devoluciones object.
+ * This class is used to store information about a devolution.
+ */
 @Entity
 @Table(name = "devolucion")
 public class Devoluciones {
-@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_devolucion")
     @SequenceGenerator(name = "seq_devolucion", sequenceName = "seq_devolucion", allocationSize = 1)
     @Column(name = "devo_id")
@@ -73,7 +77,5 @@ public class Devoluciones {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    
 
 }

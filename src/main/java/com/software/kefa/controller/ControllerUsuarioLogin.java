@@ -120,32 +120,16 @@ public class ControllerUsuarioLogin {
     }
 
     /**
-     * Handles the request to initiate a user session.
-     * 
-     * @param usuarioRegistroTO The user registration transfer object containing the
-     *                          user's nickname and password.
-     * @param model             The model object to add attributes for the view.
-     * @param session           The HttpSession object to store the user's nickname.
-     * @return A string representing the view to redirect to after successful
-     *         session initiation.
-     * @throws IllegalArgumentException If an invalid argument is passed or an error
-     *                                  occurs during session initiation.
+     * Handles the login process for a user.
+     *
+     * @param usuarioRegistroTO The user registration transfer object.
+     * @param model             The model object for the view.
+     * @param session           The HttpSession object for managing user sessions.
+     * @return The view name to redirect to after successful login.
      */
-    /*@PostMapping("/iniciarSesion")
+    @PostMapping("/iniciarSesion")
     public String iniciarSesion(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO, Model model,
             HttpSession session) {
-        try {
-            // Llamada al método iniciarSesion del servicio
-            this.iUsuarioService.iniciarSesion(usuarioRegistroTO.getNickname(), usuarioRegistroTO.getConstrasenia());
-            session.setAttribute("nickname", usuarioRegistroTO.getNickname()); // Guardar nickname en la sesión
-            return "redirect:/kefa/lista_categoria_productos";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "formulario_inicio_sesion";
-        }
-    }*/
-    @PostMapping("/iniciarSesion")
-    public String iniciarSesion(@ModelAttribute("usuarioRegistroTO") UsuarioRegistroTO usuarioRegistroTO, Model model, HttpSession session) {
         try {
             String nickname = usuarioRegistroTO.getNickname();
             String sesionActivaId = sesionesActivas.get(nickname);
@@ -161,10 +145,10 @@ public class ControllerUsuarioLogin {
             }
 
             if (rol.getNombre().equals("Empleado")) {
-               this.iUsuarioService.iniciarSesion(nickname, usuarioRegistroTO.getConstrasenia());
-               session.setAttribute("nickname", nickname);
-               return "redirect:/kefa/lista_categoria_productos/empleado";
-              
+                this.iUsuarioService.iniciarSesion(nickname, usuarioRegistroTO.getConstrasenia());
+                session.setAttribute("nickname", nickname);
+                return "redirect:/kefa/lista_categoria_productos/empleado";
+
             }
 
             this.iUsuarioService.iniciarSesion(nickname, usuarioRegistroTO.getConstrasenia());
@@ -196,10 +180,12 @@ public class ControllerUsuarioLogin {
     }
 
     /**
-     * Retrieves the "recordar_contrasenia" page and initializes the model attribute.
+     * Retrieves the "recordar_contrasenia" page and initializes the model
+     * attribute.
      *
      * @param model the model object to be used for rendering the view
-     * @return the name of the view to be rendered ("formulario_recordar_contrasenia")
+     * @return the name of the view to be rendered
+     *         ("formulario_recordar_contrasenia")
      */
     @GetMapping("/recordar_contrasenia")
     public String recordarContrasenia(Model model) {
@@ -210,9 +196,12 @@ public class ControllerUsuarioLogin {
     /**
      * Validates the password recovery process for a user.
      *
-     * @param usuarioRegistroTO The user registration transfer object containing the necessary information for password recovery.
-     * @param model The model object used for adding attributes to the view.
-     * @param session The HttpSession object used for storing the user's email.
+     * @param usuarioRegistroTO The user registration transfer object containing the
+     *                          necessary information for password recovery.
+     * @param model             The model object used for adding attributes to the
+     *                          view.
+     * @param session           The HttpSession object used for storing the user's
+     *                          email.
      * @return The view name to be displayed after the validation process.
      */
     @PostMapping("/recordar_contrasenia/validar")
@@ -257,10 +246,12 @@ public class ControllerUsuarioLogin {
     /**
      * Changes the password for a user.
      *
-     * @param usuarioRegistroTO The user registration transfer object containing the new password.
-     * @param model The model object for the view.
-     * @param session The HttpSession object for storing session attributes.
-     * @param usuario The user object.
+     * @param usuarioRegistroTO The user registration transfer object containing the
+     *                          new password.
+     * @param model             The model object for the view.
+     * @param session           The HttpSession object for storing session
+     *                          attributes.
+     * @param usuario           The user object.
      * @return The name of the view to render.
      */
     @PutMapping("/recordar_contrasenia/cambiar_contrasenia/{correoElectronico}")

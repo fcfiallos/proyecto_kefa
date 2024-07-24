@@ -18,15 +18,26 @@ import com.software.kefa.service.IUsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * This class is a controller for managing the shopping cart functionality in the Kefa application.
+ * It handles requests related to the shopping cart, such as adding and removing products.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerCarritoCompra {
     @Autowired
     private ICarritoCompraService iCarritoCompraService;
 
-     @Autowired
+    @Autowired
     private IUsuarioService usuarioService;
 
+    /**
+     * Retrieves the view for the carrito (shopping cart) list.
+     * 
+     * @param model   the model object to be used for rendering the view
+     * @param session the HttpSession object to retrieve the carrito from
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/carrito")
     public String vistaListaCarrito(Model model, HttpSession session) {
         CarritoCompra carrito = (CarritoCompra) session.getAttribute("miCarrito");
@@ -48,6 +59,15 @@ public class ControllerCarritoCompra {
         return "vista_lista_CarritoCompra";
     }
 
+    /**
+     * Adds a product to the shopping cart.
+     *
+     * @param productoId the ID of the product to be added
+     * @param session the HttpSession object for the current session
+     * @param model the Model object for the current request
+     * @param cantidad the quantity of the product to be added
+     * @return a String representing the redirect URL after adding the product to the cart
+     */
     @PostMapping("/carrito/agregar")
     public String agregarProductoAlCarrito(@RequestParam("productoId") Integer productoId, HttpSession session,
             Model model, @RequestParam("cantidad") Integer cantidad) {
@@ -71,6 +91,14 @@ public class ControllerCarritoCompra {
         }
     }
 
+    /**
+     * Removes a product from the shopping cart.
+     *
+     * @param id the ID of the product to be removed
+     * @param session the HttpSession object to access session attributes
+     * @param model the Model object to add attributes for the view
+     * @return the view name to redirect to after removing the product
+     */
     @PostMapping("/carrito/eliminar/{id}")
     public String eliminarProductoDelCarrito(@PathVariable Integer id, HttpSession session,
             Model model) {

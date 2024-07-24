@@ -25,34 +25,61 @@ public class ListaDeseos {
     @Column(name = "lide_fecha_seleccionada")
     private LocalDateTime fechaSeleccionada;
 
-    @OneToOne (cascade = CascadeType.ALL) 
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lide_id_usua")
     private Usuario usuario;
 
-
+    /**
+     * Gets the ID of the ListaDeseos.
+     *
+     * @return the ID of the ListaDeseos
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the ID of the ListaDeseos.
+     *
+     * @param id the ID of the ListaDeseos
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the fechaSeleccionada of the ListaDeseos.
+     *
+     * @return the fechaSeleccionada of the ListaDeseos
+     */
     public LocalDateTime getFechaSeleccionada() {
         return fechaSeleccionada;
     }
 
+    /**
+     * Sets the fechaSeleccionada of the ListaDeseos.
+     *
+     * @param fechaSeleccionada the fechaSeleccionada of the ListaDeseos
+     */
     public void setFechaSeleccionada(LocalDateTime fechaSeleccionada) {
         this.fechaSeleccionada = fechaSeleccionada;
     }
 
+    /**
+     * Gets the Usuario associated with the ListaDeseos.
+     *
+     * @return the Usuario associated with the ListaDeseos
+     */
     public Usuario getUsuario() {
         return usuario;
     }
 
+    /**
+     * Sets the Usuario associated with the ListaDeseos.
+     *
+     * @param usuario the Usuario associated with the ListaDeseos
+     */
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-
 }

@@ -18,6 +18,9 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents an order in the system.
+ */
 @Entity
 @Table(name = "orden")
 public class Orden {

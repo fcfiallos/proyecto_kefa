@@ -14,6 +14,12 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a factura (invoice) in the system.
+ * 
+ * This class contains information about the factura, such as its ID, number, date of issuance, total amount, tax amount, subtotal amount,
+ * associated orden, and associated usuario.
+ */
 @Entity
 @Table(name = "factura")
 public class Factura {
@@ -117,5 +123,4 @@ public class Factura {
                 + "]";
     }
 
-    
 }

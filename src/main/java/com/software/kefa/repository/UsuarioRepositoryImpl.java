@@ -12,6 +12,10 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
 
+/**
+ * Implementation of the {@link IUsuarioRepository} interface that provides
+ * methods for interacting with the Usuario entity in the database.
+ */
 @Repository
 @Transactional
 public class UsuarioRepositoryImpl implements IUsuarioRepository {
@@ -19,18 +23,34 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Inserts a new Usuario entity into the database.
+     *
+     * @param usuario The Usuario object to be inserted.
+     */
     @Override
     @Transactional(value = TxType.REQUIRED)
     public void insertar(Usuario usuario) {
         this.entityManager.persist(usuario);
     }
 
+    /**
+     * Updates an existing Usuario entity in the database.
+     *
+     * @param usuario The Usuario object to be updated.
+     */
     @Override
     @Transactional(value = TxType.MANDATORY)
     public void actualizar(Usuario usuario) {
         this.entityManager.merge(usuario);
     }
 
+    /**
+     * Retrieves a Usuario entity from the database based on the provided cedula.
+     *
+     * @param cedula The cedula of the Usuario to be retrieved.
+     * @return The Usuario object with the provided cedula, or null if not found.
+     */
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
     public Usuario seleccionarPorCedula(String cedula) {
@@ -42,9 +62,14 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
         } catch (NoResultException e) {
             return null;
         }
-
     }
 
+    /**
+     * Retrieves a Usuario entity from the database based on the provided nickname.
+     *
+     * @param nickname The nickname of the Usuario to be retrieved.
+     * @return The Usuario object with the provided nickname, or null if not found.
+     */
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
     public Usuario seleccionarPorNickname(String nickname) {
@@ -56,9 +81,14 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
         } catch (NoResultException e) {
             return null;
         }
-
     }
 
+    /**
+     * Retrieves a Usuario entity from the database based on the provided contrasenia.
+     *
+     * @param contrasenia The contrasenia of the Usuario to be retrieved.
+     * @return The Usuario object with the provided contrasenia.
+     */
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
     public Usuario seleccionarPorContrasenia(String contrasenia) {
@@ -68,6 +98,12 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
         return query.getSingleResult();
     }
 
+    /**
+     * Retrieves a UsuarioPerfilDTO object from the database based on the provided nickname.
+     *
+     * @param nickname The nickname of the Usuario to be retrieved.
+     * @return The UsuarioPerfilDTO object with the provided nickname.
+     */
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
     public UsuarioPerfilDTO seleccionarInformacion(String nickname) {
@@ -78,6 +114,12 @@ public class UsuarioRepositoryImpl implements IUsuarioRepository {
         return myQuery.getSingleResult();
     }
 
+    /**
+     * Retrieves a Usuario entity from the database based on the provided email.
+     *
+     * @param email The email of the Usuario to be retrieved.
+     * @return The Usuario object with the provided email, or null if not found.
+     */
     @Override
     @Transactional(value = TxType.NOT_SUPPORTED)
     public Usuario seleccionarPorEmail(String email) {

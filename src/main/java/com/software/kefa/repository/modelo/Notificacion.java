@@ -12,6 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a notification.
+ */
 @Entity
 @Table(name = "notificacion")
 public class Notificacion {

@@ -14,6 +14,10 @@ import com.software.kefa.service.IListaDeseoService;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * This class is a controller for managing the wishlist functionality in the application.
+ * It handles requests related to viewing, adding, and removing products from the wishlist.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerListaDeseo {
@@ -21,25 +25,12 @@ public class ControllerListaDeseo {
     @Autowired
     private IListaDeseoService iListaDeseoService;
 
-/*  private ListaDeseos obtenerListaDeseos() {
-        ListaDeseos listaDeseo = (ListaDeseos) session.getAttribute("listaDeseo");
-
-        if (listaDeseo == null) {
-            listaDeseo = new ListaDeseos();
-            session.setAttribute("listaDeseo", listaDeseo);
-        }
-        return listaDeseo;
-    }*/
-
-    // Métodos para la lista de deseos
     @GetMapping("/lista_deseos")
     public String verListaDeseos(Model model, HttpSession session) {
         ListaDeseos listaDeseo = (ListaDeseos) session.getAttribute("miListaDeseo");
         if (listaDeseo == null) {
             listaDeseo = new ListaDeseos();
         }
-
-
         session.setAttribute("miListaDeseo", listaDeseo);
         model.addAttribute("listaDeseos", listaDeseo);
         return "vista_lista_ListaDeseo";

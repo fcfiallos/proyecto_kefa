@@ -25,6 +25,10 @@ import com.software.kefa.service.modelosto.ProductoTO;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * This class serves as the controller for managing products in the application.
+ * It handles requests related to product listing, creation, and updating.
+ */
 @Controller
 @RequestMapping("/kefa")
 public class ControllerProducto {
@@ -64,8 +68,6 @@ public class ControllerProducto {
         }
 
         if (rol.getNombre().equals("Empleado")) {
-            //productos = this.iProductoService.buscarPorCategoriaId(categoriaId);
-            //categoria = this.iCategoriaProductoService.buscarPorId(categoriaId);
             model.addAttribute("categoriaId", categoriaId);
             model.addAttribute("productos", productos);
             model.addAttribute("categoria", categoria);
@@ -120,8 +122,6 @@ public class ControllerProducto {
         if (validar.test(productoTO)) {
 
             try {
-                // Integer listaDeseosId = (Integer) session.getAttribute("listaDeseosId");
-                // Integer carritoId = (Integer) session.getAttribute("carritoId");
                 String nickname = (String) session.getAttribute("nickname");
                 this.iProductoService.guardar(productoTO, nickname);
                 return "redirect:/kefa/categoria/" + categoria.getId() + "/lista_productos";

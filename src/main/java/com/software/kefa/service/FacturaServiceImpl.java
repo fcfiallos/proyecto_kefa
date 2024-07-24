@@ -20,6 +20,10 @@ import com.software.kefa.repository.modelo.Usuario;
 
 import jakarta.transaction.Transactional;
 
+/**
+ * Implementation of the {@link IFacturaService} interface that provides
+ * functionality for managing invoices.
+ */
 @Service
 public class FacturaServiceImpl implements IFacturaService {
     @Autowired
@@ -31,18 +35,34 @@ public class FacturaServiceImpl implements IFacturaService {
     @Autowired
     private INotificacionRepository notificacionRepository;
 
+    /**
+        * Busca una factura por su ID.
+        *
+        * @param id el ID de la factura a buscar
+        * @return la factura encontrada, o null si no se encuentra ninguna factura con el ID especificado
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public Factura buscarPorId(Integer id) {
         return this.facturaRepository.seleccionarPorId(id);
     }
 
+    /**
+        * Guarda una factura en el repositorio.
+        *
+        * @param factura La factura a guardar.
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(Factura factura) {
         this.facturaRepository.insertar(factura);
     }
 
+    /**
+        * Actualiza una factura en el sistema.
+        *
+        * @param factura La factura a actualizar.
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void actualizar(Factura factura) {

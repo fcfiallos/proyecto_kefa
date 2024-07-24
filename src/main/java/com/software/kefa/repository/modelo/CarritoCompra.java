@@ -16,6 +16,13 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a shopping cart for a user.
+ * 
+ * This class contains information about the items in the shopping cart,
+ * the quantity of each item, the selected date for the purchase, and the user who owns the cart.
+ * It also includes a list of detailed orders associated with the cart.
+ */
 @Entity
 @Table(name = "carrito_compra")
 public class CarritoCompra {
