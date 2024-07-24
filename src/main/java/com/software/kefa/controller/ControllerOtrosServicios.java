@@ -48,7 +48,7 @@ public class ControllerOtrosServicios {
      * @return The name of the view to be rendered after adding the comment.
      */
     @PostMapping("/comentarios/añadir_comentario")
-    public String añadirComentario(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
+    public String aniadirComentario(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
         Predicate<OtrosTO> validar = otro -> otro.getComentario() != null && !otro.getComentario().isEmpty();
         if (validar.test(otroTO)) {
             String nickname = (String) session.getAttribute("nickname");
@@ -83,7 +83,7 @@ public class ControllerOtrosServicios {
      * @return The name of the view to render after adding the devolución.
      */
     @PostMapping("/devoluciones/añadir_devolucion")
-    public String añadirDevolucion(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
+    public String aniadirDevolucion(@ModelAttribute("otroTO") OtrosTO otroTO, HttpSession session, Model model) {
         Predicate<OtrosTO> validar = otro -> otro.getEstadoDevolucion() != null && !otro.getEstadoDevolucion().isEmpty()
                 && otro.getMotivoDevolucion() != null && !otro.getMotivoDevolucion().isEmpty();
         if (validar.test(otroTO)) {

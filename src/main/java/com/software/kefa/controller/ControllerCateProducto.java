@@ -105,7 +105,7 @@ public class ControllerCateProducto {
      * @return The view name to redirect to after adding the product category.
      */
     @PostMapping("/registrar_categoria_producto")
-    public String añadirProducto(@ModelAttribute("categoriaProducto") CategoriaProducto producto, Model model,
+    public String aniadirCateProducto(@ModelAttribute("categoriaProducto") CategoriaProducto producto, Model model,
             HttpSession session) {
         Predicate<CategoriaProducto> validar = prod -> !prod.getDescripcion().isEmpty() && !prod.getImagen().isEmpty()
                 && !prod.getTipo().isEmpty();

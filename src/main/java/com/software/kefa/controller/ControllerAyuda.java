@@ -85,7 +85,7 @@ public class ControllerAyuda {
      * @return The view name to redirect to after adding the comment.
      */
     @PostMapping("/añadir_sugerencia")
-    public String añadirComentario(@ModelAttribute("preguntaFrecuente") PreguntaFrecuente preguntaFrecuente,
+    public String aniadirSugerencia(@ModelAttribute("preguntaFrecuente") PreguntaFrecuente preguntaFrecuente,
             HttpSession session, Model model) {
         Predicate<PreguntaFrecuente> validar = prfr -> prfr.getPregunta().length() <= 250
                 && !prfr.getPregunta().isEmpty()

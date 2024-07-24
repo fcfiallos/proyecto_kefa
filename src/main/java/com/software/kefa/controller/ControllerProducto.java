@@ -103,7 +103,7 @@ public class ControllerProducto {
      * @return The view name to render after adding the product.
      */
     @PostMapping("/categoria/{categoriaId}/lista_productos/formulario_producto/añadir")
-    public String añadirProducto(@PathVariable("categoriaId") Integer categoriaId,
+    public String aniadirProducto(@PathVariable("categoriaId") Integer categoriaId,
             @ModelAttribute("productoTO") ProductoTO productoTO,
             HttpSession session, Model model) {
         CategoriaProducto categoria = null;
