@@ -23,6 +23,10 @@ import com.software.kefa.repository.modelo.Usuario;
 
 import jakarta.transaction.Transactional;
 
+/**
+ * Implementation of the {@link IOrdenService} interface that provides methods
+ * for creating and managing orders of payment.
+ */
 @Service
 public class OrdenServiceImpl implements IOrdenService {
 
@@ -45,10 +49,10 @@ public class OrdenServiceImpl implements IOrdenService {
      * Creates an order of payment for a given user and shopping cart.
      *
      * @param nickname The nickname of the user.
-     * @param carrito  The shopping cart containing the items to be ordered.
+     * @param carrito The shopping cart.
      * @return The created order of payment.
-     * @throws MensajeExisteExcepcion If the shopping cart is null or if there is
-     *                                insufficient stock for a product.
+     * @throws MensajeExisteExcepcion If the shopping cart is null or the user does not exist.
+     * @throws IllegalArgumentException If the shopping cart has insufficient stock for a product.
      */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
@@ -149,6 +153,11 @@ public class OrdenServiceImpl implements IOrdenService {
         return precioConDescuento.add(impuesto);
     }
 
+    /**
+        * Guarda una orden en el repositorio.
+        *
+        * @param orden la orden a guardar
+        */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(Orden orden) {

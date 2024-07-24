@@ -169,6 +169,11 @@ public class ProductoServiceImpl implements IProductoService {
         return this.productoRepository.seleccionarPorId(id);
     }
 
+    /**
+        * Retrieves all products from the repository.
+        *
+        * @return a list of all products
+        */
     @Override
     public List<Producto> buscarTodo() {
         return this.productoRepository.seleccionarTodo();

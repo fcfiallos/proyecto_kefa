@@ -18,10 +18,10 @@ import com.software.kefa.repository.modelo.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
+
 /**
- * This class implements the {@link ICarritoCompraService} interface and
- * provides the implementation
- * for managing the shopping cart operations.
+ * This class implements the {@link ICarritoCompraService} interface and provides
+ * the implementation for managing the shopping cart.
  */
 @Service
 public class CarritoCompraServiceImpl implements ICarritoCompraService {
@@ -41,6 +41,14 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
     @Autowired
     private EntityManager entityManager;
 
+    /**
+     * Updates the shopping cart by removing a product with the given detail ID.
+     *
+     * @param carritoCompra The shopping cart object.
+     * @param detalleId     The ID of the detail to be removed.
+     * @return The updated shopping cart object.
+     * @throws IllegalArgumentException If the shopping cart or the detail ID is null.
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public CarritoCompra actualizar(CarritoCompra carritoCompra, Integer detalleId) {
@@ -59,12 +67,24 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
         return actualizado;
     }
 
+    /**
+     * Retrieves the shopping cart with the given ID.
+     *
+     * @param id The ID of the shopping cart.
+     * @return The shopping cart object.
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public CarritoCompra buscarPorId(Integer id) {
         return this.carritoCompraRepository.seleccionarPorId(id);
     }
 
+    /**
+     * Retrieves all products in the shopping cart with the given ID.
+     *
+     * @param idCarritoCompra The ID of the shopping cart.
+     * @return A list of products in the shopping cart.
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public List<Producto> buscarTodo(Integer idCarritoCompra) {
@@ -116,6 +136,11 @@ public class CarritoCompraServiceImpl implements ICarritoCompraService {
     }
 
 
+    /**
+     * Saves the shopping cart.
+     *
+     * @param carritoCompra The shopping cart object to be saved.
+     */
     @Override
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void guardar(CarritoCompra carritoCompra) {
